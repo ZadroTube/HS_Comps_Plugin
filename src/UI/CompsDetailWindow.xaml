@@ -12,6 +12,9 @@
         Background="#01000000"
         Topmost="True"
         ShowActivated="True"
+        MouseEnter="OnWindowMouseEnter"
+        PreviewMouseMove="OnWindowPreviewMouseMove"
+        MouseMove="OnWindowMouseMove"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -126,12 +129,12 @@
                    Stretch="Fill"/>
 
             <!-- 1. Кнопки управления окном (Свернуть / Закрыть) с точной пиксельной посадкой и подсветкой -->
-            <Border Canvas.Left="1370" Canvas.Top="8" Width="119" Height="81" Cursor="Hand" Background="Transparent"
+            <Border Canvas.Left="1370" Canvas.Top="8" Width="119" Height="81" Cursor="Hand" Background="#01000000"
                     MouseLeftButtonDown="OnMinimizeClick"
                     MouseEnter="OnMinMouseEnter" MouseLeave="OnMinMouseLeave">
                 <Image x:Name="ImgBtnMin" Width="119" Height="81" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Border>
-            <Border Canvas.Left="1489" Canvas.Top="0" Width="72" Height="111" Cursor="Hand" Background="Transparent"
+            <Border Canvas.Left="1489" Canvas.Top="0" Width="72" Height="111" Cursor="Hand" Background="#01000000"
                     MouseLeftButtonDown="OnCloseClick"
                     MouseEnter="OnCloseMouseEnter" MouseLeave="OnCloseMouseLeave">
                 <Image x:Name="ImgBtnClose" Width="72" Height="111" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -175,35 +178,35 @@
             <Canvas Canvas.Left="0" Canvas.Top="0" Width="1560" Height="960">
                 <!-- Слот 0: Племя 1 -->
                 <Border x:Name="TribeSlot0" Canvas.Left="100" Canvas.Top="183" Width="220" Height="35" 
-                        Background="Transparent" Cursor="Hand" Tag="0" Style="{StaticResource TribeTabBorderStyle}"
+                        Background="#01000000" Cursor="Hand" Tag="0" Style="{StaticResource TribeTabBorderStyle}"
                         MouseLeftButtonDown="OnTribeSlotClick" MouseEnter="OnTribeSlotEnter" MouseLeave="OnTribeSlotLeave">
                     <Image x:Name="ImgTribeSlot0" Width="220" Height="35" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Border>
 
                 <!-- Слот 1: Племя 2 -->
                 <Border x:Name="TribeSlot1" Canvas.Left="350" Canvas.Top="183" Width="220" Height="35" 
-                        Background="Transparent" Cursor="Hand" Tag="1" Style="{StaticResource TribeTabBorderStyle}"
+                        Background="#01000000" Cursor="Hand" Tag="1" Style="{StaticResource TribeTabBorderStyle}"
                         MouseLeftButtonDown="OnTribeSlotClick" MouseEnter="OnTribeSlotEnter" MouseLeave="OnTribeSlotLeave">
                     <Image x:Name="ImgTribeSlot1" Width="220" Height="35" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Border>
 
                 <!-- Слот 2: Племя 3 -->
                 <Border x:Name="TribeSlot2" Canvas.Left="600" Canvas.Top="183" Width="220" Height="35" 
-                        Background="Transparent" Cursor="Hand" Tag="2" Style="{StaticResource TribeTabBorderStyle}"
+                        Background="#01000000" Cursor="Hand" Tag="2" Style="{StaticResource TribeTabBorderStyle}"
                         MouseLeftButtonDown="OnTribeSlotClick" MouseEnter="OnTribeSlotEnter" MouseLeave="OnTribeSlotLeave">
                     <Image x:Name="ImgTribeSlot2" Width="220" Height="35" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Border>
 
                 <!-- Слот 3: Племя 4 -->
                 <Border x:Name="TribeSlot3" Canvas.Left="850" Canvas.Top="183" Width="220" Height="35" 
-                        Background="Transparent" Cursor="Hand" Tag="3" Style="{StaticResource TribeTabBorderStyle}"
+                        Background="#01000000" Cursor="Hand" Tag="3" Style="{StaticResource TribeTabBorderStyle}"
                         MouseLeftButtonDown="OnTribeSlotClick" MouseEnter="OnTribeSlotEnter" MouseLeave="OnTribeSlotLeave">
                     <Image x:Name="ImgTribeSlot3" Width="220" Height="35" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Border>
 
                 <!-- Слот 4: Племя 5 -->
                 <Border x:Name="TribeSlot4" Canvas.Left="1100" Canvas.Top="183" Width="220" Height="35" 
-                        Background="Transparent" Cursor="Hand" Tag="4" Style="{StaticResource TribeTabBorderStyle}"
+                        Background="#01000000" Cursor="Hand" Tag="4" Style="{StaticResource TribeTabBorderStyle}"
                         MouseLeftButtonDown="OnTribeSlotClick" MouseEnter="OnTribeSlotEnter" MouseLeave="OnTribeSlotLeave">
                     <Image x:Name="ImgTribeSlot4" Width="220" Height="35" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Border>
@@ -222,7 +225,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="195" Height="355" Margin="4,0" 
-                                Background="Transparent"
+                                Background="#01000000"
                                 BorderBrush="Transparent"
                                 BorderThickness="0"
                                 Style="{StaticResource HearthstoneBoardCardStyle}"
@@ -333,7 +336,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="94" Height="140" Margin="1,0,1,0" Cursor="Hand" ToolTipService.InitialShowDelay="150">
+                        <Grid Width="94" Height="140" Margin="1,0,1,0" Background="#01000000" Cursor="Hand" ToolTipService.InitialShowDelay="150">
                             <Grid.ToolTip>
                                 <ToolTip Background="Transparent" BorderThickness="0" Padding="0" HasDropShadow="False">
                                     <local:CardTooltipControl DataContext="{Binding}"/>
@@ -385,7 +388,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="94" Height="140" Margin="1,0,1,0" Cursor="Hand" ToolTipService.InitialShowDelay="150">
+                        <Grid Width="94" Height="140" Margin="1,0,1,0" Background="#01000000" Cursor="Hand" ToolTipService.InitialShowDelay="150">
                             <Grid.ToolTip>
                                 <ToolTip Background="Transparent" BorderThickness="0" Padding="0" HasDropShadow="False">
                                     <local:CardTooltipControl DataContext="{Binding}"/>

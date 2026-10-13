@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using HSCompsPlugin.Services;
@@ -18,6 +20,7 @@ namespace HSCompsPlugin.UI
             InitializeComponent();
             LoadSettings();
             RefreshDatabaseInfo();
+            RefreshPluginVersionInfo();
         }
 
         private void LoadSettings()
@@ -151,6 +154,87 @@ namespace HSCompsPlugin.UI
         private void OnOpenDetailsClick(object sender, RoutedEventArgs e)
         {
             OpenDetailsRequested?.Invoke();
+        }
+
+        private void RefreshPluginVersionInfo()
+        {
+            try
+            {
+                var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                string verStr = ver != null ? $"v{ver.Major}.{ver.Minor}.{ver.Build}" : "v3.0.0";
+                TxtPluginVersionSummary.Text = $"Текущая версия плагина: {verStr} (ZadroTube)";
+            }
+            catch
+            {
+                TxtPluginVersionSummary.Text = "Текущая версия плагина: v3.0.0 (ZadroTube)";
+            }
+        }
+
+        private void OnRunUpdaterClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string updaterExePath = null;
+
+                // 1. Проверяем папку плагина в AppData
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string pluginDirUpdater = Path.Combine(appData, "HearthstoneDeckTracker", "Plugins", "HSCompsPlugin", "HSCompsUpdater.exe");
+                if (File.Exists(pluginDirUpdater))
+                {
+                    updaterExePath = pluginDirUpdater;
+                }
+
+                // 2. Проверяем базовую директорию сборки
+                if (updaterExePath == null)
+                {
+                    string baseDirUpdater = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HSCompsUpdater.exe");
+                    if (File.Exists(baseDirUpdater))
+                    {
+                        updaterExePath = baseDirUpdater;
+                    }
+                }
+
+                // 3. Проверяем локальный билд репозитория
+                if (updaterExePath == null)
+                {
+                    string repoUpdater = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "updater", "bin", "Release", "HSCompsUpdater.exe");
+                    if (File.Exists(repoUpdater))
+                    {
+                        updaterExePath = repoUpdater;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(updaterExePath) && File.Exists(updaterExePath))
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = updaterExePath,
+                        UseShellExecute = true
+                    };
+                    Process.Start(psi);
+                }
+                else
+                {
+                    var res = MessageBox.Show(
+                        "Файл автономного апдейтера HSCompsUpdater.exe не найден локально.\n\nОткрыть страницу релизов на GitHub для скачивания свежей версии?",
+                        "HS Comps — Авто-апдейтер",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://github.com/ZadroTube/HS_Comps_Plugin/releases/latest",
+                            UseShellExecute = true
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка запуска апдейтера: {ex.Message}", "HS Comps", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

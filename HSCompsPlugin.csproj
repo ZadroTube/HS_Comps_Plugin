@@ -39,6 +39,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="updater\**" />
+    <None Include="updater\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="assets\ui\**\*.png" />
   </ItemGroup>
 
@@ -82,6 +87,11 @@
       <ToolFiles Include="$(MSBuildThisFileDirectory)tools\build_vector_db.py;$(MSBuildThisFileDirectory)tools\download_missing_full_cards.py;$(MSBuildThisFileDirectory)tools\hearthdb_id_map.json" />
     </ItemGroup>
     <Copy SourceFiles="@(ToolFiles)" DestinationFolder="$(PluginDeployDir)\tools" ContinueOnError="true" />
+
+    <!-- Сборка и деплой автономного авто-апдейтера HSCompsUpdater.exe -->
+    <MSBuild Projects="$(MSBuildThisFileDirectory)updater\HSCompsUpdater.csproj" Targets="Build" Properties="Configuration=Release" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe')" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe" DestinationFolder="$(TargetDir)" Condition="Exists('$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe')" ContinueOnError="true" />
   </Target>
 
 </Project>

@@ -879,12 +879,34 @@ namespace HSCompsPlugin.UI
             ToggleLock();
         }
 
+        private void OnWindowMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (!IsActive)
+            {
+                try { Activate(); } catch { }
+            }
+        }
+
+        private void OnWindowPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (!IsActive)
+            {
+                try { Activate(); } catch { }
+            }
+        }
+
+        private void OnWindowMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e != null) e.Handled = true;
+        }
+
         private void OnTitleBarMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && (e.OriginalSource == CanvasRoot || e.OriginalSource == ImgWindowBg))
             {
                 try
                 {
+                    if (!IsActive) Activate();
                     DragMove();
                 }
                 catch { }

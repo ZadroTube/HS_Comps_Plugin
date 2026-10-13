@@ -63,6 +63,12 @@ namespace HSCompsPlugin.Services
                 var overlayWindow = Core.OverlayWindow;
                 if (overlayWindow == null) return;
 
+                if (overlayWindow.Dispatcher != null && !overlayWindow.Dispatcher.CheckAccess())
+                {
+                    overlayWindow.Dispatcher.Invoke(new Action(() => SetClickthrough(clickthrough)));
+                    return;
+                }
+
                 if (_setClickthroughMethod != null)
                 {
                     _setClickthroughMethod.Invoke(overlayWindow, new object[] { clickthrough });
@@ -83,6 +89,12 @@ namespace HSCompsPlugin.Services
                 EnsureInitialized();
                 var overlayWindow = Core.OverlayWindow;
                 if (overlayWindow == null) return;
+
+                if (overlayWindow.Dispatcher != null && !overlayWindow.Dispatcher.CheckAccess())
+                {
+                    overlayWindow.Dispatcher.Invoke(new Action(() => RegisterElement(element)));
+                    return;
+                }
 
                 if (_clickableElementsField != null)
                 {
@@ -119,6 +131,12 @@ namespace HSCompsPlugin.Services
                 EnsureInitialized();
                 var overlayWindow = Core.OverlayWindow;
                 if (overlayWindow == null) return;
+
+                if (overlayWindow.Dispatcher != null && !overlayWindow.Dispatcher.CheckAccess())
+                {
+                    overlayWindow.Dispatcher.Invoke(new Action(() => UnregisterElement(element)));
+                    return;
+                }
 
                 if (_clickableElementsField != null)
                 {

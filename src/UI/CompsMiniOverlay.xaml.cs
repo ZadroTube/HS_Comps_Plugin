@@ -90,6 +90,8 @@ namespace HSCompsPlugin.UI
 
             // Регистрация в подсистеме ввода HDT для снятия WS_EX_TRANSPARENT и поддержки мыши
             HdtOverlayInputManager.RegisterElement(this);
+            HdtOverlayInputManager.RegisterElement(HudCanvas);
+            HdtOverlayInputManager.RegisterElement(ImgHudBg);
             HdtOverlayInputManager.RegisterElement(BorderArrowLeft);
             HdtOverlayInputManager.RegisterElement(BorderArrowRight);
             HdtOverlayInputManager.RegisterElement(BorderDetails);
@@ -105,6 +107,8 @@ namespace HSCompsPlugin.UI
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             HdtOverlayInputManager.UnregisterElement(this);
+            HdtOverlayInputManager.UnregisterElement(HudCanvas);
+            HdtOverlayInputManager.UnregisterElement(ImgHudBg);
             HdtOverlayInputManager.UnregisterElement(BorderArrowLeft);
             HdtOverlayInputManager.UnregisterElement(BorderArrowRight);
             HdtOverlayInputManager.UnregisterElement(BorderDetails);
@@ -117,6 +121,11 @@ namespace HSCompsPlugin.UI
             HdtOverlayInputManager.UnregisterElement(Slot6);
         }
 
+        private void OnHudPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            HdtOverlayInputManager.SetClickthrough(false);
+        }
+
         private void OnHudMouseEnter(object sender, MouseEventArgs e)
         {
             HdtOverlayInputManager.RegisterElement(this);
@@ -125,10 +134,20 @@ namespace HSCompsPlugin.UI
 
         private void OnHudMouseLeave(object sender, MouseEventArgs e)
         {
-            if (!_isDragging)
+            if (_isDragging) return;
+
+            try
             {
-                HdtOverlayInputManager.SetClickthrough(true);
+                Point pos = e.GetPosition(this);
+                if (pos.X >= 0 && pos.X <= ActualWidth && pos.Y >= 0 && pos.Y <= ActualHeight)
+                {
+                    // Курсор всё ещё физически внутри мини-HUD (перемещение между внутренними элементами)
+                    return;
+                }
             }
+            catch { }
+
+            HdtOverlayInputManager.SetClickthrough(true);
         }
 
         public void ApplySavedSettings()
@@ -386,6 +405,8 @@ namespace HSCompsPlugin.UI
 
         private void OnHudMouseMove(object sender, MouseEventArgs e)
         {
+            HdtOverlayInputManager.SetClickthrough(false);
+
             if (_isDragging && Parent is Canvas parentCanvas)
             {
                 Point curPos = e.GetPosition(parentCanvas);
@@ -406,6 +427,8 @@ namespace HSCompsPlugin.UI
 
                 Canvas.SetLeft(this, newX);
                 Canvas.SetTop(this, newY);
+
+                if (e != null) e.Handled = true;
             }
         }
 

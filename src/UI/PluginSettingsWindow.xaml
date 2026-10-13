@@ -198,6 +198,57 @@
                         </StackPanel>
                     </Border>
 
+                    <!-- СЕКЦИЯ 3: ОБНОВЛЕНИЕ ПЛАГИНА (GITHUB RELEASES) -->
+                    <Border Background="#1C130D" BorderBrush="#50351A" BorderThickness="1.2" CornerRadius="6" Padding="14,12" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock Text="ОБНОВЛЕНИЕ ПЛАГИНА (GITHUB)" 
+                                       Foreground="#FFDF78" FontSize="13.5" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                            <!-- Карточка состояния версии плагина -->
+                            <Border Background="#140C08" BorderBrush="#3D2614" BorderThickness="1" CornerRadius="5" Padding="12,10" Margin="0,0,0,10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Иконка обновления -->
+                                    <Border Grid.Column="0" Background="#29180C" BorderBrush="#7C5020" BorderThickness="1.5" 
+                                            CornerRadius="6" Width="40" Height="40" Margin="0,0,12,0" 
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Path Data="M19,9h-4V3H9v6H5l7,7 7,-7zM5,18v2h14v-2H5z" 
+                                              Fill="#60C8FF" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock x:Name="TxtPluginVersionSummary" 
+                                                   Text="Текущая версия плагина: v3.0.0 (ZadroTube)" 
+                                                   Foreground="#FFE294" FontSize="13" FontWeight="Bold"/>
+                                        <TextBlock Text="Авто-апдейтер проверяет свежие релизы на GitHub и обновляет плагин в один клик" 
+                                                   Foreground="#9E8772" FontSize="11" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Кнопка запуска автономного авто-апдейтера -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="BtnRunUpdater" 
+                                        Click="OnRunUpdaterClick" 
+                                        Background="#1E334D" BorderBrush="#4A90E2" Foreground="#D4EBFF"
+                                        Padding="14,8" FontSize="13" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Path Data="M12,4V1L8,5l4,4V6c3.31,0,6,2.69,6,6c0,1.01,-0.25,1.97,-0.7,2.8l1.46,1.46C19.54,15.03,20,13.57,20,12c0,-4.42,-3.58,-8,-8,-8zm0,14c-3.31,0,-6,-2.69,-6,-6c0,-1.01,0.25,-1.97,0.7,-2.8L5.24,7.74C4.46,8.97,4,10.43,4,12c0,4.42,3.58,8,8,8v3l4,-4l-4,-4v3z" 
+                                              Fill="#60C8FF" Width="14" Height="14" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="🚀 Проверить обновления / Запустить апдейтер" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <TextBlock Text="* Запускает утилиту HSCompsUpdater.exe, которая проверяет релизы на GitHub, скачивает архив и обновляет файлы плагина в Hearthstone Deck Tracker."
+                                       Foreground="#96806C" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+
                 </StackPanel>
             </ScrollViewer>
 

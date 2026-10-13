@@ -10,6 +10,7 @@
              IsHitTestVisible="True"
              MouseEnter="OnHudMouseEnter"
              MouseLeave="OnHudMouseLeave"
+             PreviewMouseMove="OnHudPreviewMouseMove"
              MouseLeftButtonDown="OnHudMouseDown" 
              MouseMove="OnHudMouseMove" 
              MouseLeftButtonUp="OnHudMouseUp"
