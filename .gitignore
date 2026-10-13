@@ -7,3 +7,4 @@ Cache/
 scratch*
 temp_*
 *.log
+__pycache__/
