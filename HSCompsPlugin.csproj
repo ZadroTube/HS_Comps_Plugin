@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>HSCompsPlugin</AssemblyName>
+    <RootNamespace>HSCompsPlugin</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Version>1.0.0</Version>
+    <Authors>HS Comps Team</Authors>
+    <Product>HS Comps Plugin for Battlegrounds</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="HearthstoneDeckTracker">
+      <HintPath>$(MSBuildThisFileDirectory)lib\HearthstoneDeckTracker.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="HearthDb">
+      <HintPath>$(MSBuildThisFileDirectory)lib\HearthDb.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\ui\**\*.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="bg_cards_official.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="comps_vector_db.json" Condition="Exists('comps_vector_db.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginDeployDir>$(AppData)\HearthstoneDeckTracker\Plugins\HSCompsPlugin</PluginDeployDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(PluginDeployDir)" />
+    <MakeDir Directories="$(PluginDeployDir)\assets\ui" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginDeployDir)" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Newtonsoft.Json.dll" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(TargetDir)Newtonsoft.Json.dll')" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)bg_cards_official.json" DestinationFolder="$(PluginDeployDir)" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)comps_vector_db.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)comps_vector_db.json')" ContinueOnError="true" />
+    
+    <ItemGroup>
+      <UiAssetFiles Include="$(MSBuildThisFileDirectory)assets\ui\**\*.*" />
+      <CardAssetFiles Include="$(MSBuildThisFileDirectory)assets\cards\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(UiAssetFiles)" DestinationFiles="@(UiAssetFiles->'$(PluginDeployDir)\assets\ui\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+    <Copy SourceFiles="@(CardAssetFiles)" DestinationFiles="@(CardAssetFiles->'$(PluginDeployDir)\assets\cards\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+    
+    <MakeDir Directories="$(PluginDeployDir)\tools" />
+    <ItemGroup>
+      <ToolFiles Include="$(MSBuildThisFileDirectory)tools\build_vector_db.py;$(MSBuildThisFileDirectory)tools\download_missing_full_cards.py;$(MSBuildThisFileDirectory)tools\hearthdb_id_map.json" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ToolFiles)" DestinationFolder="$(PluginDeployDir)\tools" ContinueOnError="true" />
+  </Target>
+
+</Project>

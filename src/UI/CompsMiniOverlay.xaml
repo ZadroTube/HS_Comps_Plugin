@@ -1,0 +1,154 @@
+<UserControl x:Class="HSCompsPlugin.UI.CompsMiniOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HSCompsPlugin.UI"
+             mc:Ignorable="d" 
+             Width="813" Height="98"
+             Background="#01000000"
+             IsHitTestVisible="True"
+             MouseEnter="OnHudMouseEnter"
+             MouseLeave="OnHudMouseLeave"
+             MouseLeftButtonDown="OnHudMouseDown" 
+             MouseMove="OnHudMouseMove" 
+             MouseLeftButtonUp="OnHudMouseUp"
+             PreviewMouseWheel="OnHudMouseWheel"
+             ToolTip="Перетаскивание: Зажмите левую кнопку мыши&#x0a;Масштабирование: Ctrl + Колесо мыши">
+
+    <UserControl.Resources>
+        <local:CardCropImageConverter x:Key="CropImageConverter"/>
+        <local:CardFullImageConverter x:Key="FullImageConverter"/>
+        <local:StatusRingConverter x:Key="StatusRingConverter"/>
+        <local:MiniHudFramedTokenConverter x:Key="MiniHudFramedTokenConverter"/>
+
+        <DataTemplate x:Key="SlotItemTemplate">
+            <Grid Width="80" Height="88" Background="#01000000" Cursor="Hand" 
+                  ToolTipService.InitialShowDelay="150" ToolTipService.BetweenShowDelay="100">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <!-- Тултип карты на русском языке с привязкой через PlacementTarget -->
+                <Grid.ToolTip>
+                    <ToolTip Background="Transparent" BorderThickness="0" Padding="0" HasDropShadow="False" IsHitTestVisible="False" Placement="Top" VerticalOffset="-8"
+                             DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <local:CardTooltipControl DataContext="{Binding}"/>
+                    </ToolTip>
+                </Grid.ToolTip>
+
+                <!-- Овальная карта в аутентичной рамке статуса (на столе / в руке / нужно найти) -->
+                <Image Source="{Binding Converter={StaticResource MiniHudFramedTokenConverter}}" 
+                       Width="78" Height="86" 
+                       Stretch="Uniform" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsGolden}" Value="True">
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="#FFB800" BlurRadius="8" ShadowDepth="0" Opacity="0.95"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+
+                <!-- Щит тира таверны в левом верхнем углу -->
+                <Border Background="#D52A142A" BorderBrush="#E5A0E5" BorderThickness="1.2" CornerRadius="4" 
+                        Width="19" Height="19" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,3,0,0">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Card}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Border.Effect>
+                        <DropShadowEffect Color="#000000" BlurRadius="3" ShadowDepth="1" Opacity="0.85"/>
+                    </Border.Effect>
+                    <TextBlock Text="{Binding Tier, StringFormat='★{0}'}" 
+                               Foreground="#FFD9FF" FontWeight="Bold" FontSize="11" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <UserControl.LayoutTransform>
+        <ScaleTransform x:Name="OverlayScaleTransform" ScaleX="1.0" ScaleY="1.0"/>
+    </UserControl.LayoutTransform>
+
+    <Viewbox Stretch="Uniform">
+        <!-- Холст высокого разрешения 813x98, точно совпадающий с текстурой мини-HUD -->
+        <Canvas x:Name="HudCanvas" Width="813" Height="98" Background="#01000000" IsHitTestVisible="True">
+            
+            <!-- Основной фон: оригинальная резная деревянная плашка со сменными текстурами стрелок -->
+            <Image x:Name="ImgHudBg" 
+                   Width="813" Height="98" 
+                   Canvas.Left="0" Canvas.Top="0" 
+                   Stretch="Fill"/>
+
+            <!-- 1. Центральная зона: 7 аутентичных карт от края до края (X=25..597) -->
+            <ContentControl x:Name="Slot0" Canvas.Left="25" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+            <ContentControl x:Name="Slot1" Canvas.Left="107" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+            <ContentControl x:Name="Slot2" Canvas.Left="189" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+            <ContentControl x:Name="Slot3" Canvas.Left="271" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+            <ContentControl x:Name="Slot4" Canvas.Left="353" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+            <ContentControl x:Name="Slot5" Canvas.Left="435" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+            <ContentControl x:Name="Slot6" Canvas.Left="517" Canvas.Top="5" ContentTemplate="{StaticResource SlotItemTemplate}"/>
+
+            <!-- 2. Правая зона: Навигация со стрелками, индикатором страниц и кнопкой [ПОДРОБНЕЕ] -->
+            <!-- Стрелка влево: при наведении фон переключается на hud_overlay_bg_new_left_arrow.png -->
+            <Border x:Name="BorderArrowLeft" Canvas.Left="603" Canvas.Top="9" Width="58" Height="47" 
+                    Background="#01000000" Cursor="Hand" 
+                    MouseLeftButtonDown="OnPrevCompClick"
+                    MouseEnter="OnArrowLeftMouseEnter" MouseLeave="OnArrowLeftMouseLeave"
+                    ToolTip="Предыдущий рекомендованный стол"/>
+
+            <!-- Номер страницы со спрайтовыми цифрами (1/3) в резной нише между стрелками -->
+            <local:SpriteNumberControl x:Name="CtrlPageIndicator" 
+                                       Canvas.Left="661" Canvas.Top="14" 
+                                       Width="66" Height="38"
+                                       Text="1/3" DigitHeight="18" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <!-- Стрелка вправо: при наведении фон переключается на hud_overlay_bg_new_right_arrow.png -->
+            <Border x:Name="BorderArrowRight" Canvas.Left="727" Canvas.Top="8" Width="54" Height="47" 
+                    Background="#01000000" Cursor="Hand" 
+                    MouseLeftButtonDown="OnNextCompClick"
+                    MouseEnter="OnArrowRightMouseEnter" MouseLeave="OnArrowRightMouseLeave"
+                    ToolTip="Следующий рекомендованный стол"/>
+
+            <!-- Кликабельная зона кнопки [ПОДРОБНЕЕ] со световым ореолом при наведении -->
+            <Border x:Name="BorderDetails" Canvas.Left="612" Canvas.Top="55" 
+                    Width="165" Height="30" 
+                    Background="#01000000" 
+                    Cursor="Hand" 
+                    MouseLeftButtonDown="OnDetailsClick"
+                    MouseEnter="OnDetailsMouseEnter" MouseLeave="OnDetailsMouseLeave"
+                    ToolTip="Открыть подробное окно анализа столов">
+                <Border x:Name="BorderDetailsHoverGlow" CornerRadius="6"
+                        BorderBrush="#FFE294" BorderThickness="1.5" 
+                        Background="#15FFE294" Visibility="Hidden">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#FFD269" BlurRadius="10" ShadowDepth="0" Opacity="0.8"/>
+                    </Border.Effect>
+                </Border>
+            </Border>
+
+        </Canvas>
+    </Viewbox>
+</UserControl>
