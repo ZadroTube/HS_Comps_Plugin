@@ -18,8 +18,8 @@ namespace HSCompsPlugin
         public string Name => "HS Comps Plugin";
         public string Description => "RAG / Векторный советник победных столов для Battlegrounds на актуальном патче";
         public string ButtonText => "Настройки";
-        public string Author => "HS Comps Team & ZadroTube";
-        public Version Version => new Version(1, 0, 0);
+        public string Author => "ZadroTube";
+        public Version Version => new Version(3, 0, 0);
 
         public MenuItem MenuItem { get; private set; }
 

@@ -2,9 +2,10 @@
 
 [![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-blue.svg)](https://dotnet.microsoft.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)](https://microsoft.com)
-[![HDT Plugin](https://img.shields.io/badge/HDT%20Plugin-Compatible-orange.svg)](https://hsreplay.net/downloads/)
+[![Release](https://img.shields.io/github/v/release/ZadroTube/HS_Comps_Plugin?label=Release&color=blue)](https://github.com/ZadroTube/HS_Comps_Plugin/releases)
+[![Author](https://img.shields.io/badge/Author-ZadroTube-brightgreen.svg)](https://github.com/ZadroTube)
 
-Интеллектуальный плагин-ассистент для **Hearthstone Deck Tracker (HDT)** в режиме **«Поля сражений» (Battlegrounds)**. Плагин анализирует текущий стол игрока, доступные и забаненные типы существ (расы), выбранного героя и в реальном времени рассчитывает наиболее перспективные победные композиции на основе базы из более чем 2 600 эталонных топ-сборок игроков высокого MMR.
+Интеллектуальный плагин-ассистент для **Hearthstone Deck Tracker (HDT)** в режиме **«Поля сражений» (Battlegrounds)** (автор: **ZadroTube**, версия: **3.0**). Плагин анализирует текущий стол игрока, доступные и забаненные типы существ (расы), выбранного героя и в реальном времени рассчитывает наиболее перспективные победные композиции на основе базы из более чем 1 300 эталонных соревновательных топ-сборок игроков высокого MMR (7000–18000+).
 
 ---
 
@@ -103,20 +104,20 @@ HS_Comps_Plugin/
 
 ## 🚀 Установка плагина
 
-1. Убедитесь, что Hearthstone Deck Tracker закрыт.
-2. Скомпилируйте проект или скопируйте рабочие файлы в каталог плагинов HDT:
+### Способ 1: Установка из релиза (Рекомендуется)
+1. Скачайте архив **`HSCompsPlugin-v3.0.0.zip`** в разделе [Releases](https://github.com/ZadroTube/HS_Comps_Plugin/releases).
+2. Убедитесь, что Hearthstone Deck Tracker закрыт.
+3. Распакуйте папку `HSCompsPlugin` из архива в каталог плагинов HDT:
    ```text
    %APPDATA%\HearthstoneDeckTracker\Plugins\HSCompsPlugin
    ```
-3. Структура в папке плагина должна содержать:
-   - `HSCompsPlugin.dll`
-   - `Newtonsoft.Json.dll`
-   - `bg_cards_official.json`
-   - `comps_vector_db.json`
-   - `supplementary_cards.json`
-   - Папку `assets/` со всеми подкаталогами (`cards`, `ui`)
 4. Запустите Hearthstone Deck Tracker.
-5. Перейдите в **Опции (Options) -> Плагины (Plugins)** и убедитесь, что плагин **HS Comps Plugin** включен.
+5. Перейдите в **Опции (Options) -> Плагины (Plugins)** и активируйте **HS Comps Plugin**.
+
+### Способ 2: Ручная сборка
+1. Убедитесь, что Hearthstone Deck Tracker закрыт.
+2. Скомпилируйте проект (`dotnet build -c Release`). Таргет `PostBuild` автоматически скопирует все файлы в каталог плагинов.
+3. Запустите Hearthstone Deck Tracker и включите плагин в настройках.
 
 ---
 

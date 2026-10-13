@@ -188,7 +188,7 @@ namespace HSCompsPlugin.Services
                 }
 
                 if (primaryTribeCount < 3) return true;
-                if (neutralCount >= 3) return true;
+                if (neutralCount > 3) return true;
             }
 
             return false;

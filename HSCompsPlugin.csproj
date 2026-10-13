@@ -10,9 +10,13 @@
     <OutputType>Library</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Version>1.0.0</Version>
-    <Authors>HS Comps Team</Authors>
+    <Version>3.0.0</Version>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+    <Authors>ZadroTube</Authors>
+    <Company>ZadroTube</Company>
     <Product>HS Comps Plugin for Battlegrounds</Product>
+    <Description>Hearthstone Battlegrounds Comps &amp; Archetypes Plugin for HDT</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,6 +49,12 @@
     <None Update="comps_vector_db.json" Condition="Exists('comps_vector_db.json')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="supplementary_cards.json" Condition="Exists('supplementary_cards.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="missing_meta_cards.json" Condition="Exists('missing_meta_cards.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="Build">
@@ -57,6 +67,8 @@
     <Copy SourceFiles="$(TargetDir)Newtonsoft.Json.dll" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(TargetDir)Newtonsoft.Json.dll')" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)bg_cards_official.json" DestinationFolder="$(PluginDeployDir)" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)comps_vector_db.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)comps_vector_db.json')" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)supplementary_cards.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)supplementary_cards.json')" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)missing_meta_cards.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)missing_meta_cards.json')" ContinueOnError="true" />
     
     <ItemGroup>
       <UiAssetFiles Include="$(MSBuildThisFileDirectory)assets\ui\**\*.*" />

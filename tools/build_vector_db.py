@@ -229,16 +229,16 @@ def parse_board_minions(raw_board, official_cards_by_id, base_cards_by_gold_id, 
     return minions, list(required_tribes), tribe_distribution
 
 def is_canonical_benchmark_board(minions, turn, mmr, official_cards_by_id):
-    # 1. Размер стола: должен быть полноценным финальным столом (6-7 существ)
-    if len(minions) < 6:
-        return False, "less than 6 minions"
+    # 1. Размер стола: должен быть полноценным финальным столом (строго 7 существ)
+    if len(minions) < 7:
+        return False, "less than 7 minions"
 
-    # 2. Ход игры: минимум 10 ход (финал/лейтгейм)
-    if turn < 10:
+    # 2. Ход игры: минимум 11 ход (зрелый лейтгейм сформированной сборки)
+    if turn < 11:
         return False, f"turn too early ({turn})"
 
-    # 3. Рейтинг: соревновательный уровень (>= 5000 MMR)
-    if mmr < 5000:
+    # 3. Рейтинг: соревновательный уровень про-игроков (>= 7000 MMR)
+    if mmr < 7000:
         return False, f"low mmr ({mmr})"
 
     # 4. Проверка дубликатов карт
@@ -274,35 +274,29 @@ def smooth_hero_placement(hero_dp, hero_avg, arch_avg, prior_weight=25):
     return round(float(smoothed), 2)
 
 def determine_primary_tribe(archetype, tribe_distribution, required_tribes):
+    if not archetype:
+        return 'Все'
+
+    arch_lower = archetype.lower()
+
+    # Мультиплеменные и нейтральные сборки всегда классифицируются как 'Все'
+    if any(w in arch_lower for w in ['neutral', 'menagerie', 'tea_set', 'all']):
+        return 'Все'
+
+    # Проверяем кандидата от архетипа (например, pirate_* -> Пират, demon_* -> Демон)
+    for en_key, ru_val in TRIBE_MAP_EN_TO_RU.items():
+        if arch_lower.startswith(en_key) or f"_{en_key}" in arch_lower or f"{en_key}_" in arch_lower:
+            return ru_val
+
     amalgams = tribe_distribution.get('Все', 0) if tribe_distribution else 0
     pure_dist = {k: v for k, v in tribe_distribution.items() if k != 'Все'} if tribe_distribution else {}
 
-    # 1. Проверяем кандидата от архетипа
-    arch_candidate = None
-    if archetype:
-        arch_lower = archetype.lower()
-        if not any(w in arch_lower for w in ['neutral', 'menagerie']):
-            for en_key, ru_val in TRIBE_MAP_EN_TO_RU.items():
-                if en_key in arch_lower:
-                    arch_candidate = ru_val
-                    break
-
-    # Если архетип заявляет племя, проверяем, есть ли на столе подтверждение (минимум 3 существа этого типа с учетом Слияний)
-    if arch_candidate and arch_candidate != 'Все':
-        cand_count = pure_dist.get(arch_candidate, 0) + amalgams
-        if cand_count >= 3:
-            return arch_candidate
-
-    # 2. Если архетип не подтвердился или был menagerie/neutral, смотрим на реальное большинство существ
+    # Если архетип не определился явно, смотрим на большинство существ
     if pure_dist:
         sorted_tribes = sorted(pure_dist.items(), key=lambda kv: kv[1], reverse=True)
         top_tribe, top_count = sorted_tribes[0]
         if top_count + amalgams >= 3:
             return top_tribe
-
-    if required_tribes and len(required_tribes) == 1 and required_tribes[0] != 'Все':
-        if pure_dist.get(required_tribes[0], 0) + amalgams >= 2:
-            return required_tribes[0]
 
     return 'Все'
 
@@ -513,15 +507,7 @@ def main():
         seen_raw_board_sigs.add(raw_sig)
 
         if not arch:
-            sorted_t = sorted(tribe_dist.items(), key=lambda x: x[1], reverse=True)
-            if sorted_t and sorted_t[0][1] >= 2:
-                t_name = sorted_t[0][0]
-                for k, v in TRIBE_MAP_EN_TO_RU.items():
-                    if v == t_name:
-                        arch = f"{k}_general"
-                        break
-            if not arch:
-                arch = 'menagerie'
+            continue
 
         primary_tribe = determine_primary_tribe(arch, tribe_dist, req_tribes)
         arch_meta = archetype_meta_stats.get(arch, {'avg_placement': 3.4, 'top1_rate': 0.20})
@@ -570,22 +556,73 @@ def main():
                 syn_board = create_synthetic_naga_board(hero_id, arch_name, dbf_cards, official_cards_by_id)
                 all_raw_boards.append(syn_board)
 
-    print(f'4. Итого собрано чистых проверенных столов: {len(all_raw_boards)}')
+    print(f'4. Итого собрано столов-кандидатов (MMR >= 7000, Ход >= 11): {len(all_raw_boards)}')
 
-    # 7. Ранжирование по формуле качества
+    # 5. Расчет частотного профиля карт по архетипам для отсева случайных ситуативных выбросов
+    print('5. Расчет мета-авторитетности карт по архетипам (Data-Driven Authority)...')
+    arch_card_freq = {}
+    arch_total_boards = {}
+
     for b in all_raw_boards:
+        arch = b['archetype']
+        if arch not in arch_card_freq:
+            arch_card_freq[arch] = {}
+            arch_total_boards[arch] = 0
+        arch_total_boards[arch] += 1
+
+        seen_dbfs = set()
+        for m in b['minions']:
+            dbf = m['DbfId']
+            if dbf and dbf not in seen_dbfs:
+                seen_dbfs.add(dbf)
+                arch_card_freq[arch][dbf] = arch_card_freq[arch].get(dbf, 0) + 1
+
+    # Фильтрация столов по мета-авторитетности карт:
+    # Отсекаем столы, содержащие разовые случайные карты (< 6% частоты в данном архетипе при солидной выборке)
+    authoritative_boards = []
+    situational_rejected = 0
+
+    for b in all_raw_boards:
+        arch = b['archetype']
+        tot = arch_total_boards.get(arch, 1)
+
+        if b.get('source') == 'canonical_benchmark':
+            min_freq = 1.0
+            avg_freq = 1.0
+        else:
+            freqs = [arch_card_freq[arch].get(m['DbfId'], 0) / tot for m in b['minions']]
+            min_freq = min(freqs) if freqs else 0.0
+            avg_freq = (sum(freqs) / len(freqs)) if freqs else 0.0
+
+        # Ценз авторитетности: если в архетипе достаточная выборка (>= 15 столов), отсекаем столы со случайными выбросами (< 6% популярности).
+        # Если выборка недостаточна (< 15 столов), отсекаем неизвестные не-бенчмарк столы.
+        if tot >= 15 and min_freq < 0.06:
+            situational_rejected += 1
+            continue
+        elif tot < 15 and b.get('source') != 'canonical_benchmark':
+            situational_rejected += 1
+            continue
+
+        # Ранжирование по формуле авторитетности про-меты (MMR + распространенность карт + винрейт - среднее место)
         quality = (b['playerRank'] * 1.5) \
-                + (3000 if len(b['minions']) == 7 else 1500) \
-                + (2000 if b['source'] in ('comp_stats', 'canonical_benchmark') else 0) \
-                + (b['top1Rate'] * 8000) \
-                - (b['averagePlacement'] * 1200)
+                + (avg_freq * 10000) \
+                + (min_freq * 8000) \
+                + (b['top1Rate'] * 6000) \
+                - (b['averagePlacement'] * 1500)
+
         b['_quality'] = quality
+        b['_min_freq'] = min_freq
+        b['_avg_freq'] = avg_freq
+        authoritative_boards.append(b)
+
+    print(f'   Отсеяно ситуативных столов со случайными картами-выбросами: {situational_rejected}')
+    print(f'   Осталось подтвержденных авторитетных столов: {len(authoritative_boards)}')
 
     hero_tribe_boards = {}
     archetype_boards = {}
     hero_top_boards = {}
 
-    for b in all_raw_boards:
+    for b in authoritative_boards:
         hero = b.get('heroCardId')
         ptribe = b['primaryTribe']
         arch = b['archetype']
@@ -627,15 +664,15 @@ def main():
     for ht_key, blist in hero_tribe_boards.items():
         add_boards_with_diversity(blist, max_count=2)
 
-    # 2. По каждому Герою берем до 3 лучших столов
+    # 2. По каждому Герою берем до 2 лучших столов
     for hero, blist in hero_top_boards.items():
-        add_boards_with_diversity(blist, max_count=3)
+        add_boards_with_diversity(blist, max_count=2)
 
-    # 3. По каждому Архетипу берем до 25 лучших столов
+    # 3. По каждому Архетипу берем до 8 лучших разнообразных столов (качество важнее количества!)
     for arch, blist in archetype_boards.items():
-        add_boards_with_diversity(blist, max_count=25)
+        add_boards_with_diversity(blist, max_count=8)
 
-    print(f'5. Отобрано эталонных уникальных столов: {len(final_boards_set)}')
+    print(f'6. Отобрано эталонных уникальных столов: {len(final_boards_set)}')
 
     result_boards = []
     board_idx = 1
@@ -677,11 +714,11 @@ def main():
         json.dump(output_data, f, ensure_ascii=False, indent=2)
 
     db_size = os.path.getsize(OUTPUT_DB_PATH)
-    print(f'6. Векторная база сохранена в {OUTPUT_DB_PATH}!', flush=True)
+    print(f'7. Векторная база сохранена в {OUTPUT_DB_PATH}!', flush=True)
     print(f'   Всего столов: {len(result_boards)}', flush=True)
     print(f'   Размер файла: {db_size / 1024:.1f} КБ', flush=True)
 
-    # 7. Экспорт отчета об отсутствующих в базе картах меты (missing_meta_cards.json)
+    # 8. Экспорт отчета об отсутствующих в базе картах меты (missing_meta_cards.json)
     # Критерии пользователя: MMR 5000+, Turn 10+, минимум 10 раз
     significant_missing = []
     for cid, info in missing_collector.items():
