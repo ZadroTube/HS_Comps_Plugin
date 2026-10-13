@@ -49,21 +49,7 @@
                        Width="78" Height="86" 
                        Stretch="Uniform" 
                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                       RenderOptions.BitmapScalingMode="HighQuality">
-                    <Image.Style>
-                        <Style TargetType="Image">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsGolden}" Value="True">
-                                    <Setter Property="Effect">
-                                        <Setter.Value>
-                                            <DropShadowEffect Color="#FFB800" BlurRadius="8" ShadowDepth="0" Opacity="0.95"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Image.Style>
-                </Image>
+                       RenderOptions.BitmapScalingMode="HighQuality"/>
 
                 <!-- Щит тира таверны в левом верхнем углу -->
                 <Border Background="#D52A142A" BorderBrush="#E5A0E5" BorderThickness="1.2" CornerRadius="4" 

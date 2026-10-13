@@ -244,21 +244,7 @@
                                 <!-- Полная карта Blizzard с артом, описанием и тиром (или аутентичный токен для аберраций) -->
                                 <Image Source="{Binding Converter={StaticResource BoardShowcaseConverter}}" 
                                        Stretch="Uniform" 
-                                       Width="195" Height="340">
-                                    <Image.Style>
-                                        <Style TargetType="Image">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsGolden}" Value="True">
-                                                    <Setter Property="Effect">
-                                                        <Setter.Value>
-                                                            <DropShadowEffect Color="#FFB800" BlurRadius="12" ShadowDepth="0" Opacity="0.95"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
+                                       Width="195" Height="340"/>
 
 
 
@@ -347,21 +333,7 @@
                                    Width="94" Height="138" 
                                    Stretch="Uniform" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="HighQuality">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsGolden}" Value="True">
-                                                <Setter Property="Effect">
-                                                    <Setter.Value>
-                                                        <DropShadowEffect Color="#FFB800" BlurRadius="14" ShadowDepth="0" Opacity="0.95"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
                             <!-- Щит тира таверны в левом верхнем углу -->
                             <Border Background="#D52A142A" BorderBrush="#E5A0E5" BorderThickness="1.2" CornerRadius="6" 
                                     Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,4,0,0">
@@ -399,21 +371,7 @@
                                    Width="94" Height="138" 
                                    Stretch="Uniform" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="HighQuality">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsGolden}" Value="True">
-                                                <Setter Property="Effect">
-                                                    <Setter.Value>
-                                                        <DropShadowEffect Color="#FFB800" BlurRadius="14" ShadowDepth="0" Opacity="0.95"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
                             <!-- Щит тира таверны в левом верхнем углу -->
                             <Border Background="#D52A142A" BorderBrush="#E5A0E5" BorderThickness="1.2" CornerRadius="6" 
                                     Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,4,0,0">

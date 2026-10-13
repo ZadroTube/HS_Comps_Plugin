@@ -64,17 +64,33 @@ namespace HSCompsPlugin.UI
         {
             if (value is BoardSlot slot)
             {
-                var full = LocalImageCache.Instance.GetFullCardBitmap(slot.DbfId, slot.CardId, slot.FullImageUrl);
-                if (full != null)
+                // Если карта на столе золотая — в первую очередь загружаем официальную золотую версию
+                if (slot.IsGolden)
                 {
-                    return full;
+                    int goldenDbfId = slot.Card?.GoldenUpgradeId ?? 0;
+                    string baseCardId = !string.IsNullOrEmpty(slot.Card?.Slug) ? slot.Card.Slug : slot.CardId;
+                    string goldenCardId = !string.IsNullOrEmpty(slot.CardId) && (slot.CardId.EndsWith("_G", StringComparison.OrdinalIgnoreCase) || slot.CardId.StartsWith("TB_BaconUps_", StringComparison.OrdinalIgnoreCase))
+                        ? slot.CardId
+                        : $"{baseCardId}_G";
+
+                    var goldBmp = LocalImageCache.Instance.GetGoldenCardBitmap(goldenDbfId, goldenCardId, baseCardId);
+                    if (goldBmp != null)
+                    {
+                        return goldBmp;
+                    }
                 }
 
-                // Попробуем получить обычную карту, если золотая версия не имеет отдельного арта
+                // Для обычной карты (или если золотая версия не имеет отдельного арта) берем обычный арт
                 var norm = LocalImageCache.Instance.GetNormalCardBitmap(slot.DbfId, slot.CardId, slot.FullImageUrl);
                 if (norm != null)
                 {
                     return norm;
+                }
+
+                var full = LocalImageCache.Instance.GetFullCardBitmap(slot.DbfId, slot.CardId, slot.FullImageUrl);
+                if (full != null)
+                {
+                    return full;
                 }
 
                 // В центральной части главного окна отображаются ИСКЛЮЧИТЕЛЬНО полноразмерные карты Hearthstone.

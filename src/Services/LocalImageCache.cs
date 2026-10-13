@@ -345,6 +345,13 @@ namespace HSCompsPlugin.Services
                 candidates.Add(Path.Combine(_cacheDirectory, $"{cleanId}_G.png"));
             }
 
+            if (!string.IsNullOrEmpty(goldenCardId))
+            {
+                candidates.Add(Path.Combine(_assemblyDirectory, "assets", "cards", "full", $"{goldenCardId}.png"));
+                candidates.Add(Path.Combine(appData, "HearthstoneDeckTracker", "Plugins", "HSCompsPlugin", "assets", "cards", "full", $"{goldenCardId}.png"));
+                candidates.Add(Path.Combine(appData, "HearthstoneDeckTracker", "Images", "CardImages", $"{goldenCardId}.png"));
+            }
+
             if (gDbf > 0)
             {
                 candidates.Add(Path.Combine(_assemblyDirectory, "assets", "cards", "full", $"{gDbf}.png"));
@@ -365,15 +372,30 @@ namespace HSCompsPlugin.Services
                 }
             }
 
-            // Fallback: загрузка золотого рендера с hearthstonejson
+            // Fallback: загрузка официального золотого рендера с hearthstonejson
             if (!string.IsNullOrEmpty(cleanId))
             {
-                string remote = $"https://art.hearthstonejson.com/v1/render/latest/ruRU/512x/{cleanId}_G.png";
-                var bmp = GetImage(remote, decodePixelWidth: 450);
-                if (bmp != null)
+                var remoteUrls = new List<string>();
+                if (cleanId.StartsWith("TB_BaconUps_", StringComparison.OrdinalIgnoreCase))
                 {
-                    PutMemoryCache(key, bmp);
-                    return bmp;
+                    remoteUrls.Add($"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{cleanId}_triple.png");
+                    remoteUrls.Add($"https://art.hearthstonejson.com/v1/render/latest/ruRU/512x/{cleanId}.png");
+                }
+                else
+                {
+                    remoteUrls.Add($"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{cleanId}_G_triple.png");
+                    remoteUrls.Add($"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{cleanId}_triple.png");
+                    remoteUrls.Add($"https://art.hearthstonejson.com/v1/render/latest/ruRU/512x/{cleanId}_G.png");
+                }
+
+                foreach (var remote in remoteUrls)
+                {
+                    var bmp = GetImage(remote, decodePixelWidth: 450);
+                    if (bmp != null)
+                    {
+                        PutMemoryCache(key, bmp);
+                        return bmp;
+                    }
                 }
             }
 

@@ -34,70 +34,130 @@ def download_missing_cards(base_dir=None):
         for minion in board.get("Minions", []):
             dbf_id = minion.get("DbfId", 0)
             card_id = minion.get("CardId", "")
-            key = dbf_id if dbf_id > 0 else card_id
-            if key not in needed_cards:
-                needed_cards[key] = {
+            is_golden = minion.get("IsGolden", False) or (card_id and card_id.endswith("_G"))
+
+            clean_id = card_id[:-2] if card_id.endswith("_G") else card_id
+
+            # 1. Обычная версия карты
+            norm_key = ('normal', dbf_id, clean_id)
+            if norm_key not in needed_cards:
+                needed_cards[norm_key] = {
                     "DbfId": dbf_id,
-                    "CardId": card_id
+                    "CardId": clean_id,
+                    "IsGolden": False
                 }
 
-    print(f"7. Проверка наличия официальных артов для {len(needed_cards)} уникальных существ...", flush=True)
+            # 2. Золотая версия карты (если используется на столе)
+            if is_golden:
+                gold_key = ('golden', dbf_id, card_id)
+                if gold_key not in needed_cards:
+                    needed_cards[gold_key] = {
+                        "DbfId": dbf_id,
+                        "CardId": card_id,
+                        "IsGolden": True
+                    }
+
+    print(f"7. Проверка наличия официальных артов для {len(needed_cards)} элементов столов (обычные и золотые)...", flush=True)
 
     tasks = []
     for key, info in needed_cards.items():
+        is_gold = info["IsGolden"]
         dbf_id = info["DbfId"]
         card_id = info["CardId"]
-        clean_card_id = card_id.replace("_G", "") if card_id else ""
+        clean_card_id = card_id[:-2] if (card_id and card_id.endswith("_G")) else card_id
 
-        p_dbf = os.path.join(output_dir, f"{dbf_id}.png") if dbf_id > 0 else None
-        p_card = os.path.join(output_dir, f"{card_id}.png") if card_id else None
-        p_clean = os.path.join(output_dir, f"{clean_card_id}.png") if clean_card_id else None
+        if is_gold:
+            gold_filename = f"{clean_card_id}_G.png"
+            p_gold = os.path.join(output_dir, gold_filename)
+            p_card = os.path.join(output_dir, f"{card_id}.png") if card_id else None
 
-        already_have = False
-        for p in [p_dbf, p_card, p_clean]:
-            if p and os.path.exists(p) and os.path.getsize(p) > 10000:
-                already_have = True
-                break
+            already_have = False
+            for p in [p_gold, p_card]:
+                if p and os.path.exists(p) and os.path.getsize(p) > 10000:
+                    already_have = True
+                    break
 
-        if already_have:
-            continue
+            if already_have:
+                continue
 
-        off_card = official_cards.get(dbf_id)
-        if not off_card and clean_card_id:
-            off_card = official_by_slug.get(clean_card_id)
+            off_card = official_cards.get(dbf_id)
+            if not off_card and clean_card_id:
+                off_card = official_by_slug.get(clean_card_id)
 
-        if off_card and off_card.get("imageRu"):
-            url = off_card["imageRu"]
+            name = off_card.get("nameRu", "") if off_card else clean_card_id
+
+            # URL кандидаты для золотой версии карты
+            url_candidates = []
+            if clean_card_id.startswith("TB_BaconUps_"):
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{clean_card_id}_triple.png")
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/render/latest/ruRU/512x/{clean_card_id}.png")
+            else:
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{clean_card_id}_G_triple.png")
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{clean_card_id}_triple.png")
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/render/latest/ruRU/512x/{clean_card_id}_G.png")
+
+            targets = [p_gold]
+            if p_card and p_card != p_gold:
+                targets.append(p_card)
+
+            tasks.append((url_candidates, targets, f"[Золотая] {name}", dbf_id, card_id))
+        else:
+            p_dbf = os.path.join(output_dir, f"{dbf_id}.png") if dbf_id > 0 else None
+            p_card = os.path.join(output_dir, f"{card_id}.png") if card_id else None
+            p_clean = os.path.join(output_dir, f"{clean_card_id}.png") if clean_card_id else None
+
+            already_have = False
+            for p in [p_dbf, p_card, p_clean]:
+                if p and os.path.exists(p) and os.path.getsize(p) > 10000:
+                    already_have = True
+                    break
+
+            if already_have:
+                continue
+
+            off_card = official_cards.get(dbf_id)
+            if not off_card and clean_card_id:
+                off_card = official_by_slug.get(clean_card_id)
+
+            url_candidates = []
+            if off_card and off_card.get("imageRu"):
+                url_candidates.append(off_card["imageRu"])
+            if clean_card_id:
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/bgs/latest/ruRU/512x/{clean_card_id}.png")
+                url_candidates.append(f"https://art.hearthstonejson.com/v1/render/latest/ruRU/512x/{clean_card_id}.png")
+
             targets = []
             if p_dbf: targets.append(p_dbf)
             if p_card: targets.append(p_card)
             if p_clean and p_clean != p_card: targets.append(p_clean)
-            tasks.append((url, targets, off_card.get("nameRu", ""), dbf_id, card_id))
+
+            name = off_card.get("nameRu", "") if off_card else clean_card_id
+            tasks.append((url_candidates, targets, name, dbf_id, card_id))
 
     if not tasks:
-        print("   Все необходимые официальные арты карт уже присутствуют локально (100%).", flush=True)
+        print("   Все необходимые официальные арты карт (обычные и золотые) уже присутствуют локально (100%).", flush=True)
         return 0, 0
 
-    print(f"   Требуется дозагрузить карт: {len(tasks)}...", flush=True)
+    print(f"   Требуется дозагрузить артов карт: {len(tasks)}...", flush=True)
 
     def download_card(task):
-        url, targets, name, dbf, cid = task
-        try:
-            req = urllib.request.Request(
-                url,
-                headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-            )
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                data = resp.read()
-                if len(data) > 5000:
-                    for target in targets:
-                        with open(target, "wb") as out_f:
-                            out_f.write(data)
-                    return True, f"OK: {name} ({dbf}/{cid})"
-                else:
-                    return False, f"Too small: {name}"
-        except Exception as e:
-            return False, f"FAILED: {name} - {e}"
+        url_candidates, targets, name, dbf, cid = task
+        for url in url_candidates:
+            try:
+                req = urllib.request.Request(
+                    url,
+                    headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+                )
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    data = resp.read()
+                    if len(data) > 5000:
+                        for target in targets:
+                            with open(target, "wb") as out_f:
+                                out_f.write(data)
+                        return True, f"OK: {name} ({dbf}/{cid})"
+            except Exception:
+                continue
+        return False, f"FAILED: {name} ({cid})"
 
     success = 0
     failed = 0
