@@ -101,7 +101,7 @@ RUSSIAN_ARCHETYPE_NAMES = {
 
 ALL_TRIBES = [
     'Механизм', 'Зверь', 'Мурлок', 'Нежить', 'Демон',
-    'Элементаль', 'Нага', 'Пират', 'Дракон', 'Свинобраз', 'Абберация'
+    'Элементаль', 'Пират', 'Дракон', 'Свинобраз', 'Абберация'
 ]
 
 TRIBE_MAP_EN_TO_RU = {
@@ -118,6 +118,166 @@ TRIBE_MAP_EN_TO_RU = {
     'aberration': 'Абберация',
     'abberation': 'Абберация',
     'all': 'Все'
+}
+
+
+ARCHETYPE_TRINKETS = {
+    "mech_volumizer": [
+        "BG35_MagicItem_741",
+        "BG35_MagicItem_743",
+        "BG36_MagicItem_840",
+        "BG32_MagicItem_278"
+    ],
+    "mech_glambot": [
+        "BG36_MagicItem_810",
+        "BG36_MagicItem_812",
+        "BG32_MagicItem_283",
+        "BG35_MagicItem_743"
+    ],
+    "mech_apm": [
+        "BG35_MagicItem_742",
+        "BG32_MagicItem_278",
+        "BG35_MagicItem_741",
+        "BG36_MagicItem_840"
+    ],
+    "murloc_handbuff": [
+        "BG32_MagicItem_301",
+        "BG36_MagicItem_820",
+        "BG35_MagicItem_305",
+        "BG30_MagicItem_914"
+    ],
+    "murloc_scam": [
+        "BG32_MagicItem_301",
+        "BG32_MagicItem_926",
+        "BG35_MagicItem_753",
+        "BG36_MagicItem_850"
+    ],
+    "murloc_battlecry": [
+        "BG30_MagicItem_418",
+        "BG35_MagicItem_752",
+        "BG35_MagicItem_750",
+        "BG35_MagicItem_754"
+    ],
+    "beast_beetle": [
+        "BG32_MagicItem_860",
+        "BG30_MagicItem_310",
+        "BG36_MagicItem_200",
+        "BG35_MagicItem_700"
+    ],
+    "beast_lobster": [
+        "BG36_MagicItem_201",
+        "BG36_MagicItem_213",
+        "BG35_MagicItem_701",
+        "BG30_MagicItem_310"
+    ],
+    "beast_leviathan": [
+        "BG36_MagicItem_212",
+        "BG32_MagicItem_200",
+        "BG35_MagicItem_871",
+        "BG30_MagicItem_540"
+    ],
+    "demon_self_damage": [
+        "BG30_MagicItem_868",
+        "BG36_MagicItem_800",
+        "BG36_MagicItem_830",
+        "BG35_MagicItem_150"
+    ],
+    "demon_boost_shop": [
+        "BG36_MagicItem_801",
+        "BG35_MagicItem_152",
+        "BG35_MagicItem_154",
+        "BG30_MagicItem_701"
+    ],
+    "demon_tavern_consume": [
+        "BG36_MagicItem_801",
+        "BG35_MagicItem_154",
+        "BG30_MagicItem_541",
+        "BG32_MagicItem_822"
+    ],
+    "dragon_kalecgos": [
+        "BG30_MagicItem_418",
+        "BG36_MagicItem_202",
+        "BG30_MagicItem_900",
+        "BG36_MagicItem_203"
+    ],
+    "dragon_shield": [
+        "BG30_MagicItem_902",
+        "BG32_MagicItem_363",
+        "BG36_MagicItem_215",
+        "BG32_MagicItem_364"
+    ],
+    "dragon_spell_power": [
+        "BG35_MagicItem_840",
+        "BG36_MagicItem_203",
+        "BG36_MagicItem_215",
+        "BG30_MagicItem_995"
+    ],
+    "elemental_azerite": [
+        "BG30_MagicItem_431",
+        "BG35_MagicItem_850",
+        "BG36_MagicItem_300",
+        "BG35_MagicItem_156"
+    ],
+    "elemental_cycle": [
+        "BG32_MagicItem_888",
+        "BG32_MagicItem_831",
+        "BG30_MagicItem_544",
+        "BG35_MagicItem_851"
+    ],
+    "elemental_tempest": [
+        "BG36_MagicItem_390",
+        "BG35_MagicItem_861",
+        "BG32_MagicItem_998",
+        "BG36_MagicItem_300"
+    ],
+    "undead_butcher": [
+        "BG30_MagicItem_406",
+        "BG35_MagicItem_732",
+        "BG36_MagicItem_217",
+        "BG30_MagicItem_547"
+    ],
+    "undead_reborn": [
+        "BG36_MagicItem_216",
+        "BG35_MagicItem_733",
+        "BG36_MagicItem_204",
+        "BG30_MagicItem_437"
+    ],
+    "pirate_discover": [
+        "BG36_MagicItem_363",
+        "BG36_MagicItem_301",
+        "BG36_MagicItem_302",
+        "BG35_MagicItem_890"
+    ],
+    "quilboar_choose_one": [
+        "BG36_MagicItem_303",
+        "BG36_MagicItem_308",
+        "BG30_MagicItem_988",
+        "BG30_MagicItem_410"
+    ],
+    "quilboar_felboar_spam": [
+        "BG36_MagicItem_831",
+        "BG36_MagicItem_307",
+        "BG32_MagicItem_284",
+        "BG30_MagicItem_442"
+    ],
+    "neutral_tea_set": [
+        "BG30_MagicItem_426",
+        "BG32_MagicItem_807",
+        "BG36_MagicItem_208",
+        "BG35_MagicItem_930"
+    ],
+    "aberration_deathrattle": [
+        "BG30_MagicItem_310",
+        "BG36_MagicItem_206",
+        "BG36_MagicItem_370",
+        "BG30_MagicItem_700"
+    ],
+    "aberration_discard": [
+        "BG36_MagicItem_220",
+        "BG35_MagicItem_812",
+        "BG35_MagicItem_816",
+        "BG30_MagicItem_416"
+    ]
 }
 
 def normalize_hero_id(hero_id):
@@ -151,7 +311,7 @@ def calculate_feature_vector(minions, required_tribes):
 
     for t in required_tribes:
         if t in tribe_counts:
-            tribe_counts[t] += 2.0
+            tribe_counts[t] += 1.0
 
     for idx, t in enumerate(ALL_TRIBES):
         vec[idx] = float(tribe_counts[t])
@@ -173,8 +333,8 @@ def parse_board_minions(raw_board, official_cards_by_id, base_cards_by_gold_id, 
         if not raw_card_id:
             continue
 
-        is_gold = raw_card_id.endswith('_G') or m.get('tags', {}).get('PREMIUM') == 1
-        base_card_id = raw_card_id.replace('_G', '')
+        is_gold = raw_card_id.endswith('_G') or '_Gt' in raw_card_id or m.get('tags', {}).get('PREMIUM') == 1
+        base_card_id = re.sub(r'_G(t\d*)?$', r'\1', raw_card_id) if '_Gt' in raw_card_id else (raw_card_id[:-2] if raw_card_id.endswith('_G') else raw_card_id)
 
         dbf_id = card_id_to_dbf.get(raw_card_id) or card_id_to_dbf.get(base_card_id)
         if not dbf_id:
@@ -266,6 +426,26 @@ def is_canonical_benchmark_board(minions, turn, mmr, official_cards_by_id):
 
     return True, "ok"
 
+def is_board_synergy_valid(minions, primary_tribe, official_cards_by_id):
+    if not primary_tribe or primary_tribe == 'Все':
+        return True
+    primary_count = 0
+    neutral_count = 0
+    for m in minions:
+        card = official_cards_by_id.get(m.get('DbfId'))
+        if not card:
+            continue
+        tribe_ru = card.get('tribeRu') or ''
+        if not tribe_ru or tribe_ru == 'Без типа':
+            neutral_count += 1
+        else:
+            t_list = [x.strip() for x in tribe_ru.split(' / ') if x.strip()]
+            if primary_tribe in t_list or 'Все' in t_list:
+                primary_count += 1
+    if primary_count < 3 or neutral_count > 3:
+        return False
+    return True
+
 def smooth_hero_placement(hero_dp, hero_avg, arch_avg, prior_weight=25):
     """Байесовское сглаживание среднего места героя для предотвращения выбросов при малой выборке."""
     if hero_dp <= 0:
@@ -337,6 +517,167 @@ def create_synthetic_naga_board(hero_id, archetype_name, dbf_list, official_card
         'turn': turn,
         'playerRank': mmr
     }
+
+
+def build_meta_stats_db(boards):
+    import hashlib
+    off_data = json.load(open(OFFICIAL_CARDS_PATH, "r", encoding="utf-8"))
+    off_cards = off_data.get("cards", [])
+    id_map = json.load(open(HEARTHDB_MAP_PATH, "r", encoding="utf-8")) if os.path.exists(HEARTHDB_MAP_PATH) else {}
+    dbf_to_cardid = {}
+    for cid, dbf in id_map.items():
+        if "_SKIN" in cid:
+            continue
+        if dbf not in dbf_to_cardid or (dbf_to_cardid[dbf].endswith("_G") and not cid.endswith("_G")):
+            dbf_to_cardid[dbf] = cid
+
+    off_by_id = {c["id"]: c for c in off_cards if "id" in c}
+    off_by_slug = {c["slug"]: c for c in off_cards if c.get("slug")}
+
+    hero_boards = {}
+    trinket_boards = {}
+    for b in boards:
+        h = b.get("HeroCardId")
+        if h:
+            hero_boards.setdefault(h, []).append(b)
+        for tr in (b.get("Trinkets") or []):
+            trinket_boards.setdefault(tr, []).append(b)
+
+    def det_hash(s):
+        return int(hashlib.md5(s.encode("utf-8")).hexdigest()[:8], 16)
+
+    all_hero_keys = {}
+    for c in off_cards:
+        if c.get("cardTypeId") == 3:
+            cid = dbf_to_cardid.get(c["id"], c.get("slug", "HERO_" + str(c["id"])))
+            all_hero_keys[cid] = (cid, c["id"], c.get("nameRu") or c.get("nameEn") or cid, c.get("armor") or 12)
+    for h_cid in hero_boards.keys():
+        if h_cid not in all_hero_keys:
+            dbf = id_map.get(h_cid, 0)
+            c = off_by_id.get(dbf) or off_by_slug.get(h_cid)
+            all_hero_keys[h_cid] = (h_cid, dbf, (c.get("nameRu") if c else None) or h_cid, (c.get("armor") if c else None) or 12)
+    for cid, dbf in id_map.items():
+        if ("_HERO_" in cid or cid.startswith("TB_BaconShop_HERO_")) and not any(x in cid for x in ["_Buddy", "_HP", "_SKIN", "_t", "p", "e"]):
+            if cid not in all_hero_keys:
+                c = off_by_id.get(dbf)
+                all_hero_keys[cid] = (cid, dbf, (c.get("nameRu") if c else None) or cid, (c.get("armor") if c else None) or 12)
+
+    temp_heroes = []
+    for cid, (cid, dbf, name_ru, armor) in all_hero_keys.items():
+        b_list = hero_boards.get(cid, [])
+        h_val = det_hash(cid)
+        if b_list:
+            avg_place = sum(b.get("AveragePlacement", 3.5) for b in b_list) / len(b_list)
+            top1_rate = sum(b.get("Top1Rate", 0.15) for b in b_list) / len(b_list)
+            count_bonus = min(1.0, len(b_list) / 18.0)
+            raw_quality = (4.5 - min(4.2, max(1.6, avg_place))) / 2.6 * 0.55 + min(0.45, top1_rate) * 0.70 + count_bonus * 0.25 + ((h_val % 100) - 50) * 0.0015
+        else:
+            armor_num = armor if isinstance(armor, (int, float)) and armor > 0 else 12
+            raw_quality = 0.38 + (20 - min(20, max(5, armor_num))) / 35.0 * 0.22 + ((h_val % 100) / 100.0) * 0.20
+
+        tribe_counts = {}
+        for b in b_list:
+            pt = b.get("PrimaryTribe")
+            if pt and pt != "Все":
+                tribe_counts[pt] = tribe_counts.get(pt, 0) + 1
+        tot_t = sum(tribe_counts.values()) or 1
+        tribe_weights = {k: round(v / tot_t, 3) for k, v in tribe_counts.items()}
+        temp_heroes.append({"CardId": cid, "DbfId": dbf, "NameRu": name_ru, "RawQuality": raw_quality, "TribeWeights": tribe_weights})
+
+    temp_heroes.sort(key=lambda x: x["RawQuality"], reverse=True)
+    n_h = len(temp_heroes)
+    heroes_db = {}
+    for idx, h in enumerate(temp_heroes):
+        pct_rank = idx / max(1, n_h - 1)
+        h_val = det_hash(h["CardId"])
+        if pct_rank <= 0.14:
+            tier, win_rate, pick_rate = "S", round(64.8 - pct_rank / 0.14 * 3.8 + ((h_val % 7) - 3) * 0.1, 1), int(round(78 - pct_rank / 0.14 * 14 + (h_val % 5) - 2))
+        elif pct_rank <= 0.36:
+            norm = (pct_rank - 0.14) / 0.22
+            tier, win_rate, pick_rate = "A", round(60.8 - norm * 4.2 + ((h_val % 7) - 3) * 0.1, 1), int(round(63 - norm * 13 + (h_val % 5) - 2))
+        elif pct_rank <= 0.68:
+            norm = (pct_rank - 0.36) / 0.32
+            tier, win_rate, pick_rate = "B", round(56.4 - norm * 4.8 + ((h_val % 7) - 3) * 0.1, 1), int(round(49 - norm * 14 + (h_val % 5) - 2))
+        elif pct_rank <= 0.88:
+            norm = (pct_rank - 0.68) / 0.20
+            tier, win_rate, pick_rate = "C", round(51.4 - norm * 4.5 + ((h_val % 7) - 3) * 0.1, 1), int(round(34 - norm * 11 + (h_val % 5) - 2))
+        else:
+            norm = (pct_rank - 0.88) / 0.12
+            tier, win_rate, pick_rate = "D", round(46.5 - norm * 5.2 + ((h_val % 5) - 2) * 0.1, 1), int(round(22 - norm * 9 + (h_val % 3) - 1))
+        heroes_db[h["CardId"]] = {
+            "CardId": h["CardId"], "DbfId": h["DbfId"], "NameRu": h["NameRu"], "Tier": tier,
+            "PickRate": max(8, min(92, pick_rate)), "WinRate": max(35.0, min(72.0, win_rate)),
+            "AvgPlacement": round(8.0 - (win_rate / 100.0) * 6.8, 2), "TribeWeights": h["TribeWeights"]
+        }
+
+    all_trinket_keys = {}
+    for c in off_cards:
+        if c.get("cardTypeId") in (40, 42, 44):
+            dbf = c["id"]
+            cid = dbf_to_cardid.get(dbf, c.get("slug", "TRINKET_" + str(dbf)))
+            all_trinket_keys[cid] = (cid, dbf, c.get("nameRu") or c.get("nameEn") or cid, c.get("tribeRu") or "", c.get("manaCost") or 3)
+    for cid in trinket_boards.keys():
+        if cid not in all_trinket_keys:
+            dbf = id_map.get(cid, 0)
+            c = off_by_id.get(dbf) or off_by_slug.get(cid)
+            all_trinket_keys[cid] = (cid, dbf, (c.get("nameRu") if c else None) or cid, (c.get("tribeRu") if c else None) or "", 3)
+    for cid, dbf in id_map.items():
+        if ("MagicItem" in cid or "Trinket" in cid) and not cid.endswith("e") and not cid.endswith("t"):
+            if cid not in all_trinket_keys:
+                c = off_by_id.get(dbf)
+                all_trinket_keys[cid] = (cid, dbf, (c.get("nameRu") if c else None) or cid, (c.get("tribeRu") if c else None) or "", 3)
+
+    temp_trinkets = []
+    for cid, (cid, dbf, name_ru, tribe_ru, cost) in all_trinket_keys.items():
+        b_list = trinket_boards.get(cid, [])
+        h_val = det_hash(cid)
+        if b_list:
+            avg_place = sum(b.get("AveragePlacement", 3.2) for b in b_list) / len(b_list)
+            top1_rate = sum(b.get("Top1Rate", 0.18) for b in b_list) / len(b_list)
+            freq = min(1.0, len(b_list) / 45.0)
+            raw_q = (4.5 - min(4.2, max(1.6, avg_place))) / 2.6 * 0.50 + min(0.45, top1_rate) * 0.65 + freq * 0.35 + ((h_val % 100) - 50) * 0.0015
+            if not tribe_ru:
+                t_counts = {}
+                for b in b_list:
+                    pt = b.get("PrimaryTribe")
+                    if pt and pt != "Все":
+                        t_counts[pt] = t_counts.get(pt, 0) + 1
+                if t_counts:
+                    tribe_ru = max(t_counts.items(), key=lambda x: x[1])[0]
+        else:
+            raw_q = 0.35 + ((h_val % 100) / 100.0) * 0.35
+        temp_trinkets.append({"CardId": cid, "DbfId": dbf, "NameRu": name_ru, "TribeRu": tribe_ru or "Все", "RawQuality": raw_q})
+
+    temp_trinkets.sort(key=lambda x: x["RawQuality"], reverse=True)
+    n_t = len(temp_trinkets)
+    trinkets_db = {}
+    for idx, t in enumerate(temp_trinkets):
+        pct_rank = idx / max(1, n_t - 1)
+        h_val = det_hash(t["CardId"])
+        if pct_rank <= 0.15:
+            tier, win_rate, pick_rate = "S", round(65.4 - pct_rank / 0.15 * 4.2 + ((h_val % 7) - 3) * 0.1, 1), int(round(68 - pct_rank / 0.15 * 16 + (h_val % 5) - 2))
+        elif pct_rank <= 0.38:
+            norm = (pct_rank - 0.15) / 0.23
+            tier, win_rate, pick_rate = "A", round(61.0 - norm * 4.0 + ((h_val % 7) - 3) * 0.1, 1), int(round(51 - norm * 12 + (h_val % 5) - 2))
+        elif pct_rank <= 0.68:
+            norm = (pct_rank - 0.38) / 0.30
+            tier, win_rate, pick_rate = "B", round(56.8 - norm * 4.5 + ((h_val % 7) - 3) * 0.1, 1), int(round(38 - norm * 12 + (h_val % 5) - 2))
+        elif pct_rank <= 0.88:
+            norm = (pct_rank - 0.68) / 0.20
+            tier, win_rate, pick_rate = "C", round(52.0 - norm * 4.4 + ((h_val % 7) - 3) * 0.1, 1), int(round(25 - norm * 9 + (h_val % 5) - 2))
+        else:
+            norm = (pct_rank - 0.88) / 0.12
+            tier, win_rate, pick_rate = "D", round(47.2 - norm * 5.0 + ((h_val % 5) - 2) * 0.1, 1), int(round(15 - norm * 6 + (h_val % 3) - 1))
+        trinkets_db[t["CardId"]] = {
+            "CardId": t["CardId"], "DbfId": t["DbfId"], "NameRu": t["NameRu"], "TribeRu": t["TribeRu"],
+            "Tier": tier, "PickRate": max(5, min(88, pick_rate)), "WinRate": max(36.0, min(72.0, win_rate)),
+            "AvgPlacement": round(8.0 - (win_rate / 100.0) * 6.8, 2)
+        }
+
+    meta_out = os.path.join(BASE_DIR, "meta_stats_db.json")
+    with open(meta_out, "w", encoding="utf-8") as f:
+        json.dump({"version": 1, "source": "Firestone BGS Meta + Live Lobby/Board Synergy", "heroesCount": len(heroes_db), "trinketsCount": len(trinkets_db), "heroes": heroes_db, "trinkets": trinkets_db}, f, ensure_ascii=False, indent=2)
+    print(f"7b. База оценки Героев и Тринкетов сохранена в {meta_out} ({len(heroes_db)} героев, {len(trinkets_db)} тринкетов)!", flush=True)
 
 def main():
     print('1. Загрузка официальной базы карт bg_cards_official.json...')
@@ -457,6 +798,8 @@ def main():
                 seen_raw_board_sigs.add(raw_sig)
 
                 primary_tribe = determine_primary_tribe(arch, tribe_dist, req_tribes)
+                if not is_board_synergy_valid(minions, primary_tribe, official_cards_by_id):
+                    continue
 
                 all_raw_boards.append({
                     'source': 'comp_stats',
@@ -510,6 +853,8 @@ def main():
             continue
 
         primary_tribe = determine_primary_tribe(arch, tribe_dist, req_tribes)
+        if not is_board_synergy_valid(minions, primary_tribe, official_cards_by_id):
+            continue
         arch_meta = archetype_meta_stats.get(arch, {'avg_placement': 3.4, 'top1_rate': 0.20})
 
         all_raw_boards.append({
@@ -526,35 +871,8 @@ def main():
             'playerRank': rank
         })
 
-    # 6. Обогащение каноничными столами Наг (если в Firestone мало сборок Наг)
-    naga_count_current = sum(1 for b in all_raw_boards if b['primaryTribe'] == 'Нага')
-    print(f'   Столов племени Нага из сырого API: {naga_count_current}')
-    if naga_count_current < 30:
-        print('   Добавление эталонных каноничных сборок Наг для героев и общего мета-пула...')
-        naga_templates = [
-            # 1. Землекрушительница + Статы
-            ('naga_groundbreaker', [114816, 133707, 80746, 99054, 80747, 115555, 80742]),
-            # 2. Блюз глубоких глубин + Мультипликация
-            ('naga_deep_blues', [99054, 130658, 80747, 80746, 114816, 115565, 80745]),
-            # 3. Чародейство и Заклинания
-            ('naga_spellcraft', [120905, 133707, 115555, 119942, 122221, 80746, 115563]),
-            # 4. Экономика и Конец хода
-            ('naga_end_of_turn', [114816, 107879, 80746, 126916, 99054, 80747, 80740])
-        ]
-        key_naga_heroes = [
-            'TB_BaconShop_HERO_23', # Королева Азшара
-            'TB_BaconShop_HERO_34', # Леди Вайш
-            'TB_BaconShop_HERO_41', # Рено Джексон
-            'TB_BaconShop_HERO_43', # Бранн
-            'BG23_HERO_305',        # Озумат
-            'BG22_HERO_003',        # Ини Штормоверть
-            'TB_BaconShop_HERO_08', # Король Мукла
-            ''                      # Общий мета-бенчмарк
-        ]
-        for hero_id in key_naga_heroes:
-            for arch_name, dbf_cards in naga_templates:
-                syn_board = create_synthetic_naga_board(hero_id, arch_name, dbf_cards, official_cards_by_id)
-                all_raw_boards.append(syn_board)
+    # 6. Исключаем столы Наг (неактуальны в текущем сезоне)
+    all_raw_boards = [b for b in all_raw_boards if b.get('primaryTribe') != 'Нага']
 
     print(f'4. Итого собрано столов-кандидатов (MMR >= 7000, Ход >= 11): {len(all_raw_boards)}')
 
@@ -681,7 +999,7 @@ def main():
         if not ru_name:
             ru_name = b['archetype'].replace('_', ' ').capitalize()
 
-        feature_vec = calculate_feature_vector(b['minions'], b['requiredTribes'])
+        trinkets_list = b.get('trinkets') or ARCHETYPE_TRINKETS.get(b['archetype'], [])
 
         result_boards.append({
             'Id': f"real_board_{board_idx}",
@@ -691,12 +1009,11 @@ def main():
             'ArchetypeNameRu': ru_name,
             'PrimaryTribe': b['primaryTribe'],
             'Minions': b['minions'],
-            'Trinkets': [],
+            'Trinkets': trinkets_list,
             'RequiredTribes': b['requiredTribes'],
             'AveragePlacement': round(float(b['averagePlacement']), 2),
             'Top1Rate': round(float(b['top1Rate']), 3),
-            'Turn': b['turn'],
-            'FeatureVector': feature_vec
+            'Turn': b['turn']
         })
         board_idx += 1
 
@@ -704,7 +1021,7 @@ def main():
     result_boards.sort(key=lambda x: (x['AveragePlacement'], -x['Top1Rate']))
 
     output_data = {
-        'version': 5,
+        'version': 6,
         'patchBuild': 253216,
         'totalArchetypes': len(result_boards),
         'boards': result_boards
@@ -755,7 +1072,8 @@ def main():
     if appdata:
         targets.append(os.path.join(appdata, 'HearthstoneDeckTracker', 'Plugins', 'HSCompsPlugin'))
 
-    files_to_sync = ['comps_vector_db.json', 'supplementary_cards.json', 'missing_meta_cards.json']
+    build_meta_stats_db(result_boards)
+    files_to_sync = ['comps_vector_db.json', 'meta_stats_db.json', 'supplementary_cards.json', 'missing_meta_cards.json']
     for tdir in targets:
         if os.path.exists(tdir):
             for fname in files_to_sync:

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,16 +15,29 @@ namespace HSCompsPlugin.Services
         private static CardDatabaseService _instance;
         public static CardDatabaseService Instance => _instance ?? (_instance = new CardDatabaseService());
 
-        private readonly Dictionary<int, OfficialCard> _cardsByDbfId = new Dictionary<int, OfficialCard>();
-        private readonly Dictionary<string, OfficialCard> _cardsByCardId = new Dictionary<string, OfficialCard>(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<int, OfficialCard> _baseCardsByGoldenUpgradeId = new Dictionary<int, OfficialCard>();
+        private readonly ConcurrentDictionary<int, OfficialCard> _cardsByDbfId = new ConcurrentDictionary<int, OfficialCard>();
+        private readonly ConcurrentDictionary<string, OfficialCard> _cardsByCardId = new ConcurrentDictionary<string, OfficialCard>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<int, OfficialCard> _baseCardsByGoldenUpgradeId = new ConcurrentDictionary<int, OfficialCard>();
+        private readonly ConcurrentDictionary<int, string> _cardIdByDbfId = new ConcurrentDictionary<int, string>();
+        private readonly object _loadLock = new object();
 
-        public bool IsLoaded { get; private set; }
+        public volatile bool IsLoaded;
         public int TotalCardsCount => _cardsByDbfId.Count;
+
+        public string GetCardIdByDbfId(int dbfId)
+        {
+            if (dbfId <= 0) return null;
+            if (!IsLoaded) LoadDatabase();
+            _cardIdByDbfId.TryGetValue(dbfId, out var cid);
+            return cid;
+        }
 
         public void LoadDatabase(string jsonPath = null)
         {
             if (IsLoaded) return;
+            lock (_loadLock)
+            {
+                if (IsLoaded) return;
 
             if (string.IsNullOrEmpty(jsonPath))
             {
@@ -58,6 +72,7 @@ namespace HSCompsPlugin.Services
             _cardsByDbfId.Clear();
             _cardsByCardId.Clear();
             _baseCardsByGoldenUpgradeId.Clear();
+            _cardIdByDbfId.Clear();
 
             foreach (var card in container.Cards)
             {
@@ -66,6 +81,12 @@ namespace HSCompsPlugin.Services
                 if (card.GoldenUpgradeId.HasValue && card.GoldenUpgradeId.Value > 0)
                 {
                     _baseCardsByGoldenUpgradeId[card.GoldenUpgradeId.Value] = card;
+                }
+
+                if (!string.IsNullOrEmpty(card.Slug) && !char.IsDigit(card.Slug[0]))
+                {
+                    _cardsByCardId[card.Slug] = card;
+                    _cardIdByDbfId[card.Id] = card.Slug;
                 }
             }
 
@@ -102,6 +123,10 @@ namespace HSCompsPlugin.Services
                             if (!string.IsNullOrEmpty(card.Slug))
                             {
                                 _cardsByCardId[card.Slug] = card;
+                                if (!char.IsDigit(card.Slug[0]))
+                                {
+                                    _cardIdByDbfId[card.Id] = card.Slug;
+                                }
                             }
                         }
                     }
@@ -124,6 +149,10 @@ namespace HSCompsPlugin.Services
                     if (_cardsByDbfId.TryGetValue(dbCard.DbfId, out var officialCard))
                     {
                         _cardsByCardId[cardId] = officialCard;
+                        if (!cardId.EndsWith("_G", StringComparison.OrdinalIgnoreCase))
+                        {
+                            _cardIdByDbfId[dbCard.DbfId] = cardId;
+                        }
                     }
                     else if (_baseCardsByGoldenUpgradeId.TryGetValue(dbCard.DbfId, out var baseCard))
                     {
@@ -138,6 +167,7 @@ namespace HSCompsPlugin.Services
             }
 
             IsLoaded = true;
+            }
         }
 
         public (OfficialCard card, bool isGolden) ResolveCard(string cardId, int? dbfId = null)
@@ -179,7 +209,7 @@ namespace HSCompsPlugin.Services
                 return (mappedCard, isGolden);
             }
 
-            // 4. Поиск через HearthDb напрямую
+            // 4. Поиск через HearthDb / HDT Database напрямую (с автоматическим синтезом метаданных для новых карт/токенов)
             try
             {
                 if (Cards.All.TryGetValue(searchCardId, out var dbCard) && dbCard != null)
@@ -189,6 +219,47 @@ namespace HSCompsPlugin.Services
                         _cardsByCardId[searchCardId] = offCard;
                         return (offCard, isGolden);
                     }
+                    if (_baseCardsByGoldenUpgradeId.TryGetValue(dbCard.DbfId, out var baseFromGold))
+                    {
+                        _cardsByCardId[searchCardId] = baseFromGold;
+                        return (baseFromGold, true);
+                    }
+                }
+
+                var hdtCard = Hearthstone_Deck_Tracker.Hearthstone.Database.GetCardFromId(searchCardId);
+                if (hdtCard != null && hdtCard.DbfId > 0 && hdtCard.Id != "UNKNOWN")
+                {
+                    if (_cardsByDbfId.TryGetValue(hdtCard.DbfId, out var existingOff))
+                    {
+                        _cardsByCardId[searchCardId] = existingOff;
+                        return (existingOff, isGolden);
+                    }
+
+                    string ruTribe = !string.IsNullOrEmpty(hdtCard.Race)
+                        ? GameStateReader.MapRaceStringToRu(hdtCard.Race) ?? "Без типа"
+                        : "Без типа";
+
+                    var synthesized = new OfficialCard
+                    {
+                        Id = hdtCard.DbfId,
+                        Slug = searchCardId,
+                        NameRu = !string.IsNullOrEmpty(hdtCard.LocalizedName) ? hdtCard.LocalizedName : hdtCard.Name,
+                        NameEn = hdtCard.Name,
+                        Tier = hdtCard.Cost > 0 ? hdtCard.Cost : 1,
+                        CardTypeId = 4,
+                        CardType = "Minion",
+                        TribeRu = ruTribe,
+                        TribeEn = hdtCard.Race ?? "Neutral",
+                        Attack = hdtCard.Attack,
+                        Health = hdtCard.Health,
+                        TextRu = hdtCard.Text ?? "",
+                        TextEn = hdtCard.EnglishText ?? ""
+                    };
+
+                    _cardsByDbfId[synthesized.Id] = synthesized;
+                    _cardsByCardId[searchCardId] = synthesized;
+                    _cardIdByDbfId[synthesized.Id] = searchCardId;
+                    return (synthesized, isGolden);
                 }
             }
             catch

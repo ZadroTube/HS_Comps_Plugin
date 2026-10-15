@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace HSCompsPlugin.Models
 {
@@ -6,12 +8,23 @@ namespace HSCompsPlugin.Models
     {
         OnBoard,         // 🟢 Зеленое кольцо (на столе)
         InHand,          // 🟡 Золотое кольцо (в руке)
-        FrozenInTavern,  // 🔵 Синее ледяное кольцо (заморожено у Боба)
         NeedToFind       // ⚪ Серое кольцо с тиром (нужно найти)
     }
 
-    public class BoardSlot
+    public class BoardSlot : INotifyPropertyChanged
     {
+        private static readonly Regex HtmlTagRegex = new Regex("<.*?>", RegexOptions.Compiled);
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public BoardSlot Self => this;
+
+        public void NotifyImagesUpdated()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Self)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
+        }
+
         public string CardId { get; set; } // Например: "BG26_147"
         public int DbfId { get; set; }      // Blizzard ID (98576)
         public OfficialCard Card { get; set; }
@@ -27,6 +40,20 @@ namespace HSCompsPlugin.Models
 
         public SlotStatus Status { get; set; } = SlotStatus.NeedToFind;
         public int ZonePosition { get; set; } // 0..6 (порядок атаки)
+
+        private bool _isHighlighted;
+        public bool IsHighlighted
+        {
+            get => _isHighlighted;
+            set
+            {
+                if (_isHighlighted != value)
+                {
+                    _isHighlighted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHighlighted)));
+                }
+            }
+        }
 
         public string DisplayName
         {
@@ -77,7 +104,7 @@ namespace HSCompsPlugin.Models
                 if (string.IsNullOrEmpty(text)) return "";
 
                 string clean = text.Replace("[x]", "").Replace("$", "").Replace("\n", " ");
-                clean = System.Text.RegularExpressions.Regex.Replace(clean, "<.*?>", string.Empty);
+                clean = HtmlTagRegex.Replace(clean, string.Empty);
                 return clean.Trim();
             }
         }

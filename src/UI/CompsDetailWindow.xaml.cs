@@ -60,12 +60,297 @@ namespace HSCompsPlugin.UI
         private string[] _activeSlotTribes = Array.Empty<string>();
         private List<string> _lastKnownAvailableTribes = new List<string>();
 
+        private bool _allowClose = false;
+
         public event Action<int, string, bool> LockStateChanged;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern uint GetCurrentThreadId();
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SetFocus(IntPtr hWnd);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hwnd, int index);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out POINT lpPoint);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        private struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_TRANSPARENT = 0x00000020;
+        private const int WS_EX_NOACTIVATE = 0x08000000;
+        private const int WM_NCHITTEST = 0x0084;
+        private const int WM_MOUSEACTIVATE = 0x0021;
+        private const int HTCLIENT = 1;
+        private const int MA_ACTIVATE = 1;
+        private const byte VK_MENU = 0x12;
+        private const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
+        private const uint KEYEVENTF_KEYUP = 0x0002;
+
+        private const uint WM_ACTIVATE = 0x0006;
+        private const uint WM_KILLFOCUS = 0x0008;
+        private const uint WM_ACTIVATEAPP = 0x001C;
+        private const uint WM_MOUSEMOVE = 0x0200;
+        private const uint WM_MOUSELEAVE = 0x02A3;
+
+        private IntPtr _hwnd = IntPtr.Zero;
+        private System.Windows.Threading.DispatcherTimer _hoverGuardTimer;
+        private bool _imageRefreshPending = false;
 
         public CompsDetailWindow()
         {
             InitializeComponent();
+            ApplySavedScale();
             LoadTextures();
+            LocalImageCache.Instance.ImageDownloaded += OnImageDownloaded;
+
+            _hoverGuardTimer = new System.Windows.Threading.DispatcherTimer(
+                TimeSpan.FromMilliseconds(45),
+                System.Windows.Threading.DispatcherPriority.Input,
+                OnHoverGuardTick,
+                Dispatcher);
+            _hoverGuardTimer.Start();
+        }
+
+        private void OnHoverGuardTick(object sender, EventArgs e)
+        {
+            if (!IsVisible || WindowState == WindowState.Minimized) return;
+            if (IsCursorInsideWindowRect())
+            {
+                HdtOverlayInputManager.SetClickthrough(false);
+                DisarmHearthstoneHover();
+                EnsureWindowActive();
+            }
+        }
+
+        public void DisarmHearthstoneHover()
+        {
+            try
+            {
+                IntPtr hsHwnd = Hearthstone_Deck_Tracker.User32.GetHearthstoneWindow();
+                if (hsHwnd == IntPtr.Zero || hsHwnd == _hwnd) return;
+
+                // Отправляем клиентские координаты (-32000, -32000) и WM_MOUSELEAVE в окно Hearthstone (Unity),
+                // чтобы внутренний цикл PegUI/UniversalInputManager прекратил рейкаст по картам на столе под окном плагина.
+                int offCoord = (-32000 & 0xFFFF) | ((-32000 & 0xFFFF) << 16);
+                PostMessage(hsHwnd, WM_MOUSEMOVE, IntPtr.Zero, new IntPtr(offCoord));
+                PostMessage(hsHwnd, WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
+                SendMessage(hsHwnd, WM_ACTIVATE, IntPtr.Zero, _hwnd);
+                SendMessage(hsHwnd, WM_KILLFOCUS, _hwnd, IntPtr.Zero);
+            }
+            catch { }
+        }
+
+        public void ApplySavedScale()
+        {
+            double scale = Math.Max(0.5, Math.Min(1.5, PluginSettings.Instance.OverlayScale));
+            Width = Math.Round(1040.0 * scale);
+            Height = Math.Round(640.0 * scale);
+        }
+
+        public bool IsCursorInsideWindowRect()
+        {
+            if (!IsVisible || WindowState == WindowState.Minimized) return false;
+            try
+            {
+                if (_hwnd == IntPtr.Zero)
+                {
+                    _hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+                }
+                if (_hwnd == IntPtr.Zero) return false;
+
+                if (GetCursorPos(out POINT pt) && GetWindowRect(_hwnd, out RECT rect))
+                {
+                    return pt.X >= rect.Left && pt.X <= rect.Right && pt.Y >= rect.Top && pt.Y <= rect.Bottom;
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        public void EnsureActiveIfCursorInside()
+        {
+            if (IsCursorInsideWindowRect())
+            {
+                HdtOverlayInputManager.SetClickthrough(false);
+                EnsureWindowActive();
+            }
+        }
+
+        public void EnsureWindowActive()
+        {
+            if (!IsVisible) return;
+            try
+            {
+                if (_hwnd == IntPtr.Zero)
+                {
+                    _hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+                }
+                if (_hwnd == IntPtr.Zero) return;
+
+                IntPtr fgHwnd = GetForegroundWindow();
+                if (fgHwnd == _hwnd) return;
+
+                uint fgThread = GetWindowThreadProcessId(fgHwnd, out _);
+                uint curThread = GetCurrentThreadId();
+                bool attached = false;
+
+                if (fgThread != 0 && fgThread != curThread)
+                {
+                    attached = AttachThreadInput(fgThread, curThread, true);
+                }
+
+                // Снятие блокировки ForegroundLockTimeout при переходе фокуса из оверлея HDT
+                keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY, UIntPtr.Zero);
+                keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, UIntPtr.Zero);
+
+                DisarmHearthstoneHover();
+                BringWindowToTop(_hwnd);
+                SetForegroundWindow(_hwnd);
+                SetActiveWindow(_hwnd);
+                SetFocus(_hwnd);
+
+                if (attached)
+                {
+                    AttachThreadInput(fgThread, curThread, false);
+                }
+
+                if (!IsActive)
+                {
+                    Activate();
+                    Focus();
+                }
+            }
+            catch { }
+        }
+
+        public void ForceClose()
+        {
+            _allowClose = true;
+            LocalImageCache.Instance.ImageDownloaded -= OnImageDownloaded;
+            Close();
+        }
+
+        private static bool IsSlotMatchingDownloadedUrl(BoardSlot s, string url)
+        {
+            if (s == null || string.IsNullOrEmpty(url)) return false;
+            if (!string.IsNullOrEmpty(s.CropImageUrl) && string.Equals(s.CropImageUrl, url, StringComparison.OrdinalIgnoreCase)) return true;
+            if (!string.IsNullOrEmpty(s.FullImageUrl) && string.Equals(s.FullImageUrl, url, StringComparison.OrdinalIgnoreCase)) return true;
+            if (!string.IsNullOrEmpty(s.CardId))
+            {
+                string cleanId = s.CardId.EndsWith("_G", StringComparison.OrdinalIgnoreCase)
+                    ? s.CardId.Substring(0, s.CardId.Length - 2)
+                    : s.CardId;
+                if (!string.IsNullOrEmpty(cleanId) && url.IndexOf(cleanId, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            }
+            if (s.DbfId > 0 && url.IndexOf(s.DbfId.ToString(), StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            return false;
+        }
+
+        private void OnImageDownloaded(string url)
+        {
+            if (_imageRefreshPending) return;
+            _imageRefreshPending = true;
+
+            Application.Current?.Dispatcher?.InvokeAsync(async () =>
+            {
+                await System.Threading.Tasks.Task.Delay(30);
+                _imageRefreshPending = false;
+
+                try
+                {
+                    if (ItemsBoardShowcase?.ItemsSource is System.Collections.IEnumerable showcaseItems)
+                    {
+                        foreach (var item in showcaseItems)
+                            if (item is BoardSlot s) s.NotifyImagesUpdated();
+                    }
+                    if (ItemsOwnedAvatars?.ItemsSource is System.Collections.IEnumerable ownedItems)
+                    {
+                        foreach (var item in ownedItems)
+                            if (item is BoardSlot s) s.NotifyImagesUpdated();
+                    }
+                    if (ItemsMissingPriorities?.ItemsSource is System.Collections.IEnumerable missingItems)
+                    {
+                        foreach (var item in missingItems)
+                            if (item is BoardSlot s) s.NotifyImagesUpdated();
+                    }
+
+                    var allComps = new[] { _tab1Comp, _tab2Comp, _tab3Comp };
+                    foreach (var comp in allComps)
+                    {
+                        if (comp?.DisplaySlots != null)
+                        {
+                            foreach (var s in comp.DisplaySlots) s?.NotifyImagesUpdated();
+                        }
+                        if (comp?.MissingPriorityCards != null)
+                        {
+                            foreach (var s in comp.MissingPriorityCards) s?.NotifyImagesUpdated();
+                        }
+                    }
+
+                    if (IsVisible)
+                    {
+                        ItemsBoardShowcase?.Items.Refresh();
+                        ItemsOwnedAvatars?.Items.Refresh();
+                        ItemsMissingPriorities?.Items.Refresh();
+                    }
+                }
+                catch { }
+            }, System.Windows.Threading.DispatcherPriority.Render);
+        }
+
+        public void RefreshDisplayedImages()
+        {
+            DisplaySelectedComp(forceRefresh: true);
         }
 
         public int RecommendationsCount => (_tab1Comp != null ? 1 : 0) + (_tab2Comp != null ? 1 : 0) + (_tab3Comp != null ? 1 : 0);
@@ -505,6 +790,12 @@ namespace HSCompsPlugin.UI
 
         private void DisplaySelectedComp(bool forceRefresh = false)
         {
+            RenderOptions.SetBitmapScalingMode(
+                this,
+                PluginSettings.Instance.IsHighPerformanceMode
+                    ? BitmapScalingMode.Linear
+                    : BitmapScalingMode.HighQuality);
+
             var comp = GetCurrentActiveComp();
 
             if (comp == null || comp.Board == null)
@@ -523,6 +814,13 @@ namespace HSCompsPlugin.UI
 
             // Обновление кнопок-спрайтов племен
             UpdateTribeVisuals();
+
+            if (forceRefresh)
+            {
+                ItemsBoardShowcase.ItemsSource = null;
+                ItemsOwnedAvatars.ItemsSource = null;
+                ItemsMissingPriorities.ItemsSource = null;
+            }
 
             // 7 карт основного стола
             ItemsBoardShowcase.ItemsSource = comp.DisplaySlots;
@@ -669,7 +967,7 @@ namespace HSCompsPlugin.UI
             string lower = tribe.Trim().ToLowerInvariant();
             if (lower.StartsWith("все") || lower.Contains("menagerie") || lower == "all") return null;
             if (lower.StartsWith("мурл") || lower.Contains("murloc")) return "murloc";
-            if (lower.StartsWith("аббер") || lower.Contains("aberr") || lower.StartsWith("нага") || lower.Contains("naga")) return "aberration";
+            if (lower.StartsWith("аббер") || lower.Contains("aberr")) return "aberration";
             if (lower.StartsWith("неж") || lower.Contains("undead")) return "undead";
             if (lower.StartsWith("свин") || lower.Contains("quilboar") || lower.Contains("boar")) return "quilboar";
             if (lower.StartsWith("дем") || lower.Contains("demon")) return "demon";
@@ -691,12 +989,7 @@ namespace HSCompsPlugin.UI
                 case "undead": return "Нежить";
                 case "demon": return "Демон";
                 case "elemental": return "Элементаль";
-                case "aberration":
-                    if (_lastKnownAvailableTribes != null && _lastKnownAvailableTribes.Any(t => t.IndexOf("Наг", StringComparison.OrdinalIgnoreCase) >= 0 || t.IndexOf("Naga", StringComparison.OrdinalIgnoreCase) >= 0))
-                    {
-                        return "Нага";
-                    }
-                    return "Абберация";
+                case "aberration": return "Абберация";
                 case "pirate": return "Пират";
                 case "dragon": return "Дракон";
                 case "quilboar": return "Свинобраз";
@@ -748,6 +1041,43 @@ namespace HSCompsPlugin.UI
             }
 
             ApplyDynamicTribesLayout();
+        }
+
+        private void SetShowcaseHighlightForSlot(BoardSlot hoveredSlot, bool highlight)
+        {
+            var comp = GetCurrentActiveComp();
+            if (comp?.DisplaySlots == null) return;
+
+            foreach (var s in comp.DisplaySlots)
+            {
+                if (s == null) continue;
+                if (!highlight)
+                {
+                    s.IsHighlighted = false;
+                    continue;
+                }
+
+                bool isMatch = ReferenceEquals(s, hoveredSlot)
+                               || (hoveredSlot != null && s.DbfId > 0 && s.DbfId == hoveredSlot.DbfId)
+                               || (hoveredSlot != null && !string.IsNullOrEmpty(s.CardId) && string.Equals(s.CardId, hoveredSlot.CardId, StringComparison.OrdinalIgnoreCase));
+                s.IsHighlighted = isMatch;
+            }
+        }
+
+        private void OnSubCardMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is BoardSlot slot)
+            {
+                SetShowcaseHighlightForSlot(slot, true);
+            }
+        }
+
+        private void OnSubCardMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is BoardSlot slot)
+            {
+                SetShowcaseHighlightForSlot(slot, false);
+            }
         }
 
         private void OnTribeSlotEnter(object sender, MouseEventArgs e)
@@ -881,17 +1211,45 @@ namespace HSCompsPlugin.UI
 
         private void OnWindowMouseEnter(object sender, MouseEventArgs e)
         {
-            if (!IsActive)
+            HdtOverlayInputManager.SetClickthrough(false);
+            EnsureWindowActive();
+        }
+
+        private void OnWindowMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (IsCursorInsideWindowRect())
             {
-                try { Activate(); } catch { }
+                // Курсор все еще внутри габаритов окна (например, над всплывающим тултипом карты)
+                return;
             }
+
+            HdtOverlayInputManager.SetClickthrough(true);
         }
 
         private void OnWindowPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (!IsActive)
+            HdtOverlayInputManager.SetClickthrough(false);
+            EnsureWindowActive();
+        }
+
+        private void OnWindowPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            HdtOverlayInputManager.SetClickthrough(false);
+            EnsureWindowActive();
+        }
+
+        private void OnWindowPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e != null && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.Modifiers.HasFlag(ModifierKeys.Control)))
             {
-                try { Activate(); } catch { }
+                e.Handled = true;
+                double currentScale = PluginSettings.Instance.OverlayScale;
+                double delta = (e.Delta > 0) ? 0.05 : -0.05;
+                double newScale = Math.Max(0.5, Math.Min(1.5, Math.Round((currentScale + delta) * 20.0) / 20.0));
+
+                PluginSettings.Instance.OverlayScale = newScale;
+                PluginSettings.Instance.Save();
+                ApplySavedScale();
             }
         }
 
@@ -935,6 +1293,7 @@ namespace HSCompsPlugin.UI
 
         public new void Hide()
         {
+            HdtOverlayInputManager.SetClickthrough(true);
             base.Hide();
             try
             {
@@ -957,14 +1316,49 @@ namespace HSCompsPlugin.UI
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
-            Hide();
+            bool isAppShuttingDown = Application.Current == null ||
+                                     Application.Current.Dispatcher == null ||
+                                     Application.Current.Dispatcher.HasShutdownStarted ||
+                                     Application.Current.Dispatcher.HasShutdownFinished;
+
+            if (!_allowClose && !isAppShuttingDown)
+            {
+                e.Cancel = true;
+                Hide();
+                return;
+            }
+
+            base.OnClosing(e);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            // WS_EX_NOACTIVATE убран, чтобы окно могло активироваться и не пропускать клики/ховеры в Hearthstone
+            try
+            {
+                _hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+                if (_hwnd != IntPtr.Zero)
+                {
+                    int exStyle = GetWindowLong(_hwnd, GWL_EXSTYLE);
+                    exStyle &= ~WS_EX_TRANSPARENT;
+                    exStyle &= ~WS_EX_NOACTIVATE;
+                    SetWindowLong(_hwnd, GWL_EXSTYLE, exStyle);
+
+                    var source = System.Windows.Interop.HwndSource.FromHwnd(_hwnd);
+                    source?.AddHook(WndProc);
+                }
+            }
+            catch { }
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == WM_MOUSEACTIVATE)
+            {
+                handled = true;
+                return new IntPtr(MA_ACTIVATE);
+            }
+            return IntPtr.Zero;
         }
     }
 }

@@ -10,12 +10,11 @@
              IsHitTestVisible="True"
              MouseEnter="OnHudMouseEnter"
              MouseLeave="OnHudMouseLeave"
-             PreviewMouseMove="OnHudPreviewMouseMove"
              MouseLeftButtonDown="OnHudMouseDown" 
              MouseMove="OnHudMouseMove" 
              MouseLeftButtonUp="OnHudMouseUp"
              PreviewMouseWheel="OnHudMouseWheel"
-             ToolTip="Перетаскивание: Зажмите левую кнопку мыши&#x0a;Масштабирование: Ctrl + Колесо мыши">
+             ToolTip="Перетаскивание: Зажмите левую кнопку мыши&#x0a;Переключение столов (1/3..3/3): Колесо мыши&#x0a;Масштабирование: Ctrl + Колесо мыши">
 
     <UserControl.Resources>
         <local:CardCropImageConverter x:Key="CropImageConverter"/>
@@ -45,7 +44,7 @@
                 </Grid.ToolTip>
 
                 <!-- Овальная карта в аутентичной рамке статуса (на столе / в руке / нужно найти) -->
-                <Image Source="{Binding Converter={StaticResource MiniHudFramedTokenConverter}}" 
+                <Image Source="{Binding Self, Converter={StaticResource MiniHudFramedTokenConverter}}" 
                        Width="78" Height="86" 
                        Stretch="Uniform" 
                        HorizontalAlignment="Center" VerticalAlignment="Center"

@@ -28,12 +28,12 @@ namespace HSCompsPlugin.Services
         public int Turn { get; set; } = 1;
         public string HeroCardId { get; set; }
         public int TavernTier { get; set; } = 1;
+        public int HeroHealth { get; set; } = 40;
         public List<string> AvailableTribes { get; set; } = new List<string>();
         public List<string> BannedTribes { get; set; } = new List<string>();
 
         public List<BoardSlot> BoardMinions { get; set; } = new List<BoardSlot>();
         public List<BoardSlot> HandMinions { get; set; } = new List<BoardSlot>();
-        public List<BoardSlot> FrozenTavernMinions { get; set; } = new List<BoardSlot>();
         public List<string> ActiveTrinkets { get; set; } = new List<string>();
 
         public string LockedArchetypeId { get; set; }
@@ -44,26 +44,35 @@ namespace HSCompsPlugin.Services
         private static VectorSearchEngine _instance;
         public static VectorSearchEngine Instance => _instance ?? (_instance = new VectorSearchEngine());
 
-        private readonly List<WinningBoard> _canonicalBoards = new List<WinningBoard>();
-        public bool IsLoaded { get; private set; }
+        private volatile List<WinningBoard> _canonicalBoards = new List<WinningBoard>();
+        private volatile Dictionary<int, int> _cardArchetypeCounts = new Dictionary<int, int>();
+        private volatile int _totalDistinctArchetypes = 20;
+        private readonly object _loadLock = new object();
+        public volatile bool IsLoaded;
         public int BoardsCount => _canonicalBoards.Count;
         public IReadOnlyList<WinningBoard> AllBoards => _canonicalBoards;
 
         public static readonly string[] AllCanonicalTribes = new[]
         {
             "Механизм", "Зверь", "Мурлок", "Нежить", "Демон",
-            "Элементаль", "Нага", "Пират", "Дракон", "Свинобраз", "Абберация"
+            "Элементаль", "Пират", "Дракон", "Свинобраз", "Абберация"
         };
 
         public void ReloadDatabase(string jsonPath = null)
         {
-            IsLoaded = false;
-            LoadDatabase(jsonPath);
+            lock (_loadLock)
+            {
+                IsLoaded = false;
+                LoadDatabase(jsonPath);
+            }
         }
 
         public void LoadDatabase(string jsonPath = null)
         {
             if (IsLoaded) return;
+            lock (_loadLock)
+            {
+                if (IsLoaded) return;
 
             if (string.IsNullOrEmpty(jsonPath))
             {
@@ -94,7 +103,7 @@ namespace HSCompsPlugin.Services
                 throw new InvalidDataException("Не удалось распарсить базу comps_vector_db.json");
             }
 
-            _canonicalBoards.Clear();
+            var loadedBoards = new List<WinningBoard>(container.Boards.Count);
 
             var cardService = CardDatabaseService.Instance;
 
@@ -126,10 +135,250 @@ namespace HSCompsPlugin.Services
                 // Пре-проверка аномалий и валидности стола (вычисляется 1 раз при загрузке)
                 board.IsMalformedBoard = CheckIfBoardMalformed(board);
 
-                _canonicalBoards.Add(board);
+                loadedBoards.Add(board);
             }
 
+            // Расчет IDF-специфичности карт по архетипам (для отделения ядра сборки от общих тех-карт вроде Лироя/Драккари)
+            var archSetsByDbf = new Dictionary<int, HashSet<string>>();
+            var allArchs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var b in loadedBoards)
+            {
+                if (b.IsMalformedBoard || string.IsNullOrEmpty(b.Archetype)) continue;
+                allArchs.Add(b.Archetype);
+                if (b.Minions == null) continue;
+                foreach (var m in b.Minions)
+                {
+                    int dbf = m.DbfId > 0 ? m.DbfId : (m.Card?.Id ?? 0);
+                    if (dbf <= 0) continue;
+                    if (!archSetsByDbf.TryGetValue(dbf, out var set))
+                    {
+                        set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                        archSetsByDbf[dbf] = set;
+                    }
+                    set.Add(b.Archetype);
+                }
+            }
+
+            var countsMap = new Dictionary<int, int>(archSetsByDbf.Count);
+            foreach (var kvp in archSetsByDbf)
+            {
+                countsMap[kvp.Key] = kvp.Value.Count;
+            }
+
+            _totalDistinctArchetypes = Math.Max(1, allArchs.Count);
+            _cardArchetypeCounts = countsMap;
+
+            // Предрасчет весов существ, нормализованных героев и тринкетов (1 раз при загрузке базы)
+            foreach (var board in loadedBoards)
+            {
+                board.CanonicalPrimaryTribe = CanonicalizeTribe(board.PrimaryTribe);
+                board.NormalizedHeroCardId = NormalizeHeroId(board.HeroCardId);
+
+                int mCount = board.Minions?.Count ?? 0;
+                var weights = new float[mCount];
+                float maxPossible = 0f;
+                for (int i = 0; i < mCount; i++)
+                {
+                    var m = board.Minions[i];
+                    int tier = m.Tier > 0 ? m.Tier : (m.Card?.Tier ?? 4);
+                    float specMult = GetMinionSpecificityMultiplier(m, board);
+                    float w = (tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f)) * specMult;
+                    weights[i] = w;
+                    maxPossible += w;
+                }
+                board.MinionWeights = weights;
+                board.NormDivisor = Math.Max(6.5f, maxPossible * 0.85f);
+
+                var tSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                TribeFlags tMask = TribeFlags.None;
+                if (board.Trinkets != null)
+                {
+                    foreach (var trId in board.Trinkets)
+                    {
+                        if (!string.IsNullOrWhiteSpace(trId))
+                        {
+                            tSet.Add(trId.Trim());
+                            var (trCard, _) = cardService.ResolveCard(trId);
+                            if (trCard != null)
+                            {
+                                tMask |= trCard.TribeMask;
+                            }
+                        }
+                    }
+                }
+                board.TrinketSet = tSet;
+                board.TrinketTribesMask = tMask;
+            }
+
+            _canonicalBoards = loadedBoards;
             IsLoaded = true;
+            }
+        }
+
+        private float GetMinionSpecificityMultiplier(BoardSlot slot, WinningBoard targetBoard)
+        {
+            if (slot == null) return 1.0f;
+            int dbf = slot.DbfId > 0 ? slot.DbfId : (slot.Card?.Id ?? 0);
+            var card = slot.Card;
+            TribeFlags cardMask = card?.TribeMask ?? TribeFlags.None;
+            TribeFlags boardMask = targetBoard?.PrimaryTribeFlag ?? TribeFlags.None;
+
+            int archCount = 1;
+            if (dbf > 0 && _cardArchetypeCounts.TryGetValue(dbf, out int cnt))
+            {
+                archCount = cnt;
+            }
+
+            float ubiquityRatio = (float)archCount / Math.Max(1, _totalDistinctArchetypes);
+
+            // Универсальные нейтральные тех-карты (Лирой, Бранн, Драккари, Балинда, Син'дорай), присутствующие в >= 35% всех архетипов
+            if (cardMask == TribeFlags.None && ubiquityRatio >= 0.35f)
+            {
+                return 0.50f;
+            }
+
+            // Профильные существа основного племени сборки или узкоспециализированное ядро (1-3 архетипа)
+            bool matchesPrimaryTribe = boardMask != TribeFlags.None && boardMask != TribeFlags.All && (cardMask & boardMask) != TribeFlags.None;
+            if (matchesPrimaryTribe && archCount <= 4)
+            {
+                return 1.25f;
+            }
+            if (archCount <= 2)
+            {
+                return 1.20f;
+            }
+            if (ubiquityRatio >= 0.45f)
+            {
+                return 0.65f;
+            }
+
+            return 1.0f;
+        }
+
+        private int GetMissingCardPriorityOrder(BoardSlot slot, WinningBoard targetBoard)
+        {
+            if (slot == null) return 0;
+            int dbf = slot.DbfId > 0 ? slot.DbfId : (slot.Card?.Id ?? 0);
+            var card = slot.Card;
+            TribeFlags cardMask = card?.TribeMask ?? TribeFlags.None;
+            TribeFlags boardMask = targetBoard?.PrimaryTribeFlag ?? TribeFlags.None;
+
+            int archCount = 1;
+            if (dbf > 0 && _cardArchetypeCounts.TryGetValue(dbf, out int cnt))
+            {
+                archCount = cnt;
+            }
+            float ubiquityRatio = (float)archCount / Math.Max(1, _totalDistinctArchetypes);
+
+            // Категория 0 (в самый конец списка поиска): универсальные нейтральные тех-карты (Лирой и т.п.)
+            if (cardMask == TribeFlags.None && ubiquityRatio >= 0.35f)
+            {
+                return 0;
+            }
+
+            // Категория 3 (первый приоритет поиска): профильное ядро основного племени сборки
+            bool matchesPrimary = boardMask != TribeFlags.None && boardMask != TribeFlags.All && (cardMask & boardMask) != TribeFlags.None;
+            if (matchesPrimary)
+            {
+                return 3;
+            }
+
+            // Категория 2: узкоспециализированные карты этого архетипа
+            if (archCount <= 4)
+            {
+                return 2;
+            }
+
+            // Категория 1: остальные вспомогательные карты
+            return 1;
+        }
+
+        private static float CalculateTavernReachabilityBonus(WinningBoard targetBoard, PlayerGameStateSnapshot state)
+        {
+            if (targetBoard?.Minions == null || state == null) return 0f;
+            if (state.Turn < 2 || state.Turn > 9 || state.TavernTier <= 0 || state.TavernTier >= 6) return 0f;
+
+            int maxReachableTier = state.TavernTier + 1;
+            int reachableCount = 0;
+            int highTierUnreachable = 0;
+
+            foreach (var m in targetBoard.Minions)
+            {
+                int tier = m.Tier > 0 ? m.Tier : (m.Card?.Tier ?? 4);
+                if (tier <= maxReachableTier)
+                    reachableCount++;
+                else if (tier >= state.TavernTier + 2)
+                    highTierUnreachable++;
+            }
+
+            // Мягкая корректировка в пределах [-0.03 .. +0.04], чтобы на 3-4 таверне не завышать сборки из пяти карт 6 тира
+            float bonus = (reachableCount - 3.5f) * 0.01f - (highTierUnreachable * 0.008f);
+            return Math.Max(-0.03f, Math.Min(0.04f, bonus));
+        }
+
+        private static float CalculateTrinketSynergyBonus(WinningBoard targetBoard, PlayerGameStateSnapshot state)
+        {
+            if (targetBoard == null || state?.ActiveTrinkets == null || state.ActiveTrinkets.Count == 0)
+                return 0f;
+
+            float bonus = 0f;
+            var cardService = CardDatabaseService.Instance;
+
+            foreach (var rawTrinket in state.ActiveTrinkets)
+            {
+                if (string.IsNullOrWhiteSpace(rawTrinket)) continue;
+                string cleanTrinket = rawTrinket.Trim();
+
+                if (targetBoard.TrinketSet != null && targetBoard.TrinketSet.Contains(cleanTrinket))
+                {
+                    bonus += 0.08f;
+                    continue;
+                }
+
+                var (trCard, _) = cardService.ResolveCard(cleanTrinket);
+                if (trCard != null && trCard.TribeMask != TribeFlags.None && trCard.TribeMask != TribeFlags.All)
+                {
+                    if (targetBoard.PrimaryTribeFlag != TribeFlags.None &&
+                        targetBoard.PrimaryTribeFlag != TribeFlags.All &&
+                        (trCard.TribeMask & targetBoard.PrimaryTribeFlag) != TribeFlags.None)
+                    {
+                        bonus += 0.05f;
+                    }
+                }
+            }
+
+            return Math.Min(0.12f, bonus);
+        }
+
+        private static float CalculateSurvivalTempoAdjustment(WinningBoard targetBoard, PlayerGameStateSnapshot state, int ownedCount)
+        {
+            if (targetBoard?.Minions == null || state == null) return 0f;
+            if (state.Turn < 4 || state.HeroHealth <= 0 || state.HeroHealth > 15) return 0f;
+
+            int highTierCount = 0;
+            foreach (var m in targetBoard.Minions)
+            {
+                if (m != null && m.Tier >= 5) highTierCount++;
+            }
+
+            float adjustment = 0f;
+            bool isCriticalHp = state.HeroHealth <= 10;
+
+            if (ownedCount >= 3)
+            {
+                adjustment += isCriticalHp ? 0.05f : 0.03f;
+            }
+            else if (state.TavernTier <= 4 && ownedCount <= 1 && highTierCount >= 4)
+            {
+                adjustment -= isCriticalHp ? 0.06f : 0.04f;
+            }
+
+            if (targetBoard.AveragePlacement > 0 && targetBoard.AveragePlacement <= 2.15)
+            {
+                adjustment += 0.02f;
+            }
+
+            return adjustment;
         }
 
         private static bool CheckIfBoardMalformed(WinningBoard board)
@@ -228,8 +477,12 @@ namespace HSCompsPlugin.Services
         public static string NormalizeHeroId(string heroCardId)
         {
             if (string.IsNullOrWhiteSpace(heroCardId)) return string.Empty;
-            int idx = heroCardId.IndexOf("_SKIN_", StringComparison.OrdinalIgnoreCase);
-            return idx > 0 ? heroCardId.Substring(0, idx) : heroCardId;
+            string clean = heroCardId.Trim();
+            int skinIdx = clean.IndexOf("_SKIN_", StringComparison.OrdinalIgnoreCase);
+            if (skinIdx > 0) clean = clean.Substring(0, skinIdx);
+            int buddyIdx = clean.IndexOf("_Buddy", StringComparison.OrdinalIgnoreCase);
+            if (buddyIdx > 0) clean = clean.Substring(0, buddyIdx);
+            return clean;
         }
 
         public static bool HeroesMatch(string heroA, string heroB)
@@ -237,9 +490,7 @@ namespace HSCompsPlugin.Services
             if (string.IsNullOrWhiteSpace(heroA) || string.IsNullOrWhiteSpace(heroB)) return false;
             string normA = NormalizeHeroId(heroA);
             string normB = NormalizeHeroId(heroB);
-            return string.Equals(normA, normB, StringComparison.OrdinalIgnoreCase) ||
-                   normA.IndexOf(normB, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                   normB.IndexOf(normA, StringComparison.OrdinalIgnoreCase) >= 0;
+            return string.Equals(normA, normB, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion
@@ -305,15 +556,21 @@ namespace HSCompsPlugin.Services
             if (card.TribeMask == TribeFlags.None || card.TribeMask == TribeFlags.All)
                 return true;
 
-            TribeFlags bannedMask = TribeFlagsHelper.ListToMask(bannedTribes);
-            if (bannedMask != TribeFlags.None && (card.TribeMask & bannedMask) != TribeFlags.None)
-                return false;
-
             if (availableTribes != null && availableTribes.Count >= 3 && availableTribes.Count <= 7)
             {
                 TribeFlags availMask = TribeFlagsHelper.ListToMask(availableTribes);
-                if (availMask != TribeFlags.None && (card.TribeMask & availMask) == TribeFlags.None)
-                    return false;
+                if (availMask != TribeFlags.None)
+                {
+                    // Двухплеменное существо доступно в лобби, если присутствует хотя бы одно из его племён
+                    return (card.TribeMask & availMask) != TribeFlags.None;
+                }
+            }
+
+            TribeFlags bannedMask = TribeFlagsHelper.ListToMask(bannedTribes);
+            if (bannedMask != TribeFlags.None)
+            {
+                // Карта недоступна только если ВСЕ её племена находятся в списке забаненных
+                return (card.TribeMask & ~bannedMask) != TribeFlags.None;
             }
 
             return true;
@@ -337,31 +594,37 @@ namespace HSCompsPlugin.Services
             if (board == null || board.IsMalformedBoard) return false;
             if (board.Minions == null || board.Minions.Count < 6) return false;
 
-            // 1. Быстрая побитовая проверка запрещенных племён
-            if (bannedMask != TribeFlags.None)
+            // 1. Проверка основного племени сборки
+            if (board.PrimaryTribeFlag != TribeFlags.All && board.PrimaryTribeFlag != TribeFlags.None)
             {
-                if (board.PrimaryTribeFlag != TribeFlags.All && (board.PrimaryTribeFlag & bannedMask) != TribeFlags.None)
+                if (availableMask != TribeFlags.None && (board.PrimaryTribeFlag & availableMask) == TribeFlags.None)
                     return false;
 
-                if ((board.RequiredTribesMask & bannedMask) != TribeFlags.None)
-                    return false;
-
-                if ((board.MinionTribesMask & bannedMask) != TribeFlags.None)
+                if (bannedMask != TribeFlags.None && (board.PrimaryTribeFlag & bannedMask) != TribeFlags.None)
                     return false;
             }
 
-            // 2. Быстрая проверка доступных племён лобби
+            // 2. Проверка каждого существа с учетом правил двухплеменных карт (достаточно 1 доступного племени)
             if (availableMask != TribeFlags.None)
             {
-                if (board.PrimaryTribeFlag != TribeFlags.All && (board.PrimaryTribeFlag & availableMask) == TribeFlags.None)
-                    return false;
-
                 foreach (var minion in board.Minions)
                 {
                     var card = minion?.Card;
                     if (card != null && card.TribeMask != TribeFlags.None && card.TribeMask != TribeFlags.All)
                     {
                         if ((card.TribeMask & availableMask) == TribeFlags.None)
+                            return false;
+                    }
+                }
+            }
+            else if (bannedMask != TribeFlags.None)
+            {
+                foreach (var minion in board.Minions)
+                {
+                    var card = minion?.Card;
+                    if (card != null && card.TribeMask != TribeFlags.None && card.TribeMask != TribeFlags.All)
+                    {
+                        if ((card.TribeMask & ~bannedMask) == TribeFlags.None)
                             return false;
                     }
                 }
@@ -506,6 +769,7 @@ namespace HSCompsPlugin.Services
             var counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             if (state == null) return counts;
 
+            int amalgamCount = 0;
             var allMinions = (state.BoardMinions ?? new List<BoardSlot>()).Concat(state.HandMinions ?? new List<BoardSlot>());
             foreach (var m in allMinions)
             {
@@ -515,11 +779,38 @@ namespace HSCompsPlugin.Services
                     {
                         if (string.IsNullOrEmpty(tribe) || tribe == "Без типа") continue;
                         string canon = CanonicalizeTribe(tribe);
+                        if (canon == "Все")
+                        {
+                            amalgamCount++;
+                            continue;
+                        }
                         if (!counts.ContainsKey(canon)) counts[canon] = 0;
                         counts[canon]++;
                     }
                 }
             }
+
+            // Существа с типом «Все» (Слияние / Куча-мала / Безводное чудовище) поддерживают каждую активную расу игрока
+            if (amalgamCount > 0)
+            {
+                var keys = counts.Keys.ToList();
+                if (keys.Count > 0)
+                {
+                    foreach (var k in keys)
+                    {
+                        counts[k] += amalgamCount;
+                    }
+                }
+                else if (state.AvailableTribes != null)
+                {
+                    foreach (var avail in state.AvailableTribes)
+                    {
+                        string canon = CanonicalizeTribe(avail);
+                        if (canon != "Все") counts[canon] = amalgamCount;
+                    }
+                }
+            }
+
             return counts;
         }
 
@@ -544,7 +835,7 @@ namespace HSCompsPlugin.Services
             public bool IsGolden;
         }
 
-        private static (List<PlayerMinionItem> board, List<PlayerMinionItem> hand, List<PlayerMinionItem> frozen) ExtractPlayerMinionItems(PlayerGameStateSnapshot state)
+        private static (List<PlayerMinionItem> board, List<PlayerMinionItem> hand) ExtractPlayerMinionItems(PlayerGameStateSnapshot state)
         {
             var bList = new List<PlayerMinionItem>(state?.BoardMinions?.Count ?? 0);
             if (state?.BoardMinions != null)
@@ -572,121 +863,161 @@ namespace HSCompsPlugin.Services
                 }
             }
 
-            var fList = new List<PlayerMinionItem>(state?.FrozenTavernMinions?.Count ?? 0);
-            if (state?.FrozenTavernMinions != null)
-            {
-                foreach (var m in state.FrozenTavernMinions)
-                {
-                    if (m != null)
-                    {
-                        int id = m.DbfId > 0 ? m.DbfId : GetCanonicalCardId(m);
-                        fList.Add(new PlayerMinionItem { DbfId = id, IsGolden = m.IsGolden });
-                    }
-                }
-            }
-
-            return (bList, hList, fList);
+            return (bList, hList);
         }
 
         private float QuickScoreBoard(WinningBoard targetBoard,
                                       List<PlayerMinionItem> playerBoard,
                                       List<PlayerMinionItem> playerHand,
-                                      List<PlayerMinionItem> playerFrozen,
                                       Dictionary<string, int> playerTribeCounts,
-                                      PlayerGameStateSnapshot state)
+                                      PlayerGameStateSnapshot state,
+                                      string normalizedStateHeroId = null)
         {
             if (targetBoard?.Minions == null || targetBoard.Minions.Count == 0) return 0f;
 
-            var availBoard = new List<PlayerMinionItem>(playerBoard);
-            var availHand = new List<PlayerMinionItem>(playerHand);
-            var availFrozen = new List<PlayerMinionItem>(playerFrozen);
+            // Zero-allocation битовые маски вместо клонирования списков на каждом из 1287 столов
+            int usedBoardMask = 0;
+            int usedHandMask = 0;
+            int matchedTargetMask = 0;
+            int goldenMatchedTargetMask = 0;
+            int ownedCount = 0;
 
             float exactMatchesScore = 0f;
             var targetMinions = targetBoard.Minions;
+            var cachedWeights = targetBoard.MinionWeights;
+            var cachedDbfs = targetBoard.MinionDbfIds;
             int count = targetMinions.Count;
-            var matched = new bool[count];
 
-            // 1. Точное сопоставление (золотая к золотой)
+            int pBoardCount = playerBoard.Count;
+            int pHandCount = playerHand.Count;
+
+            // 1. Точное сопоставление (золотая к золотой, обычная к обычной)
             for (int i = 0; i < count; i++)
             {
                 var tm = targetMinions[i];
-                int dbf = tm.DbfId > 0 ? tm.DbfId : (tm.Card?.Id ?? 0);
+                int dbf = (cachedDbfs != null && i < cachedDbfs.Length && cachedDbfs[i] > 0)
+                    ? cachedDbfs[i]
+                    : (tm.DbfId > 0 ? tm.DbfId : (tm.Card?.Id ?? 0));
                 bool targetGold = tm.IsGolden;
+                float weight = (cachedWeights != null && i < cachedWeights.Length)
+                    ? cachedWeights[i]
+                    : ((tm.Tier >= 5 ? 2.5f : (tm.Tier >= 3 ? 1.5f : 1.0f)) * GetMinionSpecificityMultiplier(tm, targetBoard));
 
-                int bIdx = availBoard.FindIndex(m => m.DbfId == dbf && m.IsGolden == targetGold);
-                if (bIdx >= 0)
+                bool found = false;
+                for (int bIdx = 0; bIdx < pBoardCount; bIdx++)
                 {
-                    availBoard.RemoveAt(bIdx);
-                    matched[i] = true;
-                    int tier = tm.Tier > 0 ? tm.Tier : 4;
-                    float weight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
-                    exactMatchesScore += weight * 1.0f;
-                    continue;
+                    if ((usedBoardMask & (1 << bIdx)) == 0 && playerBoard[bIdx].DbfId == dbf && playerBoard[bIdx].IsGolden == targetGold)
+                    {
+                        usedBoardMask |= (1 << bIdx);
+                        matchedTargetMask |= (1 << i);
+                        if (playerBoard[bIdx].IsGolden) goldenMatchedTargetMask |= (1 << i);
+                        ownedCount++;
+                        exactMatchesScore += weight * 1.0f;
+                        found = true;
+                        break;
+                    }
                 }
+                if (found) continue;
 
-                int hIdx = availHand.FindIndex(m => m.DbfId == dbf && m.IsGolden == targetGold);
-                if (hIdx >= 0)
+                for (int hIdx = 0; hIdx < pHandCount; hIdx++)
                 {
-                    availHand.RemoveAt(hIdx);
-                    matched[i] = true;
-                    int tier = tm.Tier > 0 ? tm.Tier : 4;
-                    float weight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
-                    exactMatchesScore += weight * 0.75f;
-                    continue;
-                }
-
-                int fIdx = availFrozen.FindIndex(m => m.DbfId == dbf && m.IsGolden == targetGold);
-                if (fIdx >= 0)
-                {
-                    availFrozen.RemoveAt(fIdx);
-                    matched[i] = true;
-                    int tier = tm.Tier > 0 ? tm.Tier : 4;
-                    float weight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
-                    exactMatchesScore += weight * 0.30f;
-                    continue;
+                    if ((usedHandMask & (1 << hIdx)) == 0 && playerHand[hIdx].DbfId == dbf && playerHand[hIdx].IsGolden == targetGold)
+                    {
+                        usedHandMask |= (1 << hIdx);
+                        matchedTargetMask |= (1 << i);
+                        if (playerHand[hIdx].IsGolden) goldenMatchedTargetMask |= (1 << i);
+                        ownedCount++;
+                        exactMatchesScore += weight * 0.75f;
+                        break;
+                    }
                 }
             }
 
             // 2. Гибкое сопоставление (любая версия)
             for (int i = 0; i < count; i++)
             {
-                if (matched[i]) continue;
+                if ((matchedTargetMask & (1 << i)) != 0) continue;
                 var tm = targetMinions[i];
-                int dbf = tm.DbfId > 0 ? tm.DbfId : (tm.Card?.Id ?? 0);
+                int dbf = (cachedDbfs != null && i < cachedDbfs.Length && cachedDbfs[i] > 0)
+                    ? cachedDbfs[i]
+                    : (tm.DbfId > 0 ? tm.DbfId : (tm.Card?.Id ?? 0));
+                float weight = (cachedWeights != null && i < cachedWeights.Length)
+                    ? cachedWeights[i]
+                    : ((tm.Tier >= 5 ? 2.5f : (tm.Tier >= 3 ? 1.5f : 1.0f)) * GetMinionSpecificityMultiplier(tm, targetBoard));
 
-                int bIdx = availBoard.FindIndex(m => m.DbfId == dbf);
-                if (bIdx >= 0)
+                bool found = false;
+                for (int bIdx = 0; bIdx < pBoardCount; bIdx++)
                 {
-                    availBoard.RemoveAt(bIdx);
-                    int tier = tm.Tier > 0 ? tm.Tier : 4;
-                    float weight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
-                    exactMatchesScore += weight * 1.0f;
-                    continue;
+                    if ((usedBoardMask & (1 << bIdx)) == 0 && playerBoard[bIdx].DbfId == dbf)
+                    {
+                        usedBoardMask |= (1 << bIdx);
+                        matchedTargetMask |= (1 << i);
+                        if (playerBoard[bIdx].IsGolden) goldenMatchedTargetMask |= (1 << i);
+                        ownedCount++;
+                        exactMatchesScore += weight * 1.0f;
+                        found = true;
+                        break;
+                    }
                 }
+                if (found) continue;
 
-                int hIdx = availHand.FindIndex(m => m.DbfId == dbf);
-                if (hIdx >= 0)
+                for (int hIdx = 0; hIdx < pHandCount; hIdx++)
                 {
-                    availHand.RemoveAt(hIdx);
-                    int tier = tm.Tier > 0 ? tm.Tier : 4;
-                    float weight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
-                    exactMatchesScore += weight * 0.75f;
-                    continue;
+                    if ((usedHandMask & (1 << hIdx)) == 0 && playerHand[hIdx].DbfId == dbf)
+                    {
+                        usedHandMask |= (1 << hIdx);
+                        matchedTargetMask |= (1 << i);
+                        if (playerHand[hIdx].IsGolden) goldenMatchedTargetMask |= (1 << i);
+                        ownedCount++;
+                        exactMatchesScore += weight * 0.75f;
+                        break;
+                    }
                 }
+            }
 
-                int fIdx = availFrozen.FindIndex(m => m.DbfId == dbf);
-                if (fIdx >= 0)
+            // 3. Детектор пар и прогресса к триплету (Pair / Triple Detection)
+            for (int i = 0; i < count; i++)
+            {
+                if ((matchedTargetMask & (1 << i)) == 0 || (goldenMatchedTargetMask & (1 << i)) != 0) continue;
+                var tm = targetMinions[i];
+                int dbf = (cachedDbfs != null && i < cachedDbfs.Length && cachedDbfs[i] > 0)
+                    ? cachedDbfs[i]
+                    : (tm.DbfId > 0 ? tm.DbfId : (tm.Card?.Id ?? 0));
+                if (dbf <= 0) continue;
+
+                float weight = (cachedWeights != null && i < cachedWeights.Length)
+                    ? cachedWeights[i]
+                    : ((tm.Tier >= 5 ? 2.5f : (tm.Tier >= 3 ? 1.5f : 1.0f)) * GetMinionSpecificityMultiplier(tm, targetBoard));
+
+                bool pairFound = false;
+                for (int bIdx = 0; bIdx < pBoardCount; bIdx++)
                 {
-                    availFrozen.RemoveAt(fIdx);
-                    int tier = tm.Tier > 0 ? tm.Tier : 4;
-                    float weight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
-                    exactMatchesScore += weight * 0.30f;
-                    continue;
+                    if ((usedBoardMask & (1 << bIdx)) == 0 && !playerBoard[bIdx].IsGolden && playerBoard[bIdx].DbfId == dbf)
+                    {
+                        usedBoardMask |= (1 << bIdx);
+                        exactMatchesScore += weight * (tm.IsGolden ? 0.35f : 0.20f);
+                        pairFound = true;
+                        break;
+                    }
+                }
+                if (pairFound) continue;
+
+                for (int hIdx = 0; hIdx < pHandCount; hIdx++)
+                {
+                    if ((usedHandMask & (1 << hIdx)) == 0 && !playerHand[hIdx].IsGolden && playerHand[hIdx].DbfId == dbf)
+                    {
+                        usedHandMask |= (1 << hIdx);
+                        exactMatchesScore += weight * (tm.IsGolden ? 0.30f : 0.15f);
+                        break;
+                    }
                 }
             }
 
             float tribeScore = 0f;
-            string primaryTribe = CanonicalizeTribe(targetBoard.PrimaryTribe);
+            string primaryTribe = !string.IsNullOrEmpty(targetBoard.CanonicalPrimaryTribe)
+                ? targetBoard.CanonicalPrimaryTribe
+                : CanonicalizeTribe(targetBoard.PrimaryTribe);
+
             if (primaryTribe == "Все")
             {
                 tribeScore = Math.Min(0.75f, playerTribeCounts.Count * 0.18f);
@@ -696,27 +1027,36 @@ namespace HSCompsPlugin.Services
                 tribeScore = Math.Min(0.85f, 0.15f + cVal * 0.20f);
             }
 
-            float normalizedCardScore = Math.Min(1.0f, exactMatchesScore / 7.0f);
+            float normDivisor = targetBoard.NormDivisor > 0f ? targetBoard.NormDivisor : 6.5f;
+            float normalizedCardScore = Math.Min(1.0f, exactMatchesScore / normDivisor);
 
             float heroBonus = 0f;
-            if (!string.IsNullOrEmpty(state.HeroCardId) && !string.IsNullOrEmpty(targetBoard.HeroCardId))
+            string stateHeroNorm = normalizedStateHeroId ?? NormalizeHeroId(state?.HeroCardId);
+            if (!string.IsNullOrEmpty(stateHeroNorm) && !string.IsNullOrEmpty(targetBoard.NormalizedHeroCardId))
             {
-                if (HeroesMatch(state.HeroCardId, targetBoard.HeroCardId))
+                if (string.Equals(stateHeroNorm, targetBoard.NormalizedHeroCardId, StringComparison.OrdinalIgnoreCase))
                 {
                     heroBonus = 0.35f;
                 }
             }
 
-            float turnProgress = Math.Min(1.0f, Math.Max(0.0f, (float)(state.Turn - 1) / 8.0f));
+            float turnProgress = Math.Min(1.0f, Math.Max(0.0f, (float)((state?.Turn ?? 1) - 1) / 8.0f));
             float tribeWeight = 0.60f - 0.30f * turnProgress;
             float cardWeight = 0.25f + 0.50f * turnProgress;
             float metaBonus = (float)(targetBoard.Top1Rate * 0.08);
+
+            float tavernBonus = CalculateTavernReachabilityBonus(targetBoard, state);
+            float trinketBonus = CalculateTrinketSynergyBonus(targetBoard, state);
+            float survivalBonus = CalculateSurvivalTempoAdjustment(targetBoard, state, ownedCount);
 
             float finalScore = 0.05f
                              + (tribeScore * tribeWeight)
                              + (normalizedCardScore * cardWeight)
                              + heroBonus
-                             + metaBonus;
+                             + metaBonus
+                             + tavernBonus
+                             + trinketBonus
+                             + survivalBonus;
 
             return Math.Max(0.05f, Math.Min(0.98f, finalScore));
         }
@@ -734,23 +1074,33 @@ namespace HSCompsPlugin.Services
                 ? TribeFlagsHelper.ListToMask(state.AvailableTribes)
                 : TribeFlags.None;
 
-            // 1. Исключаем забаненные столы и столы из excludeBoardIds мгновенно через маски
+            // 1. Исключаем забаненные столы, ID столов и архетипы из excludeBoardIds мгновенно через маски
             var allowedBoards = _canonicalBoards.Where(b =>
                 !excludeBoardIds.Contains(b.Id) &&
+                (string.IsNullOrEmpty(b.Archetype) || !excludeBoardIds.Contains(b.Archetype)) &&
                 IsBoardAllowedInLobby(b, availMask, bannedMask)
             ).ToList();
+
+            if (allowedBoards.Count == 0)
+            {
+                allowedBoards = _canonicalBoards.Where(b =>
+                    !excludeBoardIds.Contains(b.Id) &&
+                    IsBoardAllowedInLobby(b, availMask, bannedMask)
+                ).ToList();
+            }
 
             if (allowedBoards.Count == 0) return new List<CompRecommendation>();
 
             // 2. Подсчет племен на столе и в руке
             var playerTribeCounts = GetPlayerTribeCounts(state);
-            var (pBoard, pHand, pFrozen) = ExtractPlayerMinionItems(state);
+            var (pBoard, pHand) = ExtractPlayerMinionItems(state);
+            string normHero = NormalizeHeroId(state.HeroCardId);
 
             // 3. Быстрая оценка и сортировка без аллокаций тяжелых UI моделей
             var sorted = allowedBoards.Select(b => new
             {
                 Board = b,
-                Score = QuickScoreBoard(b, pBoard, pHand, pFrozen, playerTribeCounts, state)
+                Score = QuickScoreBoard(b, pBoard, pHand, playerTribeCounts, state, normHero)
             })
             .OrderByDescending(r => r.Board.Minions != null && r.Board.Minions.Count >= 7)
             .ThenByDescending(r => r.Score)
@@ -801,12 +1151,12 @@ namespace HSCompsPlugin.Services
             if (matchingBoards.Count == 0) return null;
 
             var playerTribeCounts = GetPlayerTribeCounts(state);
-            var (pBoard, pHand, pFrozen) = ExtractPlayerMinionItems(state);
+            var (pBoard, pHand) = ExtractPlayerMinionItems(state);
 
             var bestItem = matchingBoards.Select(b => new
             {
                 Board = b,
-                Score = QuickScoreBoard(b, pBoard, pHand, pFrozen, playerTribeCounts, state)
+                Score = QuickScoreBoard(b, pBoard, pHand, playerTribeCounts, state)
             })
             .OrderByDescending(r => r.Board.Minions != null && r.Board.Minions.Count >= 7)
             .ThenByDescending(r => r.Score)
@@ -838,12 +1188,12 @@ namespace HSCompsPlugin.Services
             if (allowedBoards.Count == 0) allowedBoards = _canonicalBoards;
 
             var playerTribeCounts = GetPlayerTribeCounts(state);
-            var (pBoard, pHand, pFrozen) = ExtractPlayerMinionItems(state);
+            var (pBoard, pHand) = ExtractPlayerMinionItems(state);
 
             var sorted = allowedBoards.Select(b => new
             {
                 Board = b,
-                Score = QuickScoreBoard(b, pBoard, pHand, pFrozen, playerTribeCounts, state)
+                Score = QuickScoreBoard(b, pBoard, pHand, playerTribeCounts, state)
             })
             .OrderByDescending(r => r.Board.Minions != null && r.Board.Minions.Count >= 7)
             .ThenByDescending(r => r.Score)
@@ -893,7 +1243,6 @@ namespace HSCompsPlugin.Services
         {
             var availableBoard = (state?.BoardMinions ?? new List<BoardSlot>()).Where(m => m != null).ToList();
             var availableHand = (state?.HandMinions ?? new List<BoardSlot>()).Where(m => m != null).ToList();
-            var availableFrozen = (state?.FrozenTavernMinions ?? new List<BoardSlot>()).Where(m => m != null).ToList();
 
             var displaySlots = new List<BoardSlot>();
             var missingPriority = new List<BoardSlot>();
@@ -962,16 +1311,6 @@ namespace HSCompsPlugin.Services
                     continue;
                 }
 
-                // Проверка в заморозке таверны
-                var frozenMatch = availableFrozen.FirstOrDefault(c => CardsMatch(slotCopy, c) && c.IsGolden == targetIsGold);
-                if (frozenMatch != null)
-                {
-                    slotCopy.Status = SlotStatus.FrozenInTavern;
-                    if (frozenMatch.IsGolden) slotCopy.IsGolden = true;
-                    availableFrozen.Remove(frozenMatch);
-                    matchedSlotIndices.Add(i);
-                    continue;
-                }
             }
 
             // 3. Шаг 2: Гибкое сопоставление оставшихся слотов (любая версия карты) с изъятием из пула
@@ -1003,29 +1342,20 @@ namespace HSCompsPlugin.Services
                     continue;
                 }
 
-                // Проверка в заморозке
-                var frozenMatch = availableFrozen.FirstOrDefault(c => CardsMatch(slotCopy, c));
-                if (frozenMatch != null)
-                {
-                    slotCopy.Status = SlotStatus.FrozenInTavern;
-                    if (frozenMatch.IsGolden) slotCopy.IsGolden = true;
-                    availableFrozen.Remove(frozenMatch);
-                    matchedSlotIndices.Add(i);
-                    continue;
-                }
 
                 // Карты нет в пуле игрока — остается статус NeedToFind
                 slotCopy.Status = SlotStatus.NeedToFind;
             }
 
-            // 4. Подсчет очков и формирование списков
+            // 4. Подсчет очков (включая детектор пар к триплету) и формирование списков
             float exactMatchesScore = 0f;
             int ownedCount = 0;
 
             foreach (var slotCopy in targetSlots)
             {
                 int tier = slotCopy.Tier > 0 ? slotCopy.Tier : 4;
-                float minionTierWeight = tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f);
+                float specMult = GetMinionSpecificityMultiplier(slotCopy, targetBoard);
+                float minionTierWeight = (tier >= 5 ? 2.5f : (tier >= 3 ? 1.5f : 1.0f)) * specMult;
 
                 switch (slotCopy.Status)
                 {
@@ -1037,15 +1367,32 @@ namespace HSCompsPlugin.Services
                         exactMatchesScore += minionTierWeight * 0.75f;
                         ownedCount++;
                         break;
-                    case SlotStatus.FrozenInTavern:
-                        exactMatchesScore += minionTierWeight * 0.30f;
-                        break;
                     default: // NeedToFind
                         if (IsCardAvailableInLobby(slotCopy.Card, state?.AvailableTribes, state?.BannedTribes))
                         {
                             missingPriority.Add(slotCopy);
                         }
                         break;
+                }
+
+                // Если слот закрыт обычной картой, а в пуле осталась вторая копия (пара к триплету) — начисляем бонус прогресса
+                if ((slotCopy.Status == SlotStatus.OnBoard || slotCopy.Status == SlotStatus.InHand) && !slotCopy.IsGolden)
+                {
+                    var pairBoard = availableBoard.FirstOrDefault(c => !c.IsGolden && CardsMatch(slotCopy, c));
+                    if (pairBoard != null)
+                    {
+                        availableBoard.Remove(pairBoard);
+                        exactMatchesScore += minionTierWeight * 0.30f;
+                    }
+                    else
+                    {
+                        var pairHand = availableHand.FirstOrDefault(c => !c.IsGolden && CardsMatch(slotCopy, c));
+                        if (pairHand != null)
+                        {
+                            availableHand.Remove(pairHand);
+                            exactMatchesScore += minionTierWeight * 0.25f;
+                        }
+                    }
                 }
 
                 displaySlots.Add(slotCopy);
@@ -1064,7 +1411,15 @@ namespace HSCompsPlugin.Services
                 tribeScore = Math.Min(0.85f, 0.15f + count * 0.20f);
             }
 
-            float normalizedCardScore = Math.Min(1.0f, exactMatchesScore / 7.0f);
+            float maxPossibleScore = 0f;
+            foreach (var s in targetSlots)
+            {
+                int t = s.Tier > 0 ? s.Tier : 4;
+                float specMult = GetMinionSpecificityMultiplier(s, targetBoard);
+                maxPossibleScore += (t >= 5 ? 2.5f : (t >= 3 ? 1.5f : 1.0f)) * specMult;
+            }
+            float normDivisor = Math.Max(6.5f, maxPossibleScore * 0.85f);
+            float normalizedCardScore = Math.Min(1.0f, exactMatchesScore / normDivisor);
 
             // Бонус героя
             float heroBonus = 0f;
@@ -1083,15 +1438,25 @@ namespace HSCompsPlugin.Services
 
             float metaBonus = (float)(targetBoard.Top1Rate * 0.08);
 
+            float tavernBonus = CalculateTavernReachabilityBonus(targetBoard, state);
+            float trinketBonus = CalculateTrinketSynergyBonus(targetBoard, state);
+            float survivalBonus = CalculateSurvivalTempoAdjustment(targetBoard, state, ownedCount);
+
             float finalScore = 0.05f
                              + (tribeScore * tribeWeight)
                              + (normalizedCardScore * cardWeight)
                              + heroBonus
-                             + metaBonus;
+                             + metaBonus
+                             + tavernBonus
+                             + trinketBonus
+                             + survivalBonus;
 
             finalScore = Math.Max(0.05f, Math.Min(0.98f, finalScore));
 
-            missingPriority = missingPriority.OrderByDescending(m => m.Tier).ToList();
+            missingPriority = missingPriority
+                .OrderByDescending(m => GetMissingCardPriorityOrder(m, targetBoard))
+                .ThenByDescending(m => m.Tier)
+                .ToList();
 
             return new CompRecommendation
             {

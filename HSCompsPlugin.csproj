@@ -10,9 +10,9 @@
     <OutputType>Library</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Version>3.0.1</Version>
-    <AssemblyVersion>3.0.1.0</AssemblyVersion>
-    <FileVersion>3.0.1.0</FileVersion>
+    <Version>3.1.2</Version>
+    <AssemblyVersion>3.1.2.0</AssemblyVersion>
+    <FileVersion>3.1.2.0</FileVersion>
     <Authors>ZadroTube</Authors>
     <Company>ZadroTube</Company>
     <Product>HS Comps Plugin for Battlegrounds</Product>
@@ -68,6 +68,8 @@
     </PropertyGroup>
     <MakeDir Directories="$(PluginDeployDir)" />
     <MakeDir Directories="$(PluginDeployDir)\assets\ui" />
+    <MakeDir Directories="$(PluginDeployDir)\assets\cards\full" />
+    <MakeDir Directories="$(PluginDeployDir)\assets\cards\crop" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginDeployDir)" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)Newtonsoft.Json.dll" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(TargetDir)Newtonsoft.Json.dll')" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)bg_cards_official.json" DestinationFolder="$(PluginDeployDir)" ContinueOnError="true" />
@@ -79,8 +81,8 @@
       <UiAssetFiles Include="$(MSBuildThisFileDirectory)assets\ui\**\*.*" />
       <CardAssetFiles Include="$(MSBuildThisFileDirectory)assets\cards\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(UiAssetFiles)" DestinationFiles="@(UiAssetFiles->'$(PluginDeployDir)\assets\ui\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
-    <Copy SourceFiles="@(CardAssetFiles)" DestinationFiles="@(CardAssetFiles->'$(PluginDeployDir)\assets\cards\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+    <Copy SourceFiles="@(UiAssetFiles)" DestinationFiles="@(UiAssetFiles->'$(PluginDeployDir)\assets\ui\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="@(CardAssetFiles)" DestinationFiles="@(CardAssetFiles->'$(PluginDeployDir)\assets\cards\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" ContinueOnError="true" />
     
     <MakeDir Directories="$(PluginDeployDir)\tools" />
     <ItemGroup>
@@ -88,8 +90,8 @@
     </ItemGroup>
     <Copy SourceFiles="@(ToolFiles)" DestinationFolder="$(PluginDeployDir)\tools" ContinueOnError="true" />
 
-    <!-- Сборка и деплой автономного авто-апдейтера HSCompsUpdater.exe -->
-    <MSBuild Projects="$(MSBuildThisFileDirectory)updater\HSCompsUpdater.csproj" Targets="Build" Properties="Configuration=Release" ContinueOnError="true" />
+    <!-- Сборка (с предварительным Restore) и деплой автономного авто-апдейтера HSCompsUpdater.exe без засорения корня репозитория -->
+    <MSBuild Projects="$(MSBuildThisFileDirectory)updater\HSCompsUpdater.csproj" Targets="Restore;Build" Properties="Configuration=Release" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe')" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe" DestinationFolder="$(TargetDir)" Condition="Exists('$(MSBuildThisFileDirectory)updater\bin\Release\HSCompsUpdater.exe')" ContinueOnError="true" />
   </Target>

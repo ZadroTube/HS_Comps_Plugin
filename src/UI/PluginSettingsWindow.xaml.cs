@@ -20,6 +20,7 @@ namespace HSCompsPlugin.UI
             InitializeComponent();
             LoadSettings();
             RefreshDatabaseInfo();
+            RefreshCacheInfo();
             RefreshPluginVersionInfo();
         }
 
@@ -29,7 +30,12 @@ namespace HSCompsPlugin.UI
             ChkShowInBattlegrounds.IsChecked = settings.ShowMiniOverlay;
             ChkShowInMainMenu.IsChecked = settings.ShowInMainMenu;
             ChkDontHideMiniOverlayOnDetails.IsChecked = settings.DontHideMiniOverlayOnDetails;
+            ChkAutoHideDetailsInCombat.IsChecked = settings.AutoHideDetailsInCombat;
             ChkHighPerformanceMode.IsChecked = settings.IsHighPerformanceMode;
+
+            double scalePct = Math.Round(Math.Max(0.5, Math.Min(1.5, settings.OverlayScale)) * 100.0);
+            if (SliderOverlayScale != null) SliderOverlayScale.Value = scalePct;
+            if (TxtScalePercent != null) TxtScalePercent.Text = $"{scalePct:0}%";
         }
 
         public void RefreshDatabaseInfo()
@@ -45,11 +51,24 @@ namespace HSCompsPlugin.UI
                         : "неизвестно";
                     string fileName = !string.IsNullOrEmpty(info.FilePath) ? Path.GetFileName(info.FilePath) : "comps_vector_db.json";
                     TxtDbFileDetails.Text = $"Файл: {fileName} • Обновлено: {dateStr} • Размер: {info.FileSizeKb:0.0} КБ";
+                    if (TxtDbStaleWarning != null)
+                    {
+                        if (info.IsStale)
+                        {
+                            TxtDbStaleWarning.Text = $"⚠️ База не обновлялась {info.AgeDays} дн. — рекомендуется обновить мету из Firestone API";
+                            TxtDbStaleWarning.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            TxtDbStaleWarning.Visibility = Visibility.Collapsed;
+                        }
+                    }
                 }
                 else
                 {
                     TxtDbStatusSummary.Text = "База данных столов не найдена на диске";
                     TxtDbFileDetails.Text = "Нажмите «Обновить базу из Firestone API» для начальной загрузки";
+                    if (TxtDbStaleWarning != null) TxtDbStaleWarning.Visibility = Visibility.Collapsed;
                 }
             }
             catch (Exception ex)
@@ -132,7 +151,12 @@ namespace HSCompsPlugin.UI
             settings.ShowMiniOverlay = ChkShowInBattlegrounds.IsChecked == true;
             settings.ShowInMainMenu = ChkShowInMainMenu.IsChecked == true;
             settings.DontHideMiniOverlayOnDetails = ChkDontHideMiniOverlayOnDetails.IsChecked == true;
+            settings.AutoHideDetailsInCombat = ChkAutoHideDetailsInCombat.IsChecked == true;
             settings.IsHighPerformanceMode = ChkHighPerformanceMode.IsChecked == true;
+            if (SliderOverlayScale != null)
+            {
+                settings.OverlayScale = Math.Max(0.5, Math.Min(1.5, Math.Round(SliderOverlayScale.Value) / 100.0));
+            }
             settings.Save();
 
             SettingsChanged?.Invoke();
@@ -145,10 +169,56 @@ namespace HSCompsPlugin.UI
             MessageBox.Show("Позиция мини-HUD сброшена по умолчанию (по центру).", "HS Comps", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void OnScaleSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            double pct = Math.Round(e.NewValue);
+            if (TxtScalePercent != null)
+            {
+                TxtScalePercent.Text = $"{pct:0}%";
+            }
+            if (IsLoaded)
+            {
+                PluginSettings.Instance.OverlayScale = Math.Max(0.5, Math.Min(1.5, pct / 100.0));
+                PluginSettings.Instance.Save();
+                SettingsChanged?.Invoke();
+            }
+        }
+
         private void OnResetScaleClick(object sender, RoutedEventArgs e)
         {
+            if (SliderOverlayScale != null) SliderOverlayScale.Value = 100;
+            if (TxtScalePercent != null) TxtScalePercent.Text = "100%";
             ResetScaleRequested?.Invoke();
-            MessageBox.Show("Масштаб мини-HUD сброшен на 100%.", "HS Comps", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Общий масштаб плагина сброшен на 100%.", "HS Comps", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void RefreshCacheInfo()
+        {
+            try
+            {
+                if (BtnClearImageCache != null)
+                {
+                    var (count, sizeMb) = LocalImageCache.Instance.GetDiskCacheStats();
+                    BtnClearImageCache.Content = count > 0
+                        ? $"🧹 Очистить кэш артов ({sizeMb:0.0} МБ)"
+                        : "🧹 Очистить кэш артов (0 МБ)";
+                }
+            }
+            catch { }
+        }
+
+        private void OnClearImageCacheClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var (deleted, freedMb) = LocalImageCache.Instance.ClearCache();
+                RefreshCacheInfo();
+                MessageBox.Show($"Кэш изображений очищен (удалено файлов: {deleted}, освобождено: {freedMb:0.00} МБ).", "HS Comps", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось очистить кэш: {ex.Message}", "HS Comps", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void OnOpenDetailsClick(object sender, RoutedEventArgs e)

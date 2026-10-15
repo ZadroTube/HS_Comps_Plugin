@@ -11,15 +11,39 @@ namespace HSCompsPlugin.Services
     public class GameStateReader
     {
         private static PlayerGameStateSnapshot _lastRecruitSnapshot = new PlayerGameStateSnapshot();
+        private static bool _hasValidRecruitSnapshot = false;
 
         private static List<string> _cachedLobbyTribes = null;
 
+        // Кэшированные дескрипторы рефлексии для нулевых накладных расходов в рантайме
+        private static bool _reflectionInitialized = false;
+        private static System.Reflection.PropertyInfo _hmClientProp;
+        private static System.Reflection.MethodInfo _hmGetRacesMethod;
+        private static System.Reflection.PropertyInfo _bgDbCurrentProp;
+        private static System.Reflection.PropertyInfo _bgDbRacesProp;
+
         public static void Reset()
         {
-            _waitingTribesCts?.Cancel();
+            try
+            {
+                _waitingTribesCts?.Cancel();
+                _waitingTribesCts?.Dispose();
+            }
+            catch { }
             _waitingTribesCts = null;
             _lastRecruitSnapshot = new PlayerGameStateSnapshot();
+            _hasValidRecruitSnapshot = false;
             _cachedLobbyTribes = null;
+        }
+
+        public static bool IsValidHeroCardId(string heroCardId)
+        {
+            if (string.IsNullOrWhiteSpace(heroCardId)) return false;
+            if (heroCardId.IndexOf("KelThuzad", StringComparison.OrdinalIgnoreCase) >= 0) return false;
+            if (heroCardId.IndexOf("Enchant", StringComparison.OrdinalIgnoreCase) >= 0) return false;
+            if (heroCardId.IndexOf(" BaconShop8Player", StringComparison.OrdinalIgnoreCase) >= 0) return false;
+            if (heroCardId.EndsWith("_Buddy", StringComparison.OrdinalIgnoreCase) || heroCardId.EndsWith("_Buddy_G", StringComparison.OrdinalIgnoreCase)) return false;
+            return true;
         }
 
         public static bool IsInBattlegrounds
@@ -68,8 +92,8 @@ namespace HSCompsPlugin.Services
             if (Core.Game == null) return _lastRecruitSnapshot;
 
             // Во время фазы боя используем сохраненный снимок фазы вербовки,
-            // чтобы смерти и спавны существ не разрушали анализ стола
-            if (Core.Game.IsBattlegroundsCombatPhase && _lastRecruitSnapshot != null && _lastRecruitSnapshot.BoardMinions.Count > 0)
+            // чтобы смерти и спавны существ не разрушали анализ стола (включая 1-2 ход с пустым столом)
+            if (Core.Game.IsBattlegroundsCombatPhase && _hasValidRecruitSnapshot && _lastRecruitSnapshot != null)
             {
                 return _lastRecruitSnapshot;
             }
@@ -92,6 +116,15 @@ namespace HSCompsPlugin.Services
                     techLevel = playerEntity.GetTag(GameTag.PLAYER_TECH_LEVEL);
                 }
                 snapshot.TavernTier = Math.Max(1, techLevel);
+
+                int maxHp = heroEntity.GetTag(GameTag.HEALTH);
+                int damage = heroEntity.GetTag(GameTag.DAMAGE);
+                int armor = heroEntity.GetTag(GameTag.ARMOR);
+                int effectiveHp = Math.Max(0, maxHp - damage) + Math.Max(0, armor);
+                if (effectiveHp > 0)
+                {
+                    snapshot.HeroHealth = effectiveHp;
+                }
             }
 
             // Определение доступных и забаненных фракций в текущем лобби
@@ -105,7 +138,7 @@ namespace HSCompsPlugin.Services
                 int pos = 0;
                 foreach (var entity in player.Board.OrderBy(e => e.GetTag(GameTag.ZONE_POSITION)))
                 {
-                    if (entity == null) continue;
+                    if (entity == null || !entity.IsMinion) continue;
                     var (card, isGolden) = cardService.ResolveCard(entity.CardId, entity.Card?.DbfId);
                     int dbf = entity.Card?.DbfId ?? card?.Id ?? 0;
                     card = EnsureCardMetadata(card, entity, dbf);
@@ -155,37 +188,7 @@ namespace HSCompsPlugin.Services
                 }
             }
 
-            // 3. Считывание таверны Боба (замороженные и доступные карты)
-            var bob = Core.Game.Opponent;
-            if (bob?.Board != null)
-            {
-                int bobPos = 0;
-                foreach (var entity in bob.Board)
-                {
-                    if (entity != null && entity.IsMinion)
-                    {
-                        var (card, isGolden) = cardService.ResolveCard(entity.CardId, entity.Card?.DbfId);
-                        int dbf = entity.Card?.DbfId ?? card?.Id ?? 0;
-                        bool isFrozen = entity.HasTag(GameTag.FROZEN);
-
-                        if (isFrozen)
-                        {
-                            card = EnsureCardMetadata(card, entity, dbf);
-                            snapshot.FrozenTavernMinions.Add(new BoardSlot
-                            {
-                                CardId = entity.CardId,
-                                DbfId = dbf,
-                                Card = card,
-                                IsGolden = isGolden,
-                                ZonePosition = bobPos++,
-                                Status = SlotStatus.FrozenInTavern
-                            });
-                        }
-                    }
-                }
-            }
-
-            // 4. Считывание активных тринкетов
+            // 3. Считывание активных тринкетов
             if (Core.Game.Entities != null && player != null)
             {
                 foreach (var entity in Core.Game.Entities.Values)
@@ -204,6 +207,7 @@ namespace HSCompsPlugin.Services
             if (!Core.Game.IsBattlegroundsCombatPhase)
             {
                 _lastRecruitSnapshot = snapshot;
+                _hasValidRecruitSnapshot = true;
             }
 
             return snapshot;
@@ -255,7 +259,7 @@ namespace HSCompsPlugin.Services
         public static readonly List<string> AllBgTribes = new List<string>
         {
             "Механизм", "Зверь", "Мурлок", "Нежить", "Демон",
-            "Элементаль", "Нага", "Пират", "Дракон", "Свинобраз", "Абберация"
+            "Элементаль", "Пират", "Дракон", "Свинобраз", "Абберация"
         };
 
         public static event Action<List<string>> LobbyTribesUpdated;
@@ -344,7 +348,12 @@ namespace HSCompsPlugin.Services
         public static void StartWaitingForTribes()
         {
             _cachedLobbyTribes = null;
-            _waitingTribesCts?.Cancel();
+            try
+            {
+                _waitingTribesCts?.Cancel();
+                _waitingTribesCts?.Dispose();
+            }
+            catch { }
             _waitingTribesCts = new System.Threading.CancellationTokenSource();
             var token = _waitingTribesCts.Token;
 
@@ -470,8 +479,9 @@ namespace HSCompsPlugin.Services
             return null;
         }
 
-        public static List<string> TryReadFromHearthMirror()
+        private static void EnsureReflectionCached()
         {
+            if (_reflectionInitialized) return;
             try
             {
                 foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
@@ -479,20 +489,40 @@ namespace HSCompsPlugin.Services
                     if (string.Equals(asm.GetName().Name, "HearthMirror", StringComparison.OrdinalIgnoreCase))
                     {
                         var refType = asm.GetType("HearthMirror.Reflection");
-                        var clientProp = refType?.GetProperty("Client", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-                        var client = clientProp?.GetValue(null);
-                        if (client != null)
-                        {
-                            var getRacesMethod = client.GetType().GetMethod("GetAvailableBattlegroundsRaces");
-                            var listObj = getRacesMethod?.Invoke(client, null);
-                            if (listObj is System.Collections.IEnumerable enumerable)
-                            {
-                                var parsed = ParseRaces(enumerable);
-                                if (parsed.Count >= 3 && parsed.Count <= 7)
-                                    return parsed;
-                            }
-                        }
+                        _hmClientProp = refType?.GetProperty("Client", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                         break;
+                    }
+                }
+
+                var hdtAssembly = typeof(Core).Assembly;
+                var singletonType = hdtAssembly.GetType("Hearthstone_Deck_Tracker.Utility.Battlegrounds.BattlegroundsDbSingleton");
+                _bgDbCurrentProp = singletonType?.GetProperty("Current");
+                if (_hmClientProp != null || _bgDbCurrentProp != null)
+                {
+                    _reflectionInitialized = true;
+                }
+            }
+            catch { }
+        }
+
+        public static List<string> TryReadFromHearthMirror()
+        {
+            try
+            {
+                EnsureReflectionCached();
+                var client = _hmClientProp?.GetValue(null);
+                if (client != null)
+                {
+                    if (_hmGetRacesMethod == null)
+                    {
+                        _hmGetRacesMethod = client.GetType().GetMethod("GetAvailableBattlegroundsRaces");
+                    }
+                    var listObj = _hmGetRacesMethod?.Invoke(client, null);
+                    if (listObj is System.Collections.IEnumerable enumerable)
+                    {
+                        var parsed = ParseRaces(enumerable);
+                        if (parsed.Count >= 3 && parsed.Count <= 7)
+                            return parsed;
                     }
                 }
             }
@@ -568,21 +598,19 @@ namespace HSCompsPlugin.Services
             {
                 try
                 {
-                    var hdtAssembly = typeof(Core).Assembly;
-                    var singletonType = hdtAssembly.GetType("Hearthstone_Deck_Tracker.Utility.Battlegrounds.BattlegroundsDbSingleton");
-                    if (singletonType != null)
+                    EnsureReflectionCached();
+                    var currentDb = _bgDbCurrentProp?.GetValue(null);
+                    if (currentDb != null)
                     {
-                        var currentProp = singletonType.GetProperty("Current");
-                        var currentDb = currentProp?.GetValue(null);
-                        if (currentDb != null)
+                        if (_bgDbRacesProp == null)
                         {
-                            var racesProp = currentDb.GetType().GetProperty("Races");
-                            if (racesProp?.GetValue(currentDb) is System.Collections.IEnumerable racesEnum)
-                            {
-                                var parsed = ParseRaces(racesEnum);
-                                if (parsed.Count >= 3 && parsed.Count <= 7)
-                                    tribes = parsed;
-                            }
+                            _bgDbRacesProp = currentDb.GetType().GetProperty("Races");
+                        }
+                        if (_bgDbRacesProp?.GetValue(currentDb) is System.Collections.IEnumerable racesEnum)
+                        {
+                            var parsed = ParseRaces(racesEnum);
+                            if (parsed.Count >= 3 && parsed.Count <= 7)
+                                tribes = parsed;
                         }
                     }
                 }

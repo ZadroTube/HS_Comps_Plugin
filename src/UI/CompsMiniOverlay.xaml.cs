@@ -16,6 +16,7 @@ namespace HSCompsPlugin.UI
         private List<CompRecommendation> _recommendations = new List<CompRecommendation>();
         private int _currentIndex = 0;
         private bool _isLocked = false;
+        private bool _imageRefreshPending = false;
 
         private bool _isDragging = false;
         private Point _dragStartPos;
@@ -34,6 +35,66 @@ namespace HSCompsPlugin.UI
             LoadTextures();
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+            LocalImageCache.Instance.ImageDownloaded += OnImageDownloaded;
+        }
+
+        private static bool IsSlotMatchingDownloadedUrl(BoardSlot s, string url)
+        {
+            if (s == null || string.IsNullOrEmpty(url)) return false;
+            if (!string.IsNullOrEmpty(s.CropImageUrl) && string.Equals(s.CropImageUrl, url, StringComparison.OrdinalIgnoreCase)) return true;
+            if (!string.IsNullOrEmpty(s.FullImageUrl) && string.Equals(s.FullImageUrl, url, StringComparison.OrdinalIgnoreCase)) return true;
+            if (!string.IsNullOrEmpty(s.CardId))
+            {
+                string cleanId = s.CardId.EndsWith("_G", StringComparison.OrdinalIgnoreCase)
+                    ? s.CardId.Substring(0, s.CardId.Length - 2)
+                    : s.CardId;
+                if (!string.IsNullOrEmpty(cleanId) && url.IndexOf(cleanId, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            }
+            if (s.DbfId > 0 && url.IndexOf(s.DbfId.ToString(), StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            return false;
+        }
+
+        private void OnImageDownloaded(string url)
+        {
+            Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                if (_recommendations == null || _currentIndex < 0 || _currentIndex >= _recommendations.Count) return;
+                var slots = _recommendations[_currentIndex]?.DisplaySlots;
+                if (slots == null) return;
+
+                foreach (var s in slots)
+                {
+                    if (s != null)
+                    {
+                        s.NotifyImagesUpdated();
+                    }
+                }
+
+                if (!_imageRefreshPending)
+                {
+                    _imageRefreshPending = true;
+                    Application.Current?.Dispatcher?.InvokeAsync(() =>
+                    {
+                        _imageRefreshPending = false;
+                        RefreshDisplayedSlots();
+                    }, System.Windows.Threading.DispatcherPriority.Render);
+                }
+            }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        public void RefreshDisplayedSlots()
+        {
+            if (_recommendations == null || _currentIndex < 0 || _currentIndex >= _recommendations.Count) return;
+            var slots = _recommendations[_currentIndex]?.DisplaySlots;
+            if (slots == null) return;
+
+            Slot0.Content = null; Slot0.Content = (slots.Count > 0) ? slots[0] : null;
+            Slot1.Content = null; Slot1.Content = (slots.Count > 1) ? slots[1] : null;
+            Slot2.Content = null; Slot2.Content = (slots.Count > 2) ? slots[2] : null;
+            Slot3.Content = null; Slot3.Content = (slots.Count > 3) ? slots[3] : null;
+            Slot4.Content = null; Slot4.Content = (slots.Count > 4) ? slots[4] : null;
+            Slot5.Content = null; Slot5.Content = (slots.Count > 5) ? slots[5] : null;
+            Slot6.Content = null; Slot6.Content = (slots.Count > 6) ? slots[6] : null;
         }
 
         private BitmapImage LoadImageSafe(string relativePath)
@@ -88,7 +149,6 @@ namespace HSCompsPlugin.UI
         {
             ApplySavedSettings();
 
-            // Регистрация в подсистеме ввода HDT для снятия WS_EX_TRANSPARENT и поддержки мыши
             HdtOverlayInputManager.RegisterElement(this);
             HdtOverlayInputManager.RegisterElement(HudCanvas);
             HdtOverlayInputManager.RegisterElement(ImgHudBg);
@@ -141,7 +201,6 @@ namespace HSCompsPlugin.UI
                 Point pos = e.GetPosition(this);
                 if (pos.X >= 0 && pos.X <= ActualWidth && pos.Y >= 0 && pos.Y <= ActualHeight)
                 {
-                    // Курсор всё ещё физически внутри мини-HUD (перемещение между внутренними элементами)
                     return;
                 }
             }
@@ -154,14 +213,18 @@ namespace HSCompsPlugin.UI
         {
             var settings = PluginSettings.Instance;
 
-            // Восстановление масштаба
             if (settings.OverlayScale > 0.4 && settings.OverlayScale < 2.5)
             {
                 OverlayScaleTransform.ScaleX = settings.OverlayScale;
                 OverlayScaleTransform.ScaleY = settings.OverlayScale;
             }
 
-            // Восстановление положения на холсте
+            System.Windows.Media.RenderOptions.SetBitmapScalingMode(
+                this,
+                settings.IsHighPerformanceMode
+                    ? System.Windows.Media.BitmapScalingMode.Linear
+                    : System.Windows.Media.BitmapScalingMode.HighQuality);
+
             if (settings.OverlayX >= 0 && Parent is Canvas parentCanvas)
             {
                 Canvas.SetLeft(this, settings.OverlayX);
@@ -243,24 +306,31 @@ namespace HSCompsPlugin.UI
 
             var slots = current.DisplaySlots;
             Slot0.Visibility = (slots != null && slots.Count > 0 && slots[0] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot0.Content = null;
             Slot0.Content = (slots != null && slots.Count > 0) ? slots[0] : null;
 
             Slot1.Visibility = (slots != null && slots.Count > 1 && slots[1] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot1.Content = null;
             Slot1.Content = (slots != null && slots.Count > 1) ? slots[1] : null;
 
             Slot2.Visibility = (slots != null && slots.Count > 2 && slots[2] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot2.Content = null;
             Slot2.Content = (slots != null && slots.Count > 2) ? slots[2] : null;
 
             Slot3.Visibility = (slots != null && slots.Count > 3 && slots[3] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot3.Content = null;
             Slot3.Content = (slots != null && slots.Count > 3) ? slots[3] : null;
 
             Slot4.Visibility = (slots != null && slots.Count > 4 && slots[4] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot4.Content = null;
             Slot4.Content = (slots != null && slots.Count > 4) ? slots[4] : null;
 
             Slot5.Visibility = (slots != null && slots.Count > 5 && slots[5] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot5.Content = null;
             Slot5.Content = (slots != null && slots.Count > 5) ? slots[5] : null;
 
             Slot6.Visibility = (slots != null && slots.Count > 6 && slots[6] != null) ? Visibility.Visible : Visibility.Collapsed;
+            Slot6.Content = null;
             Slot6.Content = (slots != null && slots.Count > 6) ? slots[6] : null;
         }
 
@@ -354,9 +424,6 @@ namespace HSCompsPlugin.UI
             OpenDetails();
         }
 
-        // ==========================================================
-        // Надежное перемещение мини-HUD по Canvas с фильтрацией кнопок
-        // ==========================================================
         private void OnHudMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && Parent is Canvas parentCanvas)
@@ -457,12 +524,11 @@ namespace HSCompsPlugin.UI
             }
         }
 
-        // ==========================================================
-        // Масштабирование (Ctrl + Колесо мыши)
-        // ==========================================================
         private void OnHudMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e != null && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.Modifiers.HasFlag(ModifierKeys.Control)))
+            if (e == null) return;
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
                 e.Handled = true;
                 double currentScale = OverlayScaleTransform.ScaleX;
@@ -474,6 +540,18 @@ namespace HSCompsPlugin.UI
 
                 PluginSettings.Instance.OverlayScale = newScale;
                 PluginSettings.Instance.Save();
+            }
+            else if (e.Delta != 0)
+            {
+                e.Handled = true;
+                if (e.Delta > 0)
+                {
+                    PrevComp();
+                }
+                else
+                {
+                    NextComp();
+                }
             }
         }
     }

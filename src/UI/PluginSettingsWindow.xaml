@@ -101,6 +101,12 @@
                             <TextBlock Text="* Мини-HUD останется на экране одновременно с большим окном анализа столов."
                                        Foreground="#96806C" FontSize="11" TextWrapping="Wrap" Margin="26,0,0,8"/>
 
+                            <CheckBox x:Name="ChkAutoHideDetailsInCombat" 
+                                      Content="Автоматически сворачивать окно анализа при начале фазы боя"/>
+
+                            <TextBlock Text="* Если подробное окно открыто в конце вербовки, оно само свернется с началом боя."
+                                       Foreground="#96806C" FontSize="11" TextWrapping="Wrap" Margin="26,0,0,8"/>
+
                             <CheckBox x:Name="ChkHighPerformanceMode" 
                                       Content="Режим максимальной производительности (для слабых ПК / ноутбуков)"/>
 
@@ -109,10 +115,31 @@
 
                             <Separator Background="#3E2713" Margin="0,0,0,10"/>
 
-                            <TextBlock Text="Положение и управление оверлеем:" Foreground="#E3B362" FontWeight="SemiBold" FontSize="12.5" Margin="0,0,0,6"/>
+                            <TextBlock Text="Положение и управление масштабом:" Foreground="#E3B362" FontWeight="SemiBold" FontSize="12.5" Margin="0,0,0,6"/>
+
+                            <Grid Margin="0,2,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="52"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Общий масштаб плагина:" 
+                                           Foreground="#FFE8C0" FontSize="13" FontWeight="SemiBold" 
+                                           VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                <Slider x:Name="SliderOverlayScale" Grid.Column="1" 
+                                        Minimum="50" Maximum="150" Value="100" 
+                                        TickFrequency="5" IsSnapToTickEnabled="True" SmallChange="5" LargeChange="10"
+                                        VerticalAlignment="Center" Cursor="Hand"
+                                        ValueChanged="OnScaleSliderValueChanged"/>
+                                <TextBlock x:Name="TxtScalePercent" Grid.Column="2" Text="100%" 
+                                           Foreground="#FFD982" FontSize="13.5" FontWeight="Bold" 
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+
                             <WrapPanel Orientation="Horizontal">
                                 <Button Content="Сбросить позицию (центр)" Click="OnResetPositionClick" Margin="0,0,8,6" Padding="10,6" FontSize="12"/>
                                 <Button Content="Сбросить масштаб (100%)" Click="OnResetScaleClick" Margin="0,0,8,6" Padding="10,6" FontSize="12"/>
+                                <Button x:Name="BtnClearImageCache" Content="🧹 Очистить кэш артов" Click="OnClearImageCacheClick" Margin="0,0,8,6" Padding="10,6" FontSize="12"/>
                                 <Button Content="📊 Открыть окно анализа столов" 
                                         Click="OnOpenDetailsClick" 
                                         Background="#263812" BorderBrush="#4D7A2A" Foreground="#C6EE88"
@@ -150,6 +177,10 @@
                                         <TextBlock x:Name="TxtDbFileDetails" 
                                                    Text="comps_vector_db.json" 
                                                    Foreground="#9E8772" FontSize="11" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="TxtDbStaleWarning" 
+                                                   Text="⚠️ База старше 7 дней — рекомендуется обновить мету из Firestone API" 
+                                                   Foreground="#FFB84D" FontSize="11" FontWeight="SemiBold" Margin="0,3,0,0" 
+                                                   TextWrapping="Wrap" Visibility="Collapsed"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>

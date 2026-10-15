@@ -105,8 +105,7 @@ namespace HSCompsPlugin.Services
                 BannedTribes = new List<string> { "Демон", "Пират", "Дракон", "Нага", "Свинобраз" },
                 ActiveTrinkets = new List<string>(),
                 BoardMinions = new List<BoardSlot>(),
-                HandMinions = new List<BoardSlot>(),
-                FrozenTavernMinions = new List<BoardSlot>()
+                HandMinions = new List<BoardSlot>()
             };
         }
     }

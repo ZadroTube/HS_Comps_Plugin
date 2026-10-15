@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/github/v/release/ZadroTube/HS_Comps_Plugin?label=Release&color=blue)](https://github.com/ZadroTube/HS_Comps_Plugin/releases)
 [![Author](https://img.shields.io/badge/Author-ZadroTube-brightgreen.svg)](https://github.com/ZadroTube)
 
-Интеллектуальный плагин-ассистент для **Hearthstone Deck Tracker (HDT)** в режиме **«Поля сражений» (Battlegrounds)** (автор: **ZadroTube**, версия: **3.0.1**). Плагин анализирует текущий стол игрока, доступные и забаненные типы существ (расы), выбранного героя и в реальном времени рассчитывает наиболее перспективные победные композиции на основе базы из более чем 1 300 эталонных соревновательных топ-сборок игроков высокого MMR (7000–18000+).
+Интеллектуальный плагин-ассистент для **Hearthstone Deck Tracker (HDT)** в режиме **«Поля сражений» (Battlegrounds)** (автор: **ZadroTube**, версия: **3.0.4**). Плагин анализирует текущий стол игрока, доступные и забаненные типы существ (расы), выбранного героя и в реальном времени рассчитывает наиболее перспективные победные композиции на основе базы из более чем 1 300 эталонных соревновательных топ-сборок игроков высокого MMR (7000–18000+).
 
 ---
 
@@ -105,7 +105,7 @@ HS_Comps_Plugin/
 ## 🚀 Установка плагина
 
 ### Способ 1: Установка из релиза (Рекомендуется)
-1. Скачайте архив **`HSCompsPlugin-v3.0.1.zip`** в разделе [Releases](https://github.com/ZadroTube/HS_Comps_Plugin/releases).
+1. Скачайте архив **`HSCompsPlugin-v3.0.4.zip`** в разделе [Releases](https://github.com/ZadroTube/HS_Comps_Plugin/releases).
 2. Убедитесь, что Hearthstone Deck Tracker закрыт.
 3. Распакуйте папку `HSCompsPlugin` из архива в каталог плагинов HDT:
    ```text

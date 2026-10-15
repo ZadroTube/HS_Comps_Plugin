@@ -20,8 +20,8 @@
             
             <!-- Обычная версия карты с мягкой теплой подсветкой -->
             <Image x:Name="ImgCardNormal"
-                   Source="{Binding Converter={StaticResource NormalImageConverter}}" 
-                   Width="285" Height="425" 
+                   Source="{Binding Self, Converter={StaticResource NormalImageConverter}}" 
+                   Width="328" Height="489" 
                    Stretch="Uniform" 
                    Margin="8,0"
                    RenderOptions.BitmapScalingMode="HighQuality">
@@ -41,8 +41,8 @@
 
             <!-- Золотая версия карты с мягкой теплой подсветкой -->
             <Image x:Name="ImgCardGolden"
-                   Source="{Binding Converter={StaticResource GoldenImageConverter}}" 
-                   Width="285" Height="425" 
+                   Source="{Binding Self, Converter={StaticResource GoldenImageConverter}}" 
+                   Width="328" Height="489" 
                    Stretch="Uniform" 
                    Margin="8,0"
                    RenderOptions.BitmapScalingMode="HighQuality">

@@ -13,6 +13,7 @@ namespace HSCompsPlugin.Services
         public bool ShowMiniOverlay { get; set; } = true;
         public bool ShowInMainMenu { get; set; } = false;
         public bool DontHideMiniOverlayOnDetails { get; set; } = false;
+        public bool AutoHideDetailsInCombat { get; set; } = false;
         public bool IsHighPerformanceMode { get; set; } = false;
 
         private static string SettingsFilePath

@@ -19,7 +19,8 @@ namespace HSCompsPlugin
         public string Description => "RAG / Векторный советник победных столов для Battlegrounds на актуальном патче";
         public string ButtonText => "Настройки";
         public string Author => "ZadroTube";
-        public Version Version => new Version(3, 0, 1);
+        public Version Version => new Version(3, 1, 2);
+        private bool _isEventsHooked = false;
 
         public MenuItem MenuItem { get; private set; }
 
@@ -29,8 +30,10 @@ namespace HSCompsPlugin
         private MenuItem _menuItemShowInBgs;
         private MenuItem _menuItemShowInMainMenu;
         private MenuItem _menuItemDontHideMiniOnDetails;
+        private MenuItem _menuItemAutoHideDetailsInCombat;
 
         private bool _isDemoMode = false;
+        private bool _wasInCombatPhase = false;
         private string _lockedTab1BoardId = null;
         private string _lockedAlt2BoardId = null;
         private string _lockedAlt3BoardId = null;
@@ -56,11 +59,21 @@ namespace HSCompsPlugin
         {
             try
             {
-                // 1. Инициализация официальной базы карт (Zero Hallucination)
-                CardDatabaseService.Instance.LoadDatabase();
-
-                // 2. Инициализация векторной базы победных столов
-                VectorSearchEngine.Instance.LoadDatabase();
+                // 1-2. Асинхронная фоновая инициализация официальной базы карт и векторной базы столов (Zero UI Freeze при старте HDT)
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        CardDatabaseService.Instance.LoadDatabase();
+                        VectorSearchEngine.Instance.LoadDatabase();
+                        LocalImageCache.Instance.PrewarmLobbyCardsAsync();
+                        _lastLiveStateHash = -1;
+                    }
+                    catch (Exception dbEx)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[HSCompsPlugin] Ошибка фоновой загрузки баз в OnLoad: {dbEx.Message}");
+                    }
+                });
 
                 // 3. Создание UI компонентов
                 Application.Current.Dispatcher.Invoke(() =>
@@ -95,16 +108,21 @@ namespace HSCompsPlugin
                 BuildMenu();
 
                 // 5. Подписка на оперативные игровые события HDT для мгновенного обновления без задержек
-                GameEvents.OnGameStart.Add(OnGameStart);
-                GameEvents.OnGameEnd.Add(OnGameEnd);
-                GameEvents.OnTurnStart.Add(OnTurnStart);
-                GameEvents.OnPlayerPlay.Add(OnCardEvent);
-                GameEvents.OnPlayerGet.Add(OnCardEvent);
-                GameEvents.OnPlayerCreateInPlay.Add(OnCardEvent);
-                GameEvents.OnPlayerPlayToGraveyard.Add(OnCardEvent);
-                GameEvents.OnPlayerHandDiscard.Add(OnCardEvent);
-                GameEvents.OnInMenu.Add(OnInMenuEvent);
-                GameEvents.OnModeChanged.Add(OnModeChangedEvent);
+                if (!_isEventsHooked)
+                {
+                    GameEvents.OnGameStart.Add(OnGameStart);
+                    GameEvents.OnGameEnd.Add(OnGameEnd);
+                    GameEvents.OnTurnStart.Add(OnTurnStart);
+                    GameEvents.OnPlayerPlay.Add(OnCardEvent);
+                    GameEvents.OnPlayerGet.Add(OnCardEvent);
+                    GameEvents.OnPlayerCreateInPlay.Add(OnCardEvent);
+                    GameEvents.OnPlayerPlayToGraveyard.Add(OnCardEvent);
+                    GameEvents.OnPlayerHandDiscard.Add(OnCardEvent);
+                    GameEvents.OnInMenu.Add(OnInMenuEvent);
+                    GameEvents.OnModeChanged.Add(OnModeChangedEvent);
+                    _isEventsHooked = true;
+                }
+                GameStateReader.LobbyTribesUpdated -= OnLobbyTribesUpdated;
                 GameStateReader.LobbyTribesUpdated += OnLobbyTribesUpdated;
             }
             catch (Exception ex)
@@ -161,6 +179,19 @@ namespace HSCompsPlugin
             };
             MenuItem.Items.Add(_menuItemDontHideMiniOnDetails);
 
+            _menuItemAutoHideDetailsInCombat = new MenuItem
+            {
+                Header = "Автоматически сворачивать окно анализа в бою",
+                IsCheckable = true,
+                IsChecked = settings.AutoHideDetailsInCombat
+            };
+            _menuItemAutoHideDetailsInCombat.Click += (s, e) =>
+            {
+                settings.AutoHideDetailsInCombat = _menuItemAutoHideDetailsInCombat.IsChecked;
+                settings.Save();
+            };
+            MenuItem.Items.Add(_menuItemAutoHideDetailsInCombat);
+
             MenuItem.Items.Add(new Separator());
 
             var itemSettings = new MenuItem { Header = "⚙️ Настройки плагина..." };
@@ -182,6 +213,7 @@ namespace HSCompsPlugin
             if (_menuItemShowInBgs != null) _menuItemShowInBgs.IsChecked = settings.ShowMiniOverlay;
             if (_menuItemShowInMainMenu != null) _menuItemShowInMainMenu.IsChecked = settings.ShowInMainMenu;
             if (_menuItemDontHideMiniOnDetails != null) _menuItemDontHideMiniOnDetails.IsChecked = settings.DontHideMiniOverlayOnDetails;
+            if (_menuItemAutoHideDetailsInCombat != null) _menuItemAutoHideDetailsInCombat.IsChecked = settings.AutoHideDetailsInCombat;
         }
 
         public void OpenSettingsWindow()
@@ -223,23 +255,28 @@ namespace HSCompsPlugin
 
         private void ResetOverlayScale()
         {
-            if (_miniOverlay != null)
-            {
-                PluginSettings.Instance.OverlayScale = 1.0;
-                PluginSettings.Instance.Save();
-                _miniOverlay.ApplySavedSettings();
-            }
+            PluginSettings.Instance.OverlayScale = 1.0;
+            PluginSettings.Instance.Save();
+            _miniOverlay?.ApplySavedSettings();
+            _detailWindow?.ApplySavedScale();
         }
 
         private void ApplySettingsState()
         {
             _lastLiveStateHash = -1;
+            _miniOverlay?.ApplySavedSettings();
+            _detailWindow?.ApplySavedScale();
             if (_miniOverlay != null)
             {
                 if (_isDemoMode) return;
 
                 var settings = PluginSettings.Instance;
                 bool isDetailsOpen = _detailWindow != null && _detailWindow.IsVisible && _detailWindow.WindowState != WindowState.Minimized;
+                if (isDetailsOpen)
+                {
+                    _detailWindow.EnsureActiveIfCursorInside();
+                }
+
                 bool hideDueToDetails = isDetailsOpen && !settings.DontHideMiniOverlayOnDetails;
 
                 if (hideDueToDetails)
@@ -304,19 +341,24 @@ namespace HSCompsPlugin
                                 tab1 = _heroBenchmarkComp;
                             }
 
-                            var excludeForAlt2 = new HashSet<string>();
+                            var excludeForAlt2 = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             if (tab1?.Board?.Id != null) excludeForAlt2.Add(tab1.Board.Id);
+                            if (tab1?.Board?.Archetype != null) excludeForAlt2.Add(tab1.Board.Archetype);
                             if (_heroBenchmarkComp?.Board?.Id != null) excludeForAlt2.Add(_heroBenchmarkComp.Board.Id);
+                            if (_heroBenchmarkComp?.Board?.Archetype != null) excludeForAlt2.Add(_heroBenchmarkComp.Board.Archetype);
                             if (!string.IsNullOrEmpty(_lockedAlt3BoardId)) excludeForAlt2.Add(_lockedAlt3BoardId);
 
                             var alt2 = !string.IsNullOrEmpty(_lockedAlt2BoardId)
                                 ? VectorSearchEngine.Instance.EvaluateBoardById(_lockedAlt2BoardId, liveState, isLocked: true)
                                 : VectorSearchEngine.Instance.FindDynamicAlternatives(liveState, excludeForAlt2, count: 1).FirstOrDefault();
 
-                            var excludeForAlt3 = new HashSet<string>();
+                            var excludeForAlt3 = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             if (tab1?.Board?.Id != null) excludeForAlt3.Add(tab1.Board.Id);
+                            if (tab1?.Board?.Archetype != null) excludeForAlt3.Add(tab1.Board.Archetype);
                             if (_heroBenchmarkComp?.Board?.Id != null) excludeForAlt3.Add(_heroBenchmarkComp.Board.Id);
+                            if (_heroBenchmarkComp?.Board?.Archetype != null) excludeForAlt3.Add(_heroBenchmarkComp.Board.Archetype);
                             if (alt2?.Board?.Id != null) excludeForAlt3.Add(alt2.Board.Id);
+                            if (alt2?.Board?.Archetype != null) excludeForAlt3.Add(alt2.Board.Archetype);
 
                             var alt3 = !string.IsNullOrEmpty(_lockedAlt3BoardId)
                                 ? VectorSearchEngine.Instance.EvaluateBoardById(_lockedAlt3BoardId, liveState, isLocked: true)
@@ -335,11 +377,13 @@ namespace HSCompsPlugin
                     _detailWindow.SetLockedBoardId(0, _lockedTab1BoardId);
                     _detailWindow.SetLockedBoardId(1, _lockedAlt2BoardId);
                     _detailWindow.SetLockedBoardId(2, _lockedAlt3BoardId);
+                    _detailWindow.ApplySavedScale();
+                    _detailWindow.RefreshDisplayedImages();
                     _detailWindow.WindowState = WindowState.Normal;
                     _detailWindow.Show();
-                    _detailWindow.Activate();
-                    _detailWindow.Focus();
                     _detailWindow.Topmost = true;
+                    _detailWindow.EnsureWindowActive();
+                    HdtOverlayInputManager.SetClickthrough(false);
 
                     var settings = PluginSettings.Instance;
                     if (!settings.DontHideMiniOverlayOnDetails)
@@ -364,11 +408,14 @@ namespace HSCompsPlugin
         {
             try
             {
+                GameStateReader.LobbyTribesUpdated -= OnLobbyTribesUpdated;
+                GameStateReader.Reset();
+
                 _searchCts?.Cancel();
                 _searchCts?.Dispose();
                 _searchCts = null;
 
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     if (_miniOverlay != null && Core.OverlayCanvas != null)
                     {
@@ -377,12 +424,14 @@ namespace HSCompsPlugin
 
                     if (_detailWindow != null)
                     {
-                        _detailWindow.Close();
+                        _detailWindow.ForceClose();
+                        _detailWindow = null;
                     }
 
                     if (_settingsWindow != null)
                     {
                         _settingsWindow.Close();
+                        _settingsWindow = null;
                     }
                 });
             }
@@ -393,6 +442,7 @@ namespace HSCompsPlugin
         {
             OpenSettingsWindow();
         }
+
 
         public void OnUpdate()
         {
@@ -415,6 +465,25 @@ namespace HSCompsPlugin
                 _lastUpdateTime = DateTime.Now;
 
                 bool isDetailsOpen = _detailWindow != null && _detailWindow.IsVisible && _detailWindow.WindowState != WindowState.Minimized;
+                if (isDetailsOpen)
+                {
+                    _detailWindow.EnsureActiveIfCursorInside();
+                }
+                if (inBg && isCombat && !_wasInCombatPhase && settings.AutoHideDetailsInCombat && isDetailsOpen)
+                {
+                    _wasInCombatPhase = true;
+                    isDetailsOpen = false;
+                    Application.Current?.Dispatcher?.InvokeAsync(() =>
+                    {
+                        if (_detailWindow != null && _detailWindow.IsVisible)
+                        {
+                            _detailWindow.Hide();
+                            ApplySettingsState();
+                        }
+                    }, System.Windows.Threading.DispatcherPriority.Normal);
+                }
+                _wasInCombatPhase = inBg && isCombat;
+
                 bool hideDueToDetails = isDetailsOpen && !settings.DontHideMiniOverlayOnDetails;
 
                 if (_isDemoMode)
@@ -475,12 +544,13 @@ namespace HSCompsPlugin
                     var liveState = GameStateReader.CaptureCurrentState();
                     liveState.LockedArchetypeId = null;
 
-                    // 1. Однократная фиксация бенчмарка Героя
+                    // 1. Фиксация и актуализация бенчмарка Героя (с защитой на муллигане и поддержкой смены героя в матче)
                     bool hasTribes = liveState.AvailableTribes != null && liveState.AvailableTribes.Count >= 3;
+                    bool isValidHero = GameStateReader.IsValidHeroCardId(liveState.HeroCardId);
+                    bool heroChanged = _isHeroLocked && isValidHero && !VectorSearchEngine.HeroesMatch(liveState.HeroCardId, _lockedHeroCardId);
+                    bool tribesArrivedAfterFallbackLock = _isHeroLocked && hasTribes && (_heroTribeBenchmarks == null || _heroTribeBenchmarks.Count == 0);
                     bool canLockHero = hasTribes || liveState.Turn >= 2;
-                    bool needHeroBenchmark = !_isHeroLocked && canLockHero && !string.IsNullOrEmpty(liveState.HeroCardId) &&
-                                             !liveState.HeroCardId.Contains("KelThuzad") &&
-                                             !liveState.HeroCardId.Contains("BaconShop_HERO_KelThuzad");
+                    bool needHeroBenchmark = isValidHero && canLockHero && (!_isHeroLocked || heroChanged || tribesArrivedAfterFallbackLock);
 
                     int stateHash = HashGameState(liveState);
                     if (stateHash != _lastLiveStateHash || needHeroBenchmark)
@@ -488,7 +558,12 @@ namespace HSCompsPlugin
                         _lastLiveStateHash = stateHash;
 
                         // Запуск асинхронного фонового расчета с отменой устаревших задач
-                        _searchCts?.Cancel();
+                        try
+                        {
+                            _searchCts?.Cancel();
+                            _searchCts?.Dispose();
+                        }
+                        catch { }
                         _searchCts = new System.Threading.CancellationTokenSource();
                         var token = _searchCts.Token;
                         int searchId = unchecked(++_activeSearchId);
@@ -558,9 +633,11 @@ namespace HSCompsPlugin
                             }
                             else
                             {
-                                var excludeForAlt2 = new HashSet<string>();
+                                var excludeForAlt2 = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 if (tab1Comp?.Board?.Id != null) excludeForAlt2.Add(tab1Comp.Board.Id);
+                                if (tab1Comp?.Board?.Archetype != null) excludeForAlt2.Add(tab1Comp.Board.Archetype);
                                 if (heroBench?.Board?.Id != null) excludeForAlt2.Add(heroBench.Board.Id);
+                                if (heroBench?.Board?.Archetype != null) excludeForAlt2.Add(heroBench.Board.Archetype);
                                 if (!string.IsNullOrEmpty(lockedAlt3Id)) excludeForAlt2.Add(lockedAlt3Id);
 
                                 var alt2Recs = VectorSearchEngine.Instance.FindDynamicAlternatives(liveState, excludeForAlt2, count: 1);
@@ -578,10 +655,13 @@ namespace HSCompsPlugin
                             }
                             else
                             {
-                                var excludeForAlt3 = new HashSet<string>();
+                                var excludeForAlt3 = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 if (tab1Comp?.Board?.Id != null) excludeForAlt3.Add(tab1Comp.Board.Id);
+                                if (tab1Comp?.Board?.Archetype != null) excludeForAlt3.Add(tab1Comp.Board.Archetype);
                                 if (heroBench?.Board?.Id != null) excludeForAlt3.Add(heroBench.Board.Id);
+                                if (heroBench?.Board?.Archetype != null) excludeForAlt3.Add(heroBench.Board.Archetype);
                                 if (alt2Comp?.Board?.Id != null) excludeForAlt3.Add(alt2Comp.Board.Id);
+                                if (alt2Comp?.Board?.Archetype != null) excludeForAlt3.Add(alt2Comp.Board.Archetype);
 
                                 var alt3Recs = VectorSearchEngine.Instance.FindDynamicAlternatives(liveState, excludeForAlt3, count: 1);
                                 alt3Comp = alt3Recs.Count > 0 ? alt3Recs[0] : null;
@@ -621,6 +701,7 @@ namespace HSCompsPlugin
                             }
                             _alt2Comp = alt2Comp;
                             _alt3Comp = alt3Comp;
+                            LocalImageCache.Instance.EnsureCompCardsLoaded(hudSlots, timeoutMs: 950);
 
                             // Единый пакетный неблокирующий вызов Dispatcher
                             Application.Current?.Dispatcher?.InvokeAsync(() =>
@@ -702,6 +783,8 @@ namespace HSCompsPlugin
                 int hash = 17;
                 hash = hash * 31 + state.Turn;
                 hash = hash * 31 + state.TavernTier;
+                int hpBucket = state.HeroHealth <= 10 ? 0 : (state.HeroHealth <= 15 ? 1 : 2);
+                hash = hash * 31 + hpBucket;
                 hash = hash * 31 + (_lockedTab1BoardId?.GetHashCode() ?? 0);
                 hash = hash * 31 + (_lockedAlt2BoardId?.GetHashCode() ?? 0);
                 hash = hash * 31 + (_lockedAlt3BoardId?.GetHashCode() ?? 0);
@@ -720,8 +803,6 @@ namespace HSCompsPlugin
                     {
                         hash = hash * 31 + m.DbfId;
                         hash = hash * 31 + (m.IsGolden ? 1 : 0);
-                        hash = hash * 31 + m.Attack;
-                        hash = hash * 31 + m.Health;
                     }
                 }
                 if (state.HandMinions != null)
@@ -732,11 +813,11 @@ namespace HSCompsPlugin
                         hash = hash * 31 + (m.IsGolden ? 1 : 0);
                     }
                 }
-                if (state.FrozenTavernMinions != null)
+                if (state.ActiveTrinkets != null)
                 {
-                    foreach (var m in state.FrozenTavernMinions)
+                    foreach (var tr in state.ActiveTrinkets)
                     {
-                        hash = hash * 31 + m.DbfId;
+                        hash = hash * 31 + (tr?.GetHashCode() ?? 0);
                     }
                 }
                 return hash;
@@ -750,7 +831,13 @@ namespace HSCompsPlugin
 
         private void OnInMenuEvent()
         {
-            _searchCts?.Cancel();
+            try
+            {
+                _searchCts?.Cancel();
+                _searchCts?.Dispose();
+                _searchCts = null;
+            }
+            catch { }
             _lastLiveStateHash = -1;
             _isHeroLocked = false;
             _lockedHeroCardId = null;
@@ -781,6 +868,8 @@ namespace HSCompsPlugin
             if (tribes == null || tribes.Count < 3) return;
             try
             {
+                LocalImageCache.Instance.PrewarmLobbyCardsAsync(tribes);
+
                 Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     _detailWindow?.SetAvailableTribes(tribes);
@@ -790,9 +879,7 @@ namespace HSCompsPlugin
                 string currentHeroId = !string.IsNullOrEmpty(_lockedHeroCardId) ? _lockedHeroCardId : liveState?.HeroCardId;
 
                 // Если герой уже определен, пересчитываем бенчмарки героя с актуальными племенами
-                if (!string.IsNullOrEmpty(currentHeroId) &&
-                    !currentHeroId.Contains("KelThuzad") &&
-                    !currentHeroId.Contains("BaconShop_HERO_KelThuzad"))
+                if (GameStateReader.IsValidHeroCardId(currentHeroId))
                 {
                     _lockedHeroCardId = currentHeroId;
                     _isHeroLocked = true;

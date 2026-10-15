@@ -13,7 +13,10 @@
         Topmost="True"
         ShowActivated="True"
         MouseEnter="OnWindowMouseEnter"
+        MouseLeave="OnWindowMouseLeave"
         PreviewMouseMove="OnWindowPreviewMouseMove"
+        PreviewMouseDown="OnWindowPreviewMouseDown"
+        PreviewMouseWheel="OnWindowPreviewMouseWheel"
         MouseMove="OnWindowMouseMove"
         WindowStartupLocation="CenterScreen">
 
@@ -76,6 +79,50 @@
                         </BeginStoryboard>
                     </Trigger.ExitActions>
                 </Trigger>
+                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                    <Setter Property="Panel.ZIndex" Value="100"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#FFE294" BlurRadius="18" ShadowDepth="0" Opacity="0.95"/>
+                        </Setter.Value>
+                    </Setter>
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" 
+                                                 To="1.22" Duration="0:0:0.18">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuadraticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" 
+                                                 To="1.22" Duration="0:0:0.18">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuadraticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" 
+                                                 To="1.0" Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuadraticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" 
+                                                 To="1.0" Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuadraticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -215,7 +262,7 @@
             <!-- 5. ОСНОВНОЙ СТОЛ: 7 НАСТОЯЩИХ КАРТ HEARTHSTONE С ЗУМОМ -->
             <ItemsControl x:Name="ItemsBoardShowcase" 
                           Canvas.Left="55" Canvas.Top="245" 
-                          Width="1450" Height="375">
+                          Width="1450" Height="375" Background="#01000000">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
@@ -242,7 +289,7 @@
                             
                             <Grid>
                                 <!-- Полная карта Blizzard с артом, описанием и тиром (или аутентичный токен для аберраций) -->
-                                <Image Source="{Binding Converter={StaticResource BoardShowcaseConverter}}" 
+                                <Image Source="{Binding Self, Converter={StaticResource BoardShowcaseConverter}}" 
                                        Stretch="Uniform" 
                                        Width="195" Height="340"/>
 
@@ -269,16 +316,6 @@
                                         <DropShadowEffect Color="#000000" BlurRadius="6" ShadowDepth="2" Opacity="0.9"/>
                                     </Border.Effect>
                                     <TextBlock Text="В РУКЕ" Foreground="#FFFFFF" FontWeight="Bold" FontSize="12"/>
-                                </Border>
-
-                                <!-- Бейдж «В ТАВЕРНЕ (ЗАМОРОЖЕН)» ледяной синий -->
-                                <Border Visibility="{Binding Status, Converter={x:Static local:FrozenVisibilityConverter.Instance}}"
-                                        Background="#CC165C7D" BorderBrush="#8AE2FF" BorderThickness="2" CornerRadius="12" 
-                                        Padding="10,4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,8">
-                                    <Border.Effect>
-                                        <DropShadowEffect Color="#000000" BlurRadius="6" ShadowDepth="2" Opacity="0.9"/>
-                                    </Border.Effect>
-                                    <TextBlock Text="В ТАВЕРНЕ" Foreground="#FFFFFF" FontWeight="Bold" FontSize="12"/>
                                 </Border>
 
                                 <!-- Бейдж «НУЖНО НАЙТИ» фиолетовый со звездой тира таверны -->
@@ -314,7 +351,7 @@
             <!-- 7. ЛЕВАЯ ПАНЕЛЬ: МИНИАТЮРЫ СОБРАННЫХ КАРТ В РАМКАХ (FRAME_ALREADY_HAVE) -->
             <ItemsControl x:Name="ItemsOwnedAvatars" 
                           Canvas.Left="88" Canvas.Top="708" 
-                          Width="672" Height="150">
+                          Width="672" Height="150" Background="#01000000">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -322,14 +359,14 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="94" Height="140" Margin="1,0,1,0" Background="#01000000" Cursor="Hand" ToolTipService.InitialShowDelay="150">
+                        <Grid Width="94" Height="140" Margin="1,0,1,0" Background="#01000000" Cursor="Hand" ToolTipService.InitialShowDelay="150" MouseEnter="OnSubCardMouseEnter" MouseLeave="OnSubCardMouseLeave">
                             <Grid.ToolTip>
                                 <ToolTip Background="Transparent" BorderThickness="0" Padding="0" HasDropShadow="False">
                                     <local:CardTooltipControl DataContext="{Binding}"/>
                                 </ToolTip>
                             </Grid.ToolTip>
                             <!-- Овальный портрет карты в рамке frame_already_have -->
-                            <Image Source="{Binding Converter={StaticResource OwnedFramedTokenConverter}}" 
+                            <Image Source="{Binding Self, Converter={StaticResource OwnedFramedTokenConverter}}" 
                                    Width="94" Height="138" 
                                    Stretch="Uniform" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -352,7 +389,7 @@
             <!-- 8. ПРАВАЯ ПАНЕЛЬ: КАРТЫ ДЛЯ ПОИСКА В РАМКАХ (FRAME_NOT_IN_HAND_YET) -->
             <ItemsControl x:Name="ItemsMissingPriorities" 
                           Canvas.Left="800" Canvas.Top="708" 
-                          Width="672" Height="150">
+                          Width="672" Height="150" Background="#01000000">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -360,14 +397,14 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="94" Height="140" Margin="1,0,1,0" Background="#01000000" Cursor="Hand" ToolTipService.InitialShowDelay="150">
+                        <Grid Width="94" Height="140" Margin="1,0,1,0" Background="#01000000" Cursor="Hand" ToolTipService.InitialShowDelay="150" MouseEnter="OnSubCardMouseEnter" MouseLeave="OnSubCardMouseLeave">
                             <Grid.ToolTip>
                                 <ToolTip Background="Transparent" BorderThickness="0" Padding="0" HasDropShadow="False">
                                     <local:CardTooltipControl DataContext="{Binding}"/>
                                 </ToolTip>
                             </Grid.ToolTip>
                             <!-- Овальный портрет карты в рамке frame_not_in_hand_yet -->
-                            <Image Source="{Binding Converter={StaticResource PriorityFramedTokenConverter}}" 
+                            <Image Source="{Binding Self, Converter={StaticResource PriorityFramedTokenConverter}}" 
                                    Width="94" Height="138" 
                                    Stretch="Uniform" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center"

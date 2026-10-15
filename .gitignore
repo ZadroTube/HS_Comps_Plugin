@@ -6,5 +6,17 @@ obj/
 Cache/
 scratch*
 temp_*
+test_*
+crop_*
+window_*
 *.log
+*.dll.old
 __pycache__/
+
+# Исключаем скомпилированные бинарники в корне, тяжелые зависимости и локальный кеш полноразмерных артов из Git
+/*.dll
+/*.exe
+/*.pdb
+lib/*.exe
+lib/*.dll
+assets/cards/full/

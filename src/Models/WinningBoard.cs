@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace HSCompsPlugin.Models
@@ -34,5 +35,24 @@ namespace HSCompsPlugin.Models
 
         [Newtonsoft.Json.JsonIgnore]
         public bool IsMalformedBoard { get; set; } = false;
+
+        // Предрассчитанные веса и нормализованные ключи (вычисляются 1 раз при загрузке базы)
+        [Newtonsoft.Json.JsonIgnore]
+        public string CanonicalPrimaryTribe { get; set; } = "Все";
+
+        [Newtonsoft.Json.JsonIgnore]
+        public string NormalizedHeroCardId { get; set; } = string.Empty;
+
+        [Newtonsoft.Json.JsonIgnore]
+        public float[] MinionWeights { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        public float NormDivisor { get; set; } = 6.5f;
+
+        [Newtonsoft.Json.JsonIgnore]
+        public HashSet<string> TrinketSet { get; set; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        [Newtonsoft.Json.JsonIgnore]
+        public TribeFlags TrinketTribesMask { get; set; } = TribeFlags.None;
     }
 }

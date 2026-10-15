@@ -162,7 +162,12 @@ namespace HSCompsPlugin.Updater
             try
             {
                 await DownloadFileWithProgressAsync(releaseInfo.DownloadUrl, tempZipPath);
-                PrintColor("[✓] Архив успешно загружен!", ConsoleColor.Green);
+                var zipInfo = new FileInfo(tempZipPath);
+                if (!zipInfo.Exists || zipInfo.Length < 1024 || (releaseInfo.AssetSize > 0 && zipInfo.Length != releaseInfo.AssetSize))
+                {
+                    throw new IOException($"Скачанный архив поврежден или загружен не полностью ({zipInfo.Length} байт из {releaseInfo.AssetSize}).");
+                }
+                PrintColor("[✓] Архив успешно загружен и проверен!", ConsoleColor.Green);
 
                 // 7. Распаковка архива
                 PrintColor("\n[3/4] Распаковка и подготовка файлов...", ConsoleColor.Cyan);
@@ -327,7 +332,7 @@ namespace HSCompsPlugin.Updater
                 }
 
                 string jsonContent = await response.Content.ReadAsStringAsync();
-                var serializer = new JavaScriptSerializer();
+                var serializer = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
                 var json = serializer.Deserialize<Dictionary<string, object>>(jsonContent);
                 if (json == null)
                 {
@@ -501,6 +506,24 @@ namespace HSCompsPlugin.Updater
                 if (!Directory.Exists(destDir))
                 {
                     Directory.CreateDirectory(destDir);
+                }
+
+                // Не затираем локальную базу comps_vector_db.json, если пользователь уже обновил её свежее релизного архива
+                if (!_forceMode &&
+                    string.Equals(Path.GetFileName(srcFile), "comps_vector_db.json", StringComparison.OrdinalIgnoreCase) &&
+                    File.Exists(destFile))
+                {
+                    try
+                    {
+                        DateTime srcTime = File.GetLastWriteTimeUtc(srcFile);
+                        DateTime dstTime = File.GetLastWriteTimeUtc(destFile);
+                        if (dstTime > srcTime)
+                        {
+                            PrintColor("    [i] Сохранена более свежая локальная база comps_vector_db.json", ConsoleColor.DarkCyan);
+                            continue;
+                        }
+                    }
+                    catch { }
                 }
 
                 File.Copy(srcFile, destFile, true);

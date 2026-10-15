@@ -58,20 +58,66 @@ namespace HSCompsPlugin.UI
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 
+    internal static class CardIdResolverHelper
+    {
+        public static bool IsSyntheticNumericBgId(string cardId)
+        {
+            if (string.IsNullOrEmpty(cardId)) return true;
+            if (char.IsDigit(cardId[0])) return true;
+            if (cardId.StartsWith("BG_", StringComparison.OrdinalIgnoreCase) && cardId.Length > 3 && char.IsDigit(cardId[3]))
+                return true;
+            return false;
+        }
+
+        public static string ResolveEffectiveCardId(BoardSlot slot)
+        {
+            if (slot == null) return string.Empty;
+            string cardId = slot.CardId;
+            if (!IsSyntheticNumericBgId(cardId))
+            {
+                return cardId;
+            }
+            string slug = slot.Card?.Slug;
+            if (!string.IsNullOrEmpty(slug) && !char.IsDigit(slug[0]))
+            {
+                return slug;
+            }
+            int dbf = slot.DbfId > 0 ? slot.DbfId : (slot.Card?.Id ?? 0);
+            if (dbf > 0)
+            {
+                string mapped = CardDatabaseService.Instance.GetCardIdByDbfId(dbf);
+                if (!string.IsNullOrEmpty(mapped)) return mapped;
+            }
+            return cardId ?? string.Empty;
+        }
+
+        public static string ResolveCleanBaseCardId(BoardSlot slot)
+        {
+            string raw = ResolveEffectiveCardId(slot);
+            if (!string.IsNullOrEmpty(raw) && raw.EndsWith("_G", StringComparison.OrdinalIgnoreCase))
+            {
+                return raw.Substring(0, raw.Length - 2);
+            }
+            return raw;
+        }
+    }
+
     public class BoardShowcaseImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is BoardSlot slot)
             {
-                // Если карта на столе золотая — в первую очередь загружаем официальную золотую версию
+                string effectiveId = CardIdResolverHelper.ResolveEffectiveCardId(slot);
+                string baseCardId = CardIdResolverHelper.ResolveCleanBaseCardId(slot);
+
+                // Если карта на столе золотая — проверяем золотую версию (без блокировки показа обычной карты)
                 if (slot.IsGolden)
                 {
                     int goldenDbfId = slot.Card?.GoldenUpgradeId ?? 0;
-                    string baseCardId = !string.IsNullOrEmpty(slot.Card?.Slug) ? slot.Card.Slug : slot.CardId;
-                    string goldenCardId = !string.IsNullOrEmpty(slot.CardId) && (slot.CardId.EndsWith("_G", StringComparison.OrdinalIgnoreCase) || slot.CardId.StartsWith("TB_BaconUps_", StringComparison.OrdinalIgnoreCase))
-                        ? slot.CardId
-                        : $"{baseCardId}_G";
+                    string goldenCardId = !string.IsNullOrEmpty(effectiveId) && (effectiveId.EndsWith("_G", StringComparison.OrdinalIgnoreCase) || effectiveId.StartsWith("TB_BaconUps_", StringComparison.OrdinalIgnoreCase))
+                        ? effectiveId
+                        : (!string.IsNullOrEmpty(baseCardId) ? $"{baseCardId}_G" : slot.CardId);
 
                     var goldBmp = LocalImageCache.Instance.GetGoldenCardBitmap(goldenDbfId, goldenCardId, baseCardId);
                     if (goldBmp != null)
@@ -80,8 +126,8 @@ namespace HSCompsPlugin.UI
                     }
                 }
 
-                // Для обычной карты (или если золотая версия не имеет отдельного арта) берем обычный арт
-                var norm = LocalImageCache.Instance.GetNormalCardBitmap(slot.DbfId, slot.CardId, slot.FullImageUrl);
+                // Мгновенно возвращаем обычную полную карту (из локального кэша или официального CloudFront ImageRu)
+                var norm = LocalImageCache.Instance.GetNormalCardBitmap(slot.DbfId, baseCardId, slot.FullImageUrl);
                 if (norm != null)
                 {
                     return norm;
@@ -93,8 +139,6 @@ namespace HSCompsPlugin.UI
                     return full;
                 }
 
-                // В центральной части главного окна отображаются ИСКЛЮЧИТЕЛЬНО полноразмерные карты Hearthstone.
-                // Ни в коем случае не возвращаем круглый токен мини-худа (frame_in_hand / frame_on_table).
                 return null;
             }
             return null;
@@ -133,7 +177,6 @@ namespace HSCompsPlugin.UI
                     case SlotStatus.InHand:
                         frame = "frame_in_hand";
                         break;
-                    case SlotStatus.FrozenInTavern:
                     case SlotStatus.NeedToFind:
                     default:
                         frame = "frame_need_to_find";
@@ -153,7 +196,6 @@ namespace HSCompsPlugin.UI
         {
             if (value is BoardSlot slot)
             {
-                // Нижний левый блок главного окна («что собрано»): рамка frame_already_have с точной центровкой
                 return LocalImageCache.Instance.GetFramedMinionBitmap(slot.DbfId, slot.CardId, "frame_already_have", slot.Status, slot.CropImageUrl);
             }
             return null;
@@ -168,7 +210,6 @@ namespace HSCompsPlugin.UI
         {
             if (value is BoardSlot slot)
             {
-                // Нижний правый блок главного окна («карты для поиска»): рамка frame_need_to_find
                 return LocalImageCache.Instance.GetFramedMinionBitmap(slot.DbfId, slot.CardId, "frame_need_to_find", slot.Status, slot.CropImageUrl);
             }
             return null;
@@ -190,7 +231,6 @@ namespace HSCompsPlugin.UI
                     {
                         case SlotStatus.OnBoard: frame = "frame_on_table"; break;
                         case SlotStatus.InHand: frame = "frame_in_hand"; break;
-                        case SlotStatus.FrozenInTavern:
                         default: frame = "frame_need_to_find"; break;
                     }
                 }
@@ -209,7 +249,7 @@ namespace HSCompsPlugin.UI
             if (value is BoardSlot slot)
             {
                 int dbfId = slot.Card?.Id ?? slot.DbfId;
-                string cardId = !string.IsNullOrEmpty(slot.Card?.Slug) ? slot.Card.Slug : slot.CardId;
+                string cardId = CardIdResolverHelper.ResolveCleanBaseCardId(slot);
                 return LocalImageCache.Instance.GetNormalCardBitmap(dbfId, cardId, slot.FullImageUrl);
             }
             return null;
@@ -225,8 +265,8 @@ namespace HSCompsPlugin.UI
             if (value is BoardSlot slot)
             {
                 int goldenDbfId = slot.Card?.GoldenUpgradeId ?? 0;
-                string baseCardId = !string.IsNullOrEmpty(slot.Card?.Slug) ? slot.Card.Slug : slot.CardId;
-                string goldenCardId = $"{baseCardId}_G";
+                string baseCardId = CardIdResolverHelper.ResolveCleanBaseCardId(slot);
+                string goldenCardId = !string.IsNullOrEmpty(baseCardId) ? $"{baseCardId}_G" : slot.CardId;
                 return LocalImageCache.Instance.GetGoldenCardBitmap(goldenDbfId, goldenCardId, baseCardId);
             }
             return null;
@@ -242,53 +282,7 @@ namespace HSCompsPlugin.UI
             if (!(value is SlotStatus status))
                 return null;
 
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            string assemblyDir = Path.GetDirectoryName(typeof(StatusRingConverter).Assembly.Location) ?? "";
-
-            string ringFile = "ring_bob.png";
-            switch (status)
-            {
-                case SlotStatus.OnBoard:
-                    ringFile = "ring_board.png";
-                    break;
-                case SlotStatus.InHand:
-                    ringFile = "ring_hand.png";
-                    break;
-                case SlotStatus.FrozenInTavern:
-                    ringFile = "ring_frozen.png";
-                    break;
-                case SlotStatus.NeedToFind:
-                    ringFile = "ring_bob.png";
-                    break;
-            }
-
-            string[] candidates = new[]
-            {
-                Path.Combine(assemblyDir, "assets", "ui", ringFile),
-                Path.Combine(baseDir, "assets", "ui", ringFile),
-                Path.Combine(baseDir, "Plugins", "HSCompsPlugin", "assets", "ui", ringFile),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HearthstoneDeckTracker", "Plugins", "HSCompsPlugin", "assets", "ui", ringFile)
-            };
-
-            foreach (var p in candidates)
-            {
-                if (File.Exists(p))
-                {
-                    try
-                    {
-                        var bmp = new BitmapImage();
-                        bmp.BeginInit();
-                        bmp.UriSource = new Uri(p, UriKind.Absolute);
-                        bmp.CacheOption = BitmapCacheOption.OnLoad;
-                        bmp.EndInit();
-                        bmp.Freeze();
-                        return bmp;
-                    }
-                    catch { }
-                }
-            }
-
-            return null;
+            return LocalImageCache.Instance.GetRingBitmap(status);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
@@ -342,20 +336,6 @@ namespace HSCompsPlugin.UI
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is SlotStatus status && status == SlotStatus.NeedToFind)
-                return System.Windows.Visibility.Visible;
-            return System.Windows.Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
-    }
-
-    public class FrozenVisibilityConverter : IValueConverter
-    {
-        public static readonly FrozenVisibilityConverter Instance = new FrozenVisibilityConverter();
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is SlotStatus status && status == SlotStatus.FrozenInTavern)
                 return System.Windows.Visibility.Visible;
             return System.Windows.Visibility.Collapsed;
         }

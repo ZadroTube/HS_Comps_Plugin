@@ -15,6 +15,8 @@ namespace HSCompsPlugin.Services
         public DateTime? LastModified { get; set; }
         public int BoardCount { get; set; }
         public double FileSizeKb { get; set; }
+        public int AgeDays => LastModified.HasValue ? Math.Max(0, (int)(DateTime.Now - LastModified.Value).TotalDays) : 0;
+        public bool IsStale => LastModified.HasValue && (DateTime.Now - LastModified.Value).TotalDays > 7.0;
     }
 
     public class UpdateResult
@@ -253,12 +255,8 @@ namespace HSCompsPlugin.Services
                 string pythonPath = FindPythonExecutable();
                 if (string.IsNullOrEmpty(pythonPath))
                 {
-                    string err = "Python 3 не найден в системе (PATH). Установите Python 3 с официального сайта python.org.";
-                    Log($"❌ Ошибка: {err}");
-                    result.Success = false;
-                    result.Message = err;
-                    UpdateCompleted?.Invoke(false, err);
-                    return result;
+                    Log("ℹ️ Локальный интерпретатор Python 3 не обнаружен — переключение на автономное облачное обновление (C# Direct Cloud Fallback)...");
+                    return await RunDirectCloudFallbackUpdateAsync(result, Log);
                 }
 
                 string scriptPath = FindScriptPath();
@@ -280,7 +278,7 @@ namespace HSCompsPlugin.Services
                 var psi = new ProcessStartInfo
                 {
                     FileName = pythonPath,
-                    Arguments = $"-u \"{scriptPath}\"",
+                    Arguments = $"-B -u \"{scriptPath}\"",
                     WorkingDirectory = workingDir,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -379,6 +377,83 @@ namespace HSCompsPlugin.Services
             finally
             {
                 IsUpdating = false;
+            }
+        }
+        private async Task<UpdateResult> RunDirectCloudFallbackUpdateAsync(UpdateResult result, Action<string> log)
+        {
+            const string RawDbUrl = "https://raw.githubusercontent.com/ZadroTube/HS_Comps_Plugin/main/comps_vector_db.json";
+            const string RawSuppUrl = "https://raw.githubusercontent.com/ZadroTube/HS_Comps_Plugin/main/supplementary_cards.json";
+
+            try
+            {
+                using (var client = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromSeconds(30) })
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "HSCompsPlugin/3.0.4");
+
+                    log("🌐 Загрузка актуальной базы победных столов comps_vector_db.json...");
+                    var dbResponse = await client.GetAsync(RawDbUrl).ConfigureAwait(false);
+                    dbResponse.EnsureSuccessStatusCode();
+                    string dbJson = await dbResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    if (string.IsNullOrWhiteSpace(dbJson) || !dbJson.Contains("\"boards\""))
+                    {
+                        throw new InvalidDataException("Полученный файл базы данных пуст или имеет некорректный формат.");
+                    }
+
+                    string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    string pluginDir = Path.Combine(appData, "HearthstoneDeckTracker", "Plugins", "HSCompsPlugin");
+                    if (!Directory.Exists(pluginDir)) Directory.CreateDirectory(pluginDir);
+
+                    string targetDbPath = Path.Combine(pluginDir, "comps_vector_db.json");
+                    File.WriteAllText(targetDbPath, dbJson, Encoding.UTF8);
+                    log($"   Сохранено: {targetDbPath}");
+
+                    string assemblyDir = Path.GetDirectoryName(typeof(DatabaseUpdateService).Assembly.Location) ?? "";
+                    if (!string.IsNullOrEmpty(assemblyDir) && Directory.Exists(assemblyDir))
+                    {
+                        string asmDbPath = Path.Combine(assemblyDir, "comps_vector_db.json");
+                        if (!string.Equals(targetDbPath, asmDbPath, StringComparison.OrdinalIgnoreCase))
+                        {
+                            try { File.WriteAllText(asmDbPath, dbJson, Encoding.UTF8); } catch { }
+                        }
+                    }
+
+                    try
+                    {
+                        var suppResp = await client.GetAsync(RawSuppUrl).ConfigureAwait(false);
+                        if (suppResp.IsSuccessStatusCode)
+                        {
+                            string suppJson = await suppResp.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            if (!string.IsNullOrWhiteSpace(suppJson) && suppJson.Contains("\"cards\""))
+                            {
+                                File.WriteAllText(Path.Combine(pluginDir, "supplementary_cards.json"), suppJson, Encoding.UTF8);
+                                CardDatabaseService.Instance.IsLoaded = false;
+                                CardDatabaseService.Instance.LoadDatabase();
+                            }
+                        }
+                    }
+                    catch { }
+
+                    log("⚡ Мгновенная перезагрузка базы данных в памяти советника...");
+                    VectorSearchEngine.Instance.ReloadDatabase(targetDbPath);
+
+                    int count = VectorSearchEngine.Instance.BoardsCount;
+                    result.Success = true;
+                    result.BoardCount = count;
+                    result.Message = $"База успешно обновлена в автономном режиме (без Python)! Загружено {count} эталонных победных столов.";
+                    log($"✅ {result.Message}");
+                    UpdateCompleted?.Invoke(true, result.Message);
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                string err = $"Не удалось выполнить автономное обновление базы: {ex.Message}";
+                log($"❌ {err}");
+                result.Success = false;
+                result.Message = err;
+                UpdateCompleted?.Invoke(false, err);
+                return result;
             }
         }
     }
