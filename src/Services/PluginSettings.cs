@@ -11,6 +11,7 @@ namespace HSCompsPlugin.Services
         public double OverlayScale { get; set; } = 1.0;
         public bool IsLockedToTop { get; set; } = false;
         public bool ShowMiniOverlay { get; set; } = true;
+        public bool ShowSelectionStatsOverlay { get; set; } = true;
         public bool ShowInMainMenu { get; set; } = false;
         public bool DontHideMiniOverlayOnDetails { get; set; } = false;
         public bool AutoHideDetailsInCombat { get; set; } = false;

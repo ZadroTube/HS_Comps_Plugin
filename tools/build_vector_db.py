@@ -519,8 +519,47 @@ def create_synthetic_naga_board(hero_id, archetype_name, dbf_list, official_card
     }
 
 
+CANONICAL_HERO_TRIBES = {
+    "TB_BaconShop_HERO_18": {"Пират": 1.0},
+    "BG26_HERO_101":        {"Пират": 1.0},
+    "TB_BaconShop_HERO_53": {"Дракон": 1.0},
+    "TB_BaconShop_HERO_56": {"Дракон": 1.0},
+    "TB_BaconShop_HERO_17": {"Механизм": 1.0},
+    "BG22_HERO_200":        {"Механизм": 1.0},
+    "BG31_HERO_801":        {"Механизм": 1.0},
+    "BG31_HERO_802":        {"Механизм": 1.0},
+    "TB_BaconShop_HERO_55": {"Мурлок": 1.0},
+    "TB_BaconShop_HERO_78": {"Элементаль": 1.0},
+    "BG20_HERO_103":        {"Свинобраз": 1.0},
+    "TB_BaconShop_HERO_37": {"Демон": 1.0},
+    "TB_BaconShop_HERO_25": {"Демон": 1.0},
+    "BG25_HERO_100":        {"Нежить": 1.0},
+    "TB_BaconShop_HERO_702":{"Нежить": 1.0},
+    "BG22_HERO_007":        {"Нага": 1.0},
+    "BG23_HERO_304":        {"Нага": 1.0},
+    "TB_BaconShop_HERO_93": {"Зверь": 0.5, "Нежить": 0.5},
+    "TB_BaconShop_HERO_95": {"Зверь": 0.5, "Нежить": 0.5},
+    "BG22_HERO_305":        {"Зверь": 0.5, "Нежить": 0.5},
+    "BG25_HERO_103":        {"Зверь": 0.5, "Нежить": 0.5},
+    "TB_BaconShop_HERO_22": {"Нежить": 0.5, "Зверь": 0.5},
+    "BG23_HERO_201":        {"Зверь": 0.5, "Нежить": 0.5},
+    "TB_BaconShop_HERO_52": {"Нежить": 0.5, "Зверь": 0.5},
+    "BG20_HERO_282":        {"Нежить": 0.5, "Дракон": 0.5},
+    "BG21_HERO_030":        {"Механизм": 0.5, "Мурлок": 0.5},
+    "TB_BaconShop_HERO_23": {"Мурлок": 0.5, "Элементаль": 0.5},
+    "TB_BaconShop_HERO_43": {"Мурлок": 0.5, "Дракон": 0.5},
+    "TB_BaconShop_HERO_10": {"Пират": 0.5, "Элементаль": 0.5},
+    "TB_BaconShop_HERO_49": {"Элементаль": 0.5, "Пират": 0.5},
+    "TB_BaconShop_HERO_01": {"Пират": 0.34, "Элементаль": 0.33, "Мурлок": 0.33},
+    "BG20_HERO_102":        {"Демон": 0.34, "Механизм": 0.33, "Элементаль": 0.33},
+    "TB_BaconShop_HERO_14": {"Зверинец": 1.0},
+    "TB_BaconShop_HERO_33": {"Зверинец": 1.0},
+}
+
+
 def build_meta_stats_db(boards):
     import hashlib
+    import re
     off_data = json.load(open(OFFICIAL_CARDS_PATH, "r", encoding="utf-8"))
     off_cards = off_data.get("cards", [])
     id_map = json.load(open(HEARTHDB_MAP_PATH, "r", encoding="utf-8")) if os.path.exists(HEARTHDB_MAP_PATH) else {}
@@ -575,13 +614,8 @@ def build_meta_stats_db(boards):
             armor_num = armor if isinstance(armor, (int, float)) and armor > 0 else 12
             raw_quality = 0.38 + (20 - min(20, max(5, armor_num))) / 35.0 * 0.22 + ((h_val % 100) / 100.0) * 0.20
 
-        tribe_counts = {}
-        for b in b_list:
-            pt = b.get("PrimaryTribe")
-            if pt and pt != "Все":
-                tribe_counts[pt] = tribe_counts.get(pt, 0) + 1
-        tot_t = sum(tribe_counts.values()) or 1
-        tribe_weights = {k: round(v / tot_t, 3) for k, v in tribe_counts.items()}
+        # Строго каноническая привязка синергии героя по его силе героя и официальному типу Blizzard
+        tribe_weights = dict(CANONICAL_HERO_TRIBES.get(cid, {}))
         temp_heroes.append({"CardId": cid, "DbfId": dbf, "NameRu": name_ru, "RawQuality": raw_quality, "TribeWeights": tribe_weights})
 
     temp_heroes.sort(key=lambda x: x["RawQuality"], reverse=True)
@@ -615,38 +649,41 @@ def build_meta_stats_db(boards):
         if c.get("cardTypeId") in (40, 42, 44):
             dbf = c["id"]
             cid = dbf_to_cardid.get(dbf, c.get("slug", "TRINKET_" + str(dbf)))
-            all_trinket_keys[cid] = (cid, dbf, c.get("nameRu") or c.get("nameEn") or cid, c.get("tribeRu") or "", c.get("manaCost") or 3)
+            all_trinket_keys[cid] = (cid, dbf, c.get("nameRu") or c.get("nameEn") or cid, c.get("tribeRu") or "Без типа", c.get("manaCost") or 3)
     for cid in trinket_boards.keys():
         if cid not in all_trinket_keys:
             dbf = id_map.get(cid, 0)
             c = off_by_id.get(dbf) or off_by_slug.get(cid)
-            all_trinket_keys[cid] = (cid, dbf, (c.get("nameRu") if c else None) or cid, (c.get("tribeRu") if c else None) or "", 3)
+            base_cid = re.sub(r"(?:t\d*|_G)$", "", cid)
+            base_dbf = id_map.get(base_cid, 0)
+            base_c = off_by_id.get(base_dbf) if base_dbf else None
+            name_ru = (c.get("nameRu") if c else None) or (base_c.get("nameRu") if base_c else None) or cid
+            tribe_ru = (c.get("tribeRu") if c else None) or (base_c.get("tribeRu") if base_c else None) or "Без типа"
+            all_trinket_keys[cid] = (cid, dbf, name_ru, tribe_ru, 3)
     for cid, dbf in id_map.items():
-        if ("MagicItem" in cid or "Trinket" in cid) and not cid.endswith("e") and not cid.endswith("t"):
+        if ("MagicItem" in cid or "Trinket" in cid) and not re.search(r"e\d*$", cid, re.IGNORECASE):
             if cid not in all_trinket_keys:
                 c = off_by_id.get(dbf)
-                all_trinket_keys[cid] = (cid, dbf, (c.get("nameRu") if c else None) or cid, (c.get("tribeRu") if c else None) or "", 3)
+                base_cid = re.sub(r"(?:t\d*|_G)$", "", cid)
+                base_dbf = id_map.get(base_cid, 0)
+                base_c = off_by_id.get(base_dbf) if base_dbf else None
+                name_ru = (c.get("nameRu") if c else None) or (base_c.get("nameRu") if base_c else None) or cid
+                tribe_ru = (c.get("tribeRu") if c else None) or (base_c.get("tribeRu") if base_c else None) or "Без типа"
+                all_trinket_keys[cid] = (cid, dbf, name_ru, tribe_ru, 3)
 
     temp_trinkets = []
     for cid, (cid, dbf, name_ru, tribe_ru, cost) in all_trinket_keys.items():
-        b_list = trinket_boards.get(cid, [])
+        base_cid = re.sub(r"(?:t\d*|_G)$", "", cid)
+        b_list = trinket_boards.get(cid) or trinket_boards.get(base_cid) or []
         h_val = det_hash(cid)
         if b_list:
             avg_place = sum(b.get("AveragePlacement", 3.2) for b in b_list) / len(b_list)
             top1_rate = sum(b.get("Top1Rate", 0.18) for b in b_list) / len(b_list)
             freq = min(1.0, len(b_list) / 45.0)
             raw_q = (4.5 - min(4.2, max(1.6, avg_place))) / 2.6 * 0.50 + min(0.45, top1_rate) * 0.65 + freq * 0.35 + ((h_val % 100) - 50) * 0.0015
-            if not tribe_ru:
-                t_counts = {}
-                for b in b_list:
-                    pt = b.get("PrimaryTribe")
-                    if pt and pt != "Все":
-                        t_counts[pt] = t_counts.get(pt, 0) + 1
-                if t_counts:
-                    tribe_ru = max(t_counts.items(), key=lambda x: x[1])[0]
         else:
             raw_q = 0.35 + ((h_val % 100) / 100.0) * 0.35
-        temp_trinkets.append({"CardId": cid, "DbfId": dbf, "NameRu": name_ru, "TribeRu": tribe_ru or "Все", "RawQuality": raw_q})
+        temp_trinkets.append({"CardId": cid, "DbfId": dbf, "NameRu": name_ru, "TribeRu": tribe_ru or "Без типа", "RawQuality": raw_q})
 
     temp_trinkets.sort(key=lambda x: x["RawQuality"], reverse=True)
     n_t = len(temp_trinkets)
@@ -676,8 +713,9 @@ def build_meta_stats_db(boards):
 
     meta_out = os.path.join(BASE_DIR, "meta_stats_db.json")
     with open(meta_out, "w", encoding="utf-8") as f:
-        json.dump({"version": 1, "source": "Firestone BGS Meta + Live Lobby/Board Synergy", "heroesCount": len(heroes_db), "trinketsCount": len(trinkets_db), "heroes": heroes_db, "trinkets": trinkets_db}, f, ensure_ascii=False, indent=2)
+        json.dump({"version": 2, "source": "Firestone BGS Meta + Canonical Hero/Trinket Synergy", "heroesCount": len(heroes_db), "trinketsCount": len(trinkets_db), "heroes": heroes_db, "trinkets": trinkets_db}, f, ensure_ascii=False, indent=2)
     print(f"7b. База оценки Героев и Тринкетов сохранена в {meta_out} ({len(heroes_db)} героев, {len(trinkets_db)} тринкетов)!", flush=True)
+
 
 def main():
     print('1. Загрузка официальной базы карт bg_cards_official.json...')
@@ -1016,6 +1054,17 @@ def main():
             'Turn': b['turn']
         })
         board_idx += 1
+
+    if not result_boards and os.path.exists(OUTPUT_DB_PATH):
+        try:
+            with open(OUTPUT_DB_PATH, "r", encoding="utf-8") as _f:
+                _existing = json.load(_f)
+            result_boards = _existing.get("Boards") or _existing.get("boards") or []
+            if result_boards:
+                build_meta_stats_db(result_boards)
+                return
+        except Exception:
+            pass
 
     # Сортировка по AveragePlacement
     result_boards.sort(key=lambda x: (x['AveragePlacement'], -x['Top1Rate']))

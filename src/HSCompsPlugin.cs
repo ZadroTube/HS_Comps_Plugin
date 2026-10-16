@@ -19,15 +19,17 @@ namespace HSCompsPlugin
         public string Description => "RAG / Векторный советник победных столов для Battlegrounds на актуальном патче";
         public string ButtonText => "Настройки";
         public string Author => "ZadroTube";
-        public Version Version => new Version(3, 1, 2);
+        public Version Version => new Version(3, 2, 2);
         private bool _isEventsHooked = false;
 
         public MenuItem MenuItem { get; private set; }
 
         private CompsMiniOverlay _miniOverlay;
+        private SelectionStatsOverlay _selectionStatsOverlay;
         private CompsDetailWindow _detailWindow;
         private PluginSettingsWindow _settingsWindow;
         private MenuItem _menuItemShowInBgs;
+        private MenuItem _menuItemShowSelectionStats;
         private MenuItem _menuItemShowInMainMenu;
         private MenuItem _menuItemDontHideMiniOnDetails;
         private MenuItem _menuItemAutoHideDetailsInCombat;
@@ -66,6 +68,7 @@ namespace HSCompsPlugin
                     {
                         CardDatabaseService.Instance.LoadDatabase();
                         VectorSearchEngine.Instance.LoadDatabase();
+                        MetaStatsService.Instance.LoadDatabase();
                         LocalImageCache.Instance.PrewarmLobbyCardsAsync();
                         _lastLiveStateHash = -1;
                     }
@@ -79,6 +82,7 @@ namespace HSCompsPlugin
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     _miniOverlay = new CompsMiniOverlay();
+                    _selectionStatsOverlay = new SelectionStatsOverlay();
                     _detailWindow = new CompsDetailWindow();
 
                     _miniOverlay.OpenDetailsRequested += ToggleDetailWindow;
@@ -101,6 +105,7 @@ namespace HSCompsPlugin
                                             || (GameStateReader.IsInMainMenu && settings.ShowInMainMenu);
                         _miniOverlay.Visibility = shouldBeVisible ? Visibility.Visible : Visibility.Collapsed;
                         Core.OverlayCanvas.Children.Add(_miniOverlay);
+                        Core.OverlayCanvas.Children.Add(_selectionStatsOverlay);
                     }
                 });
 
@@ -150,6 +155,20 @@ namespace HSCompsPlugin
                 ApplySettingsState();
             };
             MenuItem.Items.Add(_menuItemShowInBgs);
+
+            _menuItemShowSelectionStats = new MenuItem
+            {
+                Header = "Показывать плашки статистики при выборе Героя и Тринкетов",
+                IsCheckable = true,
+                IsChecked = settings.ShowSelectionStatsOverlay
+            };
+            _menuItemShowSelectionStats.Click += (s, e) =>
+            {
+                settings.ShowSelectionStatsOverlay = _menuItemShowSelectionStats.IsChecked;
+                settings.Save();
+                ApplySettingsState();
+            };
+            MenuItem.Items.Add(_menuItemShowSelectionStats);
 
             _menuItemShowInMainMenu = new MenuItem 
             { 
@@ -211,6 +230,7 @@ namespace HSCompsPlugin
         {
             var settings = PluginSettings.Instance;
             if (_menuItemShowInBgs != null) _menuItemShowInBgs.IsChecked = settings.ShowMiniOverlay;
+            if (_menuItemShowSelectionStats != null) _menuItemShowSelectionStats.IsChecked = settings.ShowSelectionStatsOverlay;
             if (_menuItemShowInMainMenu != null) _menuItemShowInMainMenu.IsChecked = settings.ShowInMainMenu;
             if (_menuItemDontHideMiniOnDetails != null) _menuItemDontHideMiniOnDetails.IsChecked = settings.DontHideMiniOverlayOnDetails;
             if (_menuItemAutoHideDetailsInCombat != null) _menuItemAutoHideDetailsInCombat.IsChecked = settings.AutoHideDetailsInCombat;
@@ -283,6 +303,11 @@ namespace HSCompsPlugin
                 {
                     _miniOverlay.Visibility = Visibility.Collapsed;
                     return;
+                }
+
+                if (!GameStateReader.IsInBattlegrounds || !settings.ShowSelectionStatsOverlay)
+                {
+                    _selectionStatsOverlay?.HideOverlay();
                 }
 
                 if (GameStateReader.IsInBattlegrounds)
@@ -420,6 +445,7 @@ namespace HSCompsPlugin
                     if (_miniOverlay != null && Core.OverlayCanvas != null)
                     {
                         Core.OverlayCanvas.Children.Remove(_miniOverlay);
+                        if (_selectionStatsOverlay != null) Core.OverlayCanvas.Children.Remove(_selectionStatsOverlay);
                     }
 
                     if (_detailWindow != null)
@@ -443,6 +469,62 @@ namespace HSCompsPlugin
             OpenSettingsWindow();
         }
 
+
+        private void UpdateSelectionStatsOverlay(PlayerGameStateSnapshot liveState)
+        {
+            try
+            {
+                if (_selectionStatsOverlay == null) return;
+                if (!PluginSettings.Instance.ShowSelectionStatsOverlay)
+                {
+                    Application.Current?.Dispatcher?.InvokeAsync(() =>
+                    {
+                        _selectionStatsOverlay?.HideOverlay();
+                    }, System.Windows.Threading.DispatcherPriority.Background);
+                    return;
+                }
+
+                var selState = GameStateReader.GetActiveSelectionState();
+                if (selState == null || selState.Mode == SelectionOverlayMode.None || selState.Items == null || selState.Items.Count < 2)
+                {
+                    Application.Current?.Dispatcher?.InvokeAsync(() =>
+                    {
+                        _selectionStatsOverlay?.HideOverlay();
+                    }, System.Windows.Threading.DispatcherPriority.Background);
+                    return;
+                }
+
+                var scores = new List<EvaluatedSelectionScore>(selState.Items.Count);
+                if (selState.Mode == SelectionOverlayMode.HeroSelection)
+                {
+                    var tribes = liveState?.AvailableTribes;
+                    for (int i = 0; i < selState.Items.Count; i++)
+                    {
+                        var item = selState.Items[i];
+                        scores.Add(MetaStatsService.Instance.EvaluateHero(item.CardId, item.DbfId, tribes, i));
+                    }
+                }
+                else if (selState.Mode == SelectionOverlayMode.TrinketSelection)
+                {
+                    var activeRecs = new[] { _heroBenchmarkComp, _alt2Comp, _alt3Comp }.Where(r => r != null).ToList();
+                    for (int i = 0; i < selState.Items.Count; i++)
+                    {
+                        var item = selState.Items[i];
+                        scores.Add(MetaStatsService.Instance.EvaluateTrinket(item.CardId, item.DbfId, liveState, activeRecs, i));
+                    }
+                }
+
+                MetaStatsService.MarkBestChoice(scores);
+
+                Application.Current?.Dispatcher?.InvokeAsync(() =>
+                {
+                    double cw = Core.OverlayCanvas != null ? Core.OverlayCanvas.ActualWidth : 0;
+                    double ch = Core.OverlayCanvas != null ? Core.OverlayCanvas.ActualHeight : 0;
+                    _selectionStatsOverlay?.UpdateSelection(selState.Mode, scores, cw, ch);
+                }, System.Windows.Threading.DispatcherPriority.Render);
+            }
+            catch { }
+        }
 
         public void OnUpdate()
         {
@@ -488,6 +570,10 @@ namespace HSCompsPlugin
 
                 if (_isDemoMode)
                 {
+                    Application.Current?.Dispatcher?.InvokeAsync(() =>
+                    {
+                        _selectionStatsOverlay?.HideOverlay();
+                    }, System.Windows.Threading.DispatcherPriority.Background);
                     string currentDemoKey = $"{_lockedTab1BoardId}_{_lockedAlt2BoardId}_{_lockedAlt3BoardId}";
                     if (_lastProcessedDemoLockId != currentDemoKey)
                     {
@@ -543,6 +629,7 @@ namespace HSCompsPlugin
 
                     var liveState = GameStateReader.CaptureCurrentState();
                     liveState.LockedArchetypeId = null;
+                    UpdateSelectionStatsOverlay(liveState);
 
                     // 1. Фиксация и актуализация бенчмарка Героя (с защитой на муллигане и поддержкой смены героя в матче)
                     bool hasTribes = liveState.AvailableTribes != null && liveState.AvailableTribes.Count >= 3;
@@ -739,6 +826,7 @@ namespace HSCompsPlugin
                     _lastLiveStateHash = -999;
                     Application.Current?.Dispatcher?.InvokeAsync(() =>
                     {
+                        _selectionStatsOverlay?.HideOverlay();
                         if (_miniOverlay != null)
                         {
                             if (hideDueToDetails)
@@ -763,6 +851,7 @@ namespace HSCompsPlugin
                     _lastLiveStateHash = 0;
                     Application.Current?.Dispatcher?.InvokeAsync(() =>
                     {
+                        _selectionStatsOverlay?.HideOverlay();
                         if (!_isDemoMode && _miniOverlay != null && _miniOverlay.Visibility == Visibility.Visible)
                         {
                             _miniOverlay.Visibility = Visibility.Collapsed;
@@ -853,6 +942,7 @@ namespace HSCompsPlugin
             {
                 _detailWindow?.ResetMatch();
                 _miniOverlay?.ResetLocks();
+                _selectionStatsOverlay?.HideOverlay();
             });
             ApplySettingsState();
         }
@@ -876,6 +966,7 @@ namespace HSCompsPlugin
                 });
 
                 var liveState = GameStateReader.CaptureCurrentState();
+                UpdateSelectionStatsOverlay(liveState);
                 string currentHeroId = !string.IsNullOrEmpty(_lockedHeroCardId) ? _lockedHeroCardId : liveState?.HeroCardId;
 
                 // Если герой уже определен, пересчитываем бенчмарки героя с актуальными племенами
@@ -971,6 +1062,7 @@ namespace HSCompsPlugin
                 {
                     _detailWindow?.ResetMatch();
                     _miniOverlay?.ResetLocks();
+                    _selectionStatsOverlay?.HideOverlay();
                 });
 
                 if (GameStateReader.IsInBattlegrounds)

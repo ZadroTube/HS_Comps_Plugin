@@ -351,10 +351,29 @@ namespace HSCompsPlugin.Services
                         }
                         catch { }
                     }
+
+                    string generatedMeta = Path.Combine(workingDir, "meta_stats_db.json");
+                    if (File.Exists(generatedMeta))
+                    {
+                        try
+                        {
+                            string appDataMeta = Path.Combine(appData, "HearthstoneDeckTracker", "Plugins", "HSCompsPlugin", "meta_stats_db.json");
+                            if (!string.Equals(generatedMeta, appDataMeta, StringComparison.OrdinalIgnoreCase))
+                                File.Copy(generatedMeta, appDataMeta, true);
+                            if (!string.IsNullOrEmpty(assemblyDir) && Directory.Exists(assemblyDir))
+                            {
+                                string asmMeta = Path.Combine(assemblyDir, "meta_stats_db.json");
+                                if (!string.Equals(generatedMeta, asmMeta, StringComparison.OrdinalIgnoreCase))
+                                    File.Copy(generatedMeta, asmMeta, true);
+                            }
+                        }
+                        catch { }
+                    }
                 }
 
                 Log("⚡ Мгновенная перезагрузка базы данных в памяти советника...");
                 VectorSearchEngine.Instance.ReloadDatabase();
+                MetaStatsService.Instance.ReloadDatabase();
 
                 int count = VectorSearchEngine.Instance.BoardsCount;
                 result.Success = true;
@@ -436,6 +455,7 @@ namespace HSCompsPlugin.Services
 
                     log("⚡ Мгновенная перезагрузка базы данных в памяти советника...");
                     VectorSearchEngine.Instance.ReloadDatabase(targetDbPath);
+                    MetaStatsService.Instance.ReloadDatabase();
 
                     int count = VectorSearchEngine.Instance.BoardsCount;
                     result.Success = true;

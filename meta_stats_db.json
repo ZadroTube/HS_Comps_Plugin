@@ -1,0 +1,7135 @@
+{
+  "version": 2,
+  "source": "Firestone BGS Meta + Canonical Hero/Trinket Synergy",
+  "heroesCount": 149,
+  "trinketsCount": 555,
+  "heroes": {
+    "BG32_HERO_002": {
+      "CardId": "BG32_HERO_002",
+      "DbfId": 120649,
+      "NameRu": "Кнопка",
+      "Tier": "S",
+      "PickRate": 78,
+      "WinRate": 64.9,
+      "AvgPlacement": 3.59,
+      "TribeWeights": {}
+    },
+    "BG34_HERO_002": {
+      "CardId": "BG34_HERO_002",
+      "DbfId": 126532,
+      "NameRu": "Господин Часовщик",
+      "Tier": "S",
+      "PickRate": 78,
+      "WinRate": 64.8,
+      "AvgPlacement": 3.59,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_35": {
+      "CardId": "TB_BaconShop_HERO_35",
+      "DbfId": 59805,
+      "NameRu": "Йогг-Сарон",
+      "Tier": "S",
+      "PickRate": 79,
+      "WinRate": 64.5,
+      "AvgPlacement": 3.61,
+      "TribeWeights": {}
+    },
+    "BG26_HERO_104": {
+      "CardId": "BG26_HERO_104",
+      "DbfId": 99033,
+      "NameRu": "Рок-мастер Вун",
+      "Tier": "S",
+      "PickRate": 78,
+      "WinRate": 64.4,
+      "AvgPlacement": 3.62,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_40": {
+      "CardId": "TB_BaconShop_HERO_40",
+      "DbfId": 60211,
+      "NameRu": "Сэр Финли Мрргглтон",
+      "Tier": "S",
+      "PickRate": 74,
+      "WinRate": 64.1,
+      "AvgPlacement": 3.64,
+      "TribeWeights": {}
+    },
+    "BG23_HERO_306": {
+      "CardId": "BG23_HERO_306",
+      "DbfId": 89293,
+      "NameRu": "Сильвана Ветрокрылая",
+      "Tier": "S",
+      "PickRate": 74,
+      "WinRate": 63.9,
+      "AvgPlacement": 3.65,
+      "TribeWeights": {}
+    },
+    "BG27_HERO_801": {
+      "CardId": "BG27_HERO_801",
+      "DbfId": 103477,
+      "NameRu": "Торим, владыка бури",
+      "Tier": "S",
+      "PickRate": 73,
+      "WinRate": 63.6,
+      "AvgPlacement": 3.68,
+      "TribeWeights": {}
+    },
+    "BG28_HERO_400": {
+      "CardId": "BG28_HERO_400",
+      "DbfId": 105314,
+      "NameRu": "Змеиные глазки",
+      "Tier": "S",
+      "PickRate": 74,
+      "WinRate": 63.8,
+      "AvgPlacement": 3.66,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t4": {
+      "CardId": "BG31_HERO_811t4",
+      "DbfId": 120370,
+      "NameRu": "BG31_HERO_811t4",
+      "Tier": "S",
+      "PickRate": 71,
+      "WinRate": 63.3,
+      "AvgPlacement": 3.7,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t7_G": {
+      "CardId": "BG31_HERO_811t7_G",
+      "DbfId": 120380,
+      "NameRu": "BG31_HERO_811t7_G",
+      "Tier": "S",
+      "PickRate": 74,
+      "WinRate": 62.8,
+      "AvgPlacement": 3.73,
+      "TribeWeights": {}
+    },
+    "BGDUO_HERO_222": {
+      "CardId": "BGDUO_HERO_222",
+      "DbfId": 104981,
+      "NameRu": "Чо",
+      "Tier": "S",
+      "PickRate": 73,
+      "WinRate": 63.1,
+      "AvgPlacement": 3.71,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t5": {
+      "CardId": "BG31_HERO_811t5",
+      "DbfId": 120373,
+      "NameRu": "BG31_HERO_811t5",
+      "Tier": "S",
+      "PickRate": 69,
+      "WinRate": 62.6,
+      "AvgPlacement": 3.74,
+      "TribeWeights": {}
+    },
+    "BGDUO_HERO_104": {
+      "CardId": "BGDUO_HERO_104",
+      "DbfId": 107183,
+      "NameRu": "Мадам Гойя",
+      "Tier": "S",
+      "PickRate": 72,
+      "WinRate": 62.8,
+      "AvgPlacement": 3.73,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_23": {
+      "CardId": "TB_BaconShop_HERO_23",
+      "DbfId": 58027,
+      "NameRu": "Дрыжеглот",
+      "Tier": "S",
+      "PickRate": 71,
+      "WinRate": 62.3,
+      "AvgPlacement": 3.76,
+      "TribeWeights": {
+        "Мурлок": 0.5,
+        "Элементаль": 0.5
+      }
+    },
+    "BG30_HERO_304": {
+      "CardId": "BG30_HERO_304",
+      "DbfId": 113310,
+      "NameRu": "Менеджер Марин",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 62.0,
+      "AvgPlacement": 3.78,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t7": {
+      "CardId": "BG31_HERO_811t7",
+      "DbfId": 120378,
+      "NameRu": "BG31_HERO_811t7",
+      "Tier": "S",
+      "PickRate": 68,
+      "WinRate": 61.9,
+      "AvgPlacement": 3.79,
+      "TribeWeights": {}
+    },
+    "BG21_HERO_030t_G": {
+      "CardId": "BG21_HERO_030t_G",
+      "DbfId": 123015,
+      "NameRu": "BG21_HERO_030t_G",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 62.0,
+      "AvgPlacement": 3.78,
+      "TribeWeights": {}
+    },
+    "BGDUO_HERO_223": {
+      "CardId": "BGDUO_HERO_223",
+      "DbfId": 104982,
+      "NameRu": "Галл",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 62.0,
+      "AvgPlacement": 3.78,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_74": {
+      "CardId": "TB_BaconShop_HERO_74",
+      "DbfId": 63604,
+      "NameRu": "Страж леса Ому",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 61.3,
+      "AvgPlacement": 3.83,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t4_G": {
+      "CardId": "BG31_HERO_811t4_G",
+      "DbfId": 120372,
+      "NameRu": "BG31_HERO_811t4_G",
+      "Tier": "S",
+      "PickRate": 63,
+      "WinRate": 61.0,
+      "AvgPlacement": 3.85,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_90": {
+      "CardId": "TB_BaconShop_HERO_90",
+      "DbfId": 64480,
+      "NameRu": "Сайлас Новолуний",
+      "Tier": "S",
+      "PickRate": 63,
+      "WinRate": 61.1,
+      "AvgPlacement": 3.85,
+      "TribeWeights": {}
+    },
+    "BG36_HERO_101": {
+      "CardId": "BG36_HERO_101",
+      "DbfId": 132578,
+      "NameRu": "Трас'тат, паразит душ",
+      "Tier": "A",
+      "PickRate": 62,
+      "WinRate": 60.6,
+      "AvgPlacement": 3.88,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_801": {
+      "CardId": "BG31_HERO_801",
+      "DbfId": 118509,
+      "NameRu": "Джим Рейнор",
+      "Tier": "A",
+      "PickRate": 62,
+      "WinRate": 60.4,
+      "AvgPlacement": 3.89,
+      "TribeWeights": {
+        "Механизм": 1.0
+      }
+    },
+    "BG23_HERO_303": {
+      "CardId": "BG23_HERO_303",
+      "DbfId": 84867,
+      "NameRu": "Мурлок Холмс",
+      "Tier": "A",
+      "PickRate": 60,
+      "WinRate": 60.5,
+      "AvgPlacement": 3.89,
+      "TribeWeights": {}
+    },
+    "BG36_HERO_105": {
+      "CardId": "BG36_HERO_105",
+      "DbfId": 132608,
+      "NameRu": "Повелитель кошмаров Ксавий",
+      "Tier": "A",
+      "PickRate": 60,
+      "WinRate": 60.6,
+      "AvgPlacement": 3.88,
+      "TribeWeights": {}
+    },
+    "BG25_HERO_103": {
+      "CardId": "BG25_HERO_103",
+      "DbfId": 98726,
+      "NameRu": "Терон Кровожад",
+      "Tier": "A",
+      "PickRate": 59,
+      "WinRate": 60.3,
+      "AvgPlacement": 3.9,
+      "TribeWeights": {
+        "Зверь": 0.5,
+        "Нежить": 0.5
+      }
+    },
+    "TB_BaconShop_HERO_34": {
+      "CardId": "TB_BaconShop_HERO_34",
+      "DbfId": 59397,
+      "NameRu": "Лоскутик",
+      "Tier": "A",
+      "PickRate": 63,
+      "WinRate": 60.0,
+      "AvgPlacement": 3.92,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t": {
+      "CardId": "BG31_HERO_811t",
+      "DbfId": 120359,
+      "NameRu": "BG31_HERO_811t",
+      "Tier": "A",
+      "PickRate": 62,
+      "WinRate": 59.8,
+      "AvgPlacement": 3.93,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t10_G": {
+      "CardId": "BG31_HERO_811t10_G",
+      "DbfId": 120388,
+      "NameRu": "BG31_HERO_811t10_G",
+      "Tier": "A",
+      "PickRate": 62,
+      "WinRate": 59.7,
+      "AvgPlacement": 3.94,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_02": {
+      "CardId": "TB_BaconShop_HERO_02",
+      "DbfId": 57635,
+      "NameRu": "Галакронд",
+      "Tier": "A",
+      "PickRate": 60,
+      "WinRate": 59.4,
+      "AvgPlacement": 3.96,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_21": {
+      "CardId": "TB_BaconShop_HERO_21",
+      "DbfId": 58021,
+      "NameRu": "Ахалаймахалай",
+      "Tier": "A",
+      "PickRate": 57,
+      "WinRate": 59.5,
+      "AvgPlacement": 3.95,
+      "TribeWeights": {}
+    },
+    "BG33_HERO_001": {
+      "CardId": "BG33_HERO_001",
+      "DbfId": 122925,
+      "NameRu": "Ло, живая легенда",
+      "Tier": "A",
+      "PickRate": 59,
+      "WinRate": 59.8,
+      "AvgPlacement": 3.93,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_007": {
+      "CardId": "BG22_HERO_007",
+      "DbfId": 79618,
+      "NameRu": "Королева Азшара",
+      "Tier": "A",
+      "PickRate": 60,
+      "WinRate": 59.6,
+      "AvgPlacement": 3.95,
+      "TribeWeights": {
+        "Нага": 1.0
+      }
+    },
+    "BG20_HERO_103": {
+      "CardId": "BG20_HERO_103",
+      "DbfId": 71458,
+      "NameRu": "Вестник смерти Черношип",
+      "Tier": "A",
+      "PickRate": 56,
+      "WinRate": 59.0,
+      "AvgPlacement": 3.99,
+      "TribeWeights": {
+        "Свинобраз": 1.0
+      }
+    },
+    "BG34_HERO_000": {
+      "CardId": "BG34_HERO_000",
+      "DbfId": 127696,
+      "NameRu": "Дорнозму Освобожденный",
+      "Tier": "A",
+      "PickRate": 57,
+      "WinRate": 59.0,
+      "AvgPlacement": 3.99,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_08": {
+      "CardId": "TB_BaconShop_HERO_08",
+      "DbfId": 57634,
+      "NameRu": "Иллидан",
+      "Tier": "A",
+      "PickRate": 57,
+      "WinRate": 59.1,
+      "AvgPlacement": 3.98,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t9_G": {
+      "CardId": "BG31_HERO_811t9_G",
+      "DbfId": 120385,
+      "NameRu": "BG31_HERO_811t9_G",
+      "Tier": "A",
+      "PickRate": 56,
+      "WinRate": 58.7,
+      "AvgPlacement": 4.01,
+      "TribeWeights": {}
+    },
+    "BGDUO_HERO_222t": {
+      "CardId": "BGDUO_HERO_222t",
+      "DbfId": 113332,
+      "NameRu": "BGDUO_HERO_222t",
+      "Tier": "A",
+      "PickRate": 56,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_15": {
+      "CardId": "TB_BaconShop_HERO_15",
+      "DbfId": 57929,
+      "NameRu": "Джордж Падший",
+      "Tier": "A",
+      "PickRate": 57,
+      "WinRate": 58.5,
+      "AvgPlacement": 4.02,
+      "TribeWeights": {}
+    },
+    "BG34_HERO_001": {
+      "CardId": "BG34_HERO_001",
+      "DbfId": 126537,
+      "NameRu": "Исказительница Хроми",
+      "Tier": "A",
+      "PickRate": 56,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_16": {
+      "CardId": "TB_BaconShop_HERO_16",
+      "DbfId": 57944,
+      "NameRu": "А.Ф.Ка",
+      "Tier": "A",
+      "PickRate": 54,
+      "WinRate": 58.6,
+      "AvgPlacement": 4.02,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_68": {
+      "CardId": "TB_BaconShop_HERO_68",
+      "DbfId": 62268,
+      "NameRu": "Крагг Поднебесный",
+      "Tier": "A",
+      "PickRate": 57,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05,
+      "TribeWeights": {}
+    },
+    "BG20_HERO_202": {
+      "CardId": "BG20_HERO_202",
+      "DbfId": 71908,
+      "NameRu": "Мастер Нгуен",
+      "Tier": "A",
+      "PickRate": 53,
+      "WinRate": 58.2,
+      "AvgPlacement": 4.04,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_50": {
+      "CardId": "TB_BaconShop_HERO_50",
+      "DbfId": 60367,
+      "NameRu": "Тесс Седогрив",
+      "Tier": "A",
+      "PickRate": 54,
+      "WinRate": 58.2,
+      "AvgPlacement": 4.04,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_201": {
+      "CardId": "BG22_HERO_201",
+      "DbfId": 81569,
+      "NameRu": "Посол Фаэлин",
+      "Tier": "A",
+      "PickRate": 53,
+      "WinRate": 57.6,
+      "AvgPlacement": 4.08,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_28": {
+      "CardId": "TB_BaconShop_HERO_28",
+      "DbfId": 58534,
+      "NameRu": "Вечная Токи",
+      "Tier": "A",
+      "PickRate": 55,
+      "WinRate": 58.0,
+      "AvgPlacement": 4.06,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_94": {
+      "CardId": "TB_BaconShop_HERO_94",
+      "DbfId": 67356,
+      "NameRu": "Билетикус",
+      "Tier": "A",
+      "PickRate": 55,
+      "WinRate": 57.4,
+      "AvgPlacement": 4.1,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_72": {
+      "CardId": "TB_BaconShop_HERO_72",
+      "DbfId": 63602,
+      "NameRu": "Лорд Баров",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 57.5,
+      "AvgPlacement": 4.09,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_305t_G": {
+      "CardId": "BG22_HERO_305t_G",
+      "DbfId": 98698,
+      "NameRu": "BG22_HERO_305t_G",
+      "Tier": "A",
+      "PickRate": 52,
+      "WinRate": 57.5,
+      "AvgPlacement": 4.09,
+      "TribeWeights": {}
+    },
+    "BG35_HERO_001": {
+      "CardId": "BG35_HERO_001",
+      "DbfId": 129684,
+      "NameRu": "Король воргенов Генн",
+      "Tier": "A",
+      "PickRate": 52,
+      "WinRate": 57.0,
+      "AvgPlacement": 4.12,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t_G": {
+      "CardId": "BG31_HERO_811t_G",
+      "DbfId": 120361,
+      "NameRu": "BG31_HERO_811t_G",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 57.1,
+      "AvgPlacement": 4.12,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_22": {
+      "CardId": "TB_BaconShop_HERO_22",
+      "DbfId": 58024,
+      "NameRu": "Король-лич",
+      "Tier": "A",
+      "PickRate": 52,
+      "WinRate": 57.2,
+      "AvgPlacement": 4.11,
+      "TribeWeights": {
+        "Нежить": 0.5,
+        "Зверь": 0.5
+      }
+    },
+    "TB_BaconShop_HERO_64": {
+      "CardId": "TB_BaconShop_HERO_64",
+      "DbfId": 62242,
+      "NameRu": "Капитан Юдора",
+      "Tier": "A",
+      "PickRate": 53,
+      "WinRate": 56.6,
+      "AvgPlacement": 4.15,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t8_G": {
+      "CardId": "BG31_HERO_811t8_G",
+      "DbfId": 120382,
+      "NameRu": "BG31_HERO_811t8_G",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 56.9,
+      "AvgPlacement": 4.13,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_75": {
+      "CardId": "TB_BaconShop_HERO_75",
+      "DbfId": 64400,
+      "NameRu": "Раканишу",
+      "Tier": "B",
+      "PickRate": 49,
+      "WinRate": 56.6,
+      "AvgPlacement": 4.15,
+      "TribeWeights": {}
+    },
+    "BG28_HERO_800": {
+      "CardId": "BG28_HERO_800",
+      "DbfId": 105431,
+      "NameRu": "Тей'телан Кровавый Взор",
+      "Tier": "B",
+      "PickRate": 46,
+      "WinRate": 56.3,
+      "AvgPlacement": 4.17,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t10": {
+      "CardId": "BG31_HERO_811t10",
+      "DbfId": 120386,
+      "NameRu": "BG31_HERO_811t10",
+      "Tier": "B",
+      "PickRate": 50,
+      "WinRate": 56.1,
+      "AvgPlacement": 4.19,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_41": {
+      "CardId": "TB_BaconShop_HERO_41",
+      "DbfId": 60212,
+      "NameRu": "Рено Джексон",
+      "Tier": "B",
+      "PickRate": 49,
+      "WinRate": 56.0,
+      "AvgPlacement": 4.19,
+      "TribeWeights": {}
+    },
+    "BG20_HERO_201": {
+      "CardId": "BG20_HERO_201",
+      "DbfId": 71463,
+      "NameRu": "Вол'джин",
+      "Tier": "B",
+      "PickRate": 48,
+      "WinRate": 56.2,
+      "AvgPlacement": 4.18,
+      "TribeWeights": {}
+    },
+    "BG34_HERO_004": {
+      "CardId": "BG34_HERO_004",
+      "DbfId": 129173,
+      "NameRu": "Морхи",
+      "Tier": "B",
+      "PickRate": 46,
+      "WinRate": 55.9,
+      "AvgPlacement": 4.2,
+      "TribeWeights": {}
+    },
+    "BG36_HERO_002": {
+      "CardId": "BG36_HERO_002",
+      "DbfId": 134504,
+      "NameRu": "BG36_HERO_002",
+      "Tier": "B",
+      "PickRate": 48,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21,
+      "TribeWeights": {}
+    },
+    "BG21_HERO_000": {
+      "CardId": "BG21_HERO_000",
+      "DbfId": 73940,
+      "NameRu": "Кариэль Роум",
+      "Tier": "B",
+      "PickRate": 48,
+      "WinRate": 55.6,
+      "AvgPlacement": 4.22,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_003": {
+      "CardId": "BG31_HERO_003",
+      "DbfId": 116926,
+      "NameRu": "Предсказатель Нобундо",
+      "Tier": "B",
+      "PickRate": 44,
+      "WinRate": 55.5,
+      "AvgPlacement": 4.23,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t3_G": {
+      "CardId": "BG31_HERO_811t3_G",
+      "DbfId": 120369,
+      "NameRu": "BG31_HERO_811t3_G",
+      "Tier": "B",
+      "PickRate": 44,
+      "WinRate": 55.2,
+      "AvgPlacement": 4.25,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_76": {
+      "CardId": "TB_BaconShop_HERO_76",
+      "DbfId": 64403,
+      "NameRu": "Ал'акир",
+      "Tier": "B",
+      "PickRate": 45,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26,
+      "TribeWeights": {}
+    },
+    "BG21_HERO_030t": {
+      "CardId": "BG21_HERO_030t",
+      "DbfId": 123014,
+      "NameRu": "BG21_HERO_030t",
+      "Tier": "B",
+      "PickRate": 48,
+      "WinRate": 54.9,
+      "AvgPlacement": 4.27,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t3": {
+      "CardId": "BG31_HERO_811t3",
+      "DbfId": 120367,
+      "NameRu": "BG31_HERO_811t3",
+      "Tier": "B",
+      "PickRate": 46,
+      "WinRate": 55.1,
+      "AvgPlacement": 4.25,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_002": {
+      "CardId": "BG22_HERO_002",
+      "DbfId": 80239,
+      "NameRu": "Дрек'Тар",
+      "Tier": "B",
+      "PickRate": 46,
+      "WinRate": 54.8,
+      "AvgPlacement": 4.27,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t9": {
+      "CardId": "BG31_HERO_811t9",
+      "DbfId": 120383,
+      "NameRu": "BG31_HERO_811t9",
+      "Tier": "B",
+      "PickRate": 45,
+      "WinRate": 55.2,
+      "AvgPlacement": 4.25,
+      "TribeWeights": {}
+    },
+    "BG20_HERO_101": {
+      "CardId": "BG20_HERO_101",
+      "DbfId": 70956,
+      "NameRu": "Зирелла",
+      "Tier": "B",
+      "PickRate": 46,
+      "WinRate": 54.9,
+      "AvgPlacement": 4.27,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_37": {
+      "CardId": "TB_BaconShop_HERO_37",
+      "DbfId": 59807,
+      "NameRu": "Лорд Джараксус",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 54.7,
+      "AvgPlacement": 4.28,
+      "TribeWeights": {
+        "Демон": 1.0
+      }
+    },
+    "BG21_HERO_020": {
+      "CardId": "BG21_HERO_020",
+      "DbfId": 77516,
+      "NameRu": "Кок Пирожок",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 54.9,
+      "AvgPlacement": 4.27,
+      "TribeWeights": {}
+    },
+    "BGDUO_HERO_100": {
+      "CardId": "BGDUO_HERO_100",
+      "DbfId": 104567,
+      "NameRu": "Безымянный",
+      "Tier": "B",
+      "PickRate": 45,
+      "WinRate": 54.5,
+      "AvgPlacement": 4.29,
+      "TribeWeights": {}
+    },
+    "BG26_HERO_102": {
+      "CardId": "BG26_HERO_102",
+      "DbfId": 103500,
+      "NameRu": "Инге Стальной Гимн",
+      "Tier": "B",
+      "PickRate": 43,
+      "WinRate": 54.7,
+      "AvgPlacement": 4.28,
+      "TribeWeights": {}
+    },
+    "BG20_HERO_280": {
+      "CardId": "BG20_HERO_280",
+      "DbfId": 74631,
+      "NameRu": "Куртрус Ливень Пепла",
+      "Tier": "B",
+      "PickRate": 41,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t2": {
+      "CardId": "BG31_HERO_811t2",
+      "DbfId": 120365,
+      "NameRu": "BG31_HERO_811t2",
+      "Tier": "B",
+      "PickRate": 43,
+      "WinRate": 54.3,
+      "AvgPlacement": 4.31,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t8": {
+      "CardId": "BG31_HERO_811t8",
+      "DbfId": 120381,
+      "NameRu": "BG31_HERO_811t8",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 54.1,
+      "AvgPlacement": 4.32,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_305t": {
+      "CardId": "BG22_HERO_305t",
+      "DbfId": 82117,
+      "NameRu": "BG22_HERO_305t",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 53.8,
+      "AvgPlacement": 4.34,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_59": {
+      "CardId": "TB_BaconShop_HERO_59",
+      "DbfId": 61910,
+      "NameRu": "Аранна Звездочет",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 54.1,
+      "AvgPlacement": 4.32,
+      "TribeWeights": {}
+    },
+    "BG36_HERO_000": {
+      "CardId": "BG36_HERO_000",
+      "DbfId": 134502,
+      "NameRu": "BG36_HERO_000",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36,
+      "TribeWeights": {}
+    },
+    "BG32_HERO_001": {
+      "CardId": "BG32_HERO_001",
+      "DbfId": 116920,
+      "NameRu": "Лесной властелин Кенарий",
+      "Tier": "B",
+      "PickRate": 43,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_49": {
+      "CardId": "TB_BaconShop_HERO_49",
+      "DbfId": 60366,
+      "NameRu": "Миллхаус Манашторм",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 53.7,
+      "AvgPlacement": 4.35,
+      "TribeWeights": {
+        "Элементаль": 0.5,
+        "Пират": 0.5
+      }
+    },
+    "TB_BaconShop_HERO_10": {
+      "CardId": "TB_BaconShop_HERO_10",
+      "DbfId": 57891,
+      "NameRu": "Принц Галливикс",
+      "Tier": "B",
+      "PickRate": 42,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38,
+      "TribeWeights": {
+        "Пират": 0.5,
+        "Элементаль": 0.5
+      }
+    },
+    "BG31_HERO_005": {
+      "CardId": "BG31_HERO_005",
+      "DbfId": 117409,
+      "NameRu": "Клонист Зерек",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 53.1,
+      "AvgPlacement": 4.39,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_43": {
+      "CardId": "TB_BaconShop_HERO_43",
+      "DbfId": 60214,
+      "NameRu": "Укротитель ящеров Бранн",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 53.4,
+      "AvgPlacement": 4.37,
+      "TribeWeights": {
+        "Мурлок": 0.5,
+        "Дракон": 0.5
+      }
+    },
+    "BG24_HERO_100": {
+      "CardId": "BG24_HERO_100",
+      "DbfId": 92960,
+      "NameRu": "Сир Денатрий",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4,
+      "TribeWeights": {}
+    },
+    "BGDUO_HERO_101": {
+      "CardId": "BGDUO_HERO_101",
+      "DbfId": 104671,
+      "NameRu": "Ухлюпистый Хлюп",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 52.8,
+      "AvgPlacement": 4.41,
+      "TribeWeights": {}
+    },
+    "BG25_HERO_105": {
+      "CardId": "BG25_HERO_105",
+      "DbfId": 101345,
+      "NameRu": "Музыкальный менеджер E.T.C.",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_000": {
+      "CardId": "BG22_HERO_000",
+      "DbfId": 77987,
+      "NameRu": "Тавиш Грозовая Вершина",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_003": {
+      "CardId": "BG22_HERO_003",
+      "DbfId": 80247,
+      "NameRu": "Вандар Грозовая Вершина",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_12": {
+      "CardId": "TB_BaconShop_HERO_12",
+      "DbfId": 57893,
+      "NameRu": "Крысиный король",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4,
+      "TribeWeights": {}
+    },
+    "BG20_HERO_242": {
+      "CardId": "BG20_HERO_242",
+      "DbfId": 68129,
+      "NameRu": "Гафф Рунический Тотем",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_45": {
+      "CardId": "TB_BaconShop_HERO_45",
+      "DbfId": 60362,
+      "NameRu": "Суперзлодей Рафаам",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 52.2,
+      "AvgPlacement": 4.45,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_58": {
+      "CardId": "TB_BaconShop_HERO_58",
+      "DbfId": 61490,
+      "NameRu": "Малигос",
+      "Tier": "B",
+      "PickRate": 39,
+      "WinRate": 52.1,
+      "AvgPlacement": 4.46,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_17": {
+      "CardId": "TB_BaconShop_HERO_17",
+      "DbfId": 57946,
+      "NameRu": "Миллифисент Манашторм",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 52.3,
+      "AvgPlacement": 4.44,
+      "TribeWeights": {
+        "Механизм": 1.0
+      }
+    },
+    "BG23_HERO_305": {
+      "CardId": "BG23_HERO_305",
+      "DbfId": 86291,
+      "NameRu": "Король воров Вихлепых",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 52.5,
+      "AvgPlacement": 4.43,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t2_G": {
+      "CardId": "BG31_HERO_811t2_G",
+      "DbfId": 120366,
+      "NameRu": "BG31_HERO_811t2_G",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 52.3,
+      "AvgPlacement": 4.44,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t6_G": {
+      "CardId": "BG31_HERO_811t6_G",
+      "DbfId": 120377,
+      "NameRu": "BG31_HERO_811t6_G",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 52.1,
+      "AvgPlacement": 4.46,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_006": {
+      "CardId": "BG31_HERO_006",
+      "DbfId": 117425,
+      "NameRu": "Экзарх Отаар",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 51.9,
+      "AvgPlacement": 4.47,
+      "TribeWeights": {}
+    },
+    "BG24_HERO_204": {
+      "CardId": "BG24_HERO_204",
+      "DbfId": 96870,
+      "NameRu": "Механо-усилитель",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 51.6,
+      "AvgPlacement": 4.49,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_004": {
+      "CardId": "BG22_HERO_004",
+      "DbfId": 79615,
+      "NameRu": "Варден Луч Рассвета",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 51.4,
+      "AvgPlacement": 4.5,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t5_G": {
+      "CardId": "BG31_HERO_811t5_G",
+      "DbfId": 120374,
+      "NameRu": "BG31_HERO_811t5_G",
+      "Tier": "C",
+      "PickRate": 32,
+      "WinRate": 51.6,
+      "AvgPlacement": 4.49,
+      "TribeWeights": {}
+    },
+    "BG23_HERO_304": {
+      "CardId": "BG23_HERO_304",
+      "DbfId": 85125,
+      "NameRu": "Леди Вайш",
+      "Tier": "C",
+      "PickRate": 32,
+      "WinRate": 51.3,
+      "AvgPlacement": 4.51,
+      "TribeWeights": {
+        "Нага": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_70": {
+      "CardId": "TB_BaconShop_HERO_70",
+      "DbfId": 63319,
+      "NameRu": "Мистер Бигглсуорт",
+      "Tier": "C",
+      "PickRate": 35,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_007t": {
+      "CardId": "BG22_HERO_007t",
+      "DbfId": 89992,
+      "NameRu": "BG22_HERO_007t",
+      "Tier": "C",
+      "PickRate": 34,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_91": {
+      "CardId": "TB_BaconShop_HERO_91",
+      "DbfId": 64485,
+      "NameRu": "Зефрис Великий",
+      "Tier": "C",
+      "PickRate": 33,
+      "WinRate": 50.4,
+      "AvgPlacement": 4.57,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811t6": {
+      "CardId": "BG31_HERO_811t6",
+      "DbfId": 120375,
+      "NameRu": "BG31_HERO_811t6",
+      "Tier": "C",
+      "PickRate": 32,
+      "WinRate": 50.6,
+      "AvgPlacement": 4.56,
+      "TribeWeights": {}
+    },
+    "BG23_HERO_201": {
+      "CardId": "BG23_HERO_201",
+      "DbfId": 86013,
+      "NameRu": "Озумат",
+      "Tier": "C",
+      "PickRate": 34,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55,
+      "TribeWeights": {
+        "Зверь": 0.5,
+        "Нежить": 0.5
+      }
+    },
+    "BG20_HERO_283": {
+      "CardId": "BG20_HERO_283",
+      "DbfId": 75702,
+      "NameRu": "Бурекрыл",
+      "Tier": "C",
+      "PickRate": 32,
+      "WinRate": 50.0,
+      "AvgPlacement": 4.6,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_60": {
+      "CardId": "TB_BaconShop_HERO_60",
+      "DbfId": 61912,
+      "NameRu": "Принц Кель'тас",
+      "Tier": "C",
+      "PickRate": 32,
+      "WinRate": 50.2,
+      "AvgPlacement": 4.59,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_27": {
+      "CardId": "TB_BaconShop_HERO_27",
+      "DbfId": 58435,
+      "NameRu": "Синдрагоса",
+      "Tier": "C",
+      "PickRate": 33,
+      "WinRate": 50.3,
+      "AvgPlacement": 4.58,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_62": {
+      "CardId": "TB_BaconShop_HERO_62",
+      "DbfId": 61914,
+      "NameRu": "Майев Песнь Теней",
+      "Tier": "C",
+      "PickRate": 30,
+      "WinRate": 50.0,
+      "AvgPlacement": 4.6,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_92": {
+      "CardId": "TB_BaconShop_HERO_92",
+      "DbfId": 66196,
+      "NameRu": "И'Шарадж",
+      "Tier": "C",
+      "PickRate": 31,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_42": {
+      "CardId": "TB_BaconShop_HERO_42",
+      "DbfId": 60213,
+      "NameRu": "Элиза Звездочет",
+      "Tier": "C",
+      "PickRate": 28,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61,
+      "TribeWeights": {}
+    },
+    "BG21_HERO_010": {
+      "CardId": "BG21_HERO_010",
+      "DbfId": 76562,
+      "NameRu": "Скаббс Маслорез",
+      "Tier": "C",
+      "PickRate": 27,
+      "WinRate": 49.4,
+      "AvgPlacement": 4.64,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_67": {
+      "CardId": "TB_BaconShop_HERO_67",
+      "DbfId": 62266,
+      "NameRu": "Капитан Кривоклык",
+      "Tier": "C",
+      "PickRate": 29,
+      "WinRate": 49.1,
+      "AvgPlacement": 4.66,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_11": {
+      "CardId": "TB_BaconShop_HERO_11",
+      "DbfId": 57892,
+      "NameRu": "Рагнарос",
+      "Tier": "C",
+      "PickRate": 30,
+      "WinRate": 49.4,
+      "AvgPlacement": 4.64,
+      "TribeWeights": {}
+    },
+    "BG22_HERO_001": {
+      "CardId": "BG22_HERO_001",
+      "DbfId": 79719,
+      "NameRu": "Бру'кан",
+      "Tier": "C",
+      "PickRate": 30,
+      "WinRate": 49.2,
+      "AvgPlacement": 4.65,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_52": {
+      "CardId": "TB_BaconShop_HERO_52",
+      "DbfId": 60369,
+      "NameRu": "Смертокрыл",
+      "Tier": "C",
+      "PickRate": 27,
+      "WinRate": 49.0,
+      "AvgPlacement": 4.67,
+      "TribeWeights": {
+        "Нежить": 0.5,
+        "Зверь": 0.5
+      }
+    },
+    "TB_BaconShop_HERO_36": {
+      "CardId": "TB_BaconShop_HERO_36",
+      "DbfId": 59806,
+      "NameRu": "Танцор Дэрил",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 48.9,
+      "AvgPlacement": 4.67,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_29": {
+      "CardId": "TB_BaconShop_HERO_29",
+      "DbfId": 58535,
+      "NameRu": "К'Тун",
+      "Tier": "C",
+      "PickRate": 29,
+      "WinRate": 48.8,
+      "AvgPlacement": 4.68,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_18": {
+      "CardId": "TB_BaconShop_HERO_18",
+      "DbfId": 57947,
+      "NameRu": "Пират Глазастик",
+      "Tier": "C",
+      "PickRate": 28,
+      "WinRate": 48.2,
+      "AvgPlacement": 4.72,
+      "TribeWeights": {
+        "Пират": 1.0
+      }
+    },
+    "BG28_HERO_801": {
+      "CardId": "BG28_HERO_801",
+      "DbfId": 105434,
+      "NameRu": "Доктор Гу'ляка",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 48.2,
+      "AvgPlacement": 4.72,
+      "TribeWeights": {}
+    },
+    "BG20_HERO_301": {
+      "CardId": "BG20_HERO_301",
+      "DbfId": 71916,
+      "NameRu": "Мутанус Пожиратель",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 48.1,
+      "AvgPlacement": 4.73,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_14": {
+      "CardId": "TB_BaconShop_HERO_14",
+      "DbfId": 57924,
+      "NameRu": "Королева Пыхлевих",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 47.8,
+      "AvgPlacement": 4.75,
+      "TribeWeights": {
+        "Зверинец": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_53": {
+      "CardId": "TB_BaconShop_HERO_53",
+      "DbfId": 60370,
+      "NameRu": "Изера",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 48.0,
+      "AvgPlacement": 4.74,
+      "TribeWeights": {
+        "Дракон": 1.0
+      }
+    },
+    "BG20_HERO_102": {
+      "CardId": "BG20_HERO_102",
+      "DbfId": 71454,
+      "NameRu": "Воевода Саурфанг",
+      "Tier": "C",
+      "PickRate": 27,
+      "WinRate": 47.3,
+      "AvgPlacement": 4.78,
+      "TribeWeights": {
+        "Демон": 0.34,
+        "Механизм": 0.33,
+        "Элементаль": 0.33
+      }
+    },
+    "BG20_HERO_100": {
+      "CardId": "BG20_HERO_100",
+      "DbfId": 70838,
+      "NameRu": "Рокара",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 47.6,
+      "AvgPlacement": 4.76,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_93": {
+      "CardId": "TB_BaconShop_HERO_93",
+      "DbfId": 66483,
+      "NameRu": "Н'Зот",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 47.1,
+      "AvgPlacement": 4.8,
+      "TribeWeights": {
+        "Зверь": 0.5,
+        "Нежить": 0.5
+      }
+    },
+    "BG22_HERO_305": {
+      "CardId": "BG22_HERO_305",
+      "DbfId": 82110,
+      "NameRu": "Ониксия",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 47.1,
+      "AvgPlacement": 4.8,
+      "TribeWeights": {
+        "Зверь": 0.5,
+        "Нежить": 0.5
+      }
+    },
+    "BG22_HERO_200": {
+      "CardId": "BG22_HERO_200",
+      "DbfId": 80832,
+      "NameRu": "Ини Штормоверть",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 46.6,
+      "AvgPlacement": 4.83,
+      "TribeWeights": {
+        "Механизм": 1.0
+      }
+    },
+    "BG21_HERO_030": {
+      "CardId": "BG21_HERO_030",
+      "DbfId": 76521,
+      "NameRu": "Снид",
+      "Tier": "D",
+      "PickRate": 21,
+      "WinRate": 46.3,
+      "AvgPlacement": 4.85,
+      "TribeWeights": {
+        "Механизм": 0.5,
+        "Мурлок": 0.5
+      }
+    },
+    "TB_BaconShop_HERO_56": {
+      "CardId": "TB_BaconShop_HERO_56",
+      "DbfId": 61488,
+      "NameRu": "Алекстраза",
+      "Tier": "D",
+      "PickRate": 22,
+      "WinRate": 45.9,
+      "AvgPlacement": 4.88,
+      "TribeWeights": {
+        "Дракон": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_57": {
+      "CardId": "TB_BaconShop_HERO_57",
+      "DbfId": 61489,
+      "NameRu": "Ноздорму",
+      "Tier": "D",
+      "PickRate": 21,
+      "WinRate": 45.6,
+      "AvgPlacement": 4.9,
+      "TribeWeights": {}
+    },
+    "BG31_HERO_811": {
+      "CardId": "BG31_HERO_811",
+      "DbfId": 120358,
+      "NameRu": "Керриган, Королева Клинков",
+      "Tier": "D",
+      "PickRate": 19,
+      "WinRate": 45.2,
+      "AvgPlacement": 4.93,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_39": {
+      "CardId": "TB_BaconShop_HERO_39",
+      "DbfId": 59831,
+      "NameRu": "Пирамидон",
+      "Tier": "D",
+      "PickRate": 21,
+      "WinRate": 45.2,
+      "AvgPlacement": 4.93,
+      "TribeWeights": {}
+    },
+    "BG26_HERO_101": {
+      "CardId": "BG26_HERO_101",
+      "DbfId": 101130,
+      "NameRu": "Капитан Др-р-робитель",
+      "Tier": "D",
+      "PickRate": 20,
+      "WinRate": 45.0,
+      "AvgPlacement": 4.94,
+      "TribeWeights": {
+        "Пират": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_95": {
+      "CardId": "TB_BaconShop_HERO_95",
+      "DbfId": 67553,
+      "NameRu": "Серокрон",
+      "Tier": "D",
+      "PickRate": 20,
+      "WinRate": 44.7,
+      "AvgPlacement": 4.96,
+      "TribeWeights": {
+        "Зверь": 0.5,
+        "Нежить": 0.5
+      }
+    },
+    "BG31_HERO_802": {
+      "CardId": "BG31_HERO_802",
+      "DbfId": 118510,
+      "NameRu": "Артанис",
+      "Tier": "D",
+      "PickRate": 19,
+      "WinRate": 44.4,
+      "AvgPlacement": 4.98,
+      "TribeWeights": {
+        "Механизм": 1.0
+      }
+    },
+    "BG25_HERO_100": {
+      "CardId": "BG25_HERO_100",
+      "DbfId": 97813,
+      "NameRu": "Профессор Мерзоцид",
+      "Tier": "D",
+      "PickRate": 18,
+      "WinRate": 44.1,
+      "AvgPlacement": 5.0,
+      "TribeWeights": {
+        "Нежить": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_25": {
+      "CardId": "TB_BaconShop_HERO_25",
+      "DbfId": 58044,
+      "NameRu": "Лич Баз'хиал",
+      "Tier": "D",
+      "PickRate": 17,
+      "WinRate": 43.6,
+      "AvgPlacement": 5.04,
+      "TribeWeights": {
+        "Демон": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_702": {
+      "CardId": "TB_BaconShop_HERO_702",
+      "DbfId": 97186,
+      "NameRu": "Тюремщик",
+      "Tier": "D",
+      "PickRate": 17,
+      "WinRate": 43.5,
+      "AvgPlacement": 5.04,
+      "TribeWeights": {
+        "Нежить": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_38": {
+      "CardId": "TB_BaconShop_HERO_38",
+      "DbfId": 59814,
+      "NameRu": "Король Мукла",
+      "Tier": "D",
+      "PickRate": 17,
+      "WinRate": 43.0,
+      "AvgPlacement": 5.08,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_33": {
+      "CardId": "TB_BaconShop_HERO_33",
+      "DbfId": 59203,
+      "NameRu": "Смотритель",
+      "Tier": "D",
+      "PickRate": 16,
+      "WinRate": 42.7,
+      "AvgPlacement": 5.1,
+      "TribeWeights": {
+        "Зверинец": 1.0
+      }
+    },
+    "BG20_HERO_282": {
+      "CardId": "BG20_HERO_282",
+      "DbfId": 74646,
+      "NameRu": "Тамсин Роум",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 42.4,
+      "AvgPlacement": 5.12,
+      "TribeWeights": {
+        "Нежить": 0.5,
+        "Дракон": 0.5
+      }
+    },
+    "TB_BaconShop_HERO_71": {
+      "CardId": "TB_BaconShop_HERO_71",
+      "DbfId": 63601,
+      "NameRu": "Джандис Барова",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 42.3,
+      "AvgPlacement": 5.12,
+      "TribeWeights": {}
+    },
+    "TB_BaconShop_HERO_55": {
+      "CardId": "TB_BaconShop_HERO_55",
+      "DbfId": 60372,
+      "NameRu": "Грибомант Флургл",
+      "Tier": "D",
+      "PickRate": 15,
+      "WinRate": 42.1,
+      "AvgPlacement": 5.14,
+      "TribeWeights": {
+        "Мурлок": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_78": {
+      "CardId": "TB_BaconShop_HERO_78",
+      "DbfId": 64475,
+      "NameRu": "Нави'ла",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 41.5,
+      "AvgPlacement": 5.18,
+      "TribeWeights": {
+        "Элементаль": 1.0
+      }
+    },
+    "TB_BaconShop_HERO_01": {
+      "CardId": "TB_BaconShop_HERO_01",
+      "DbfId": 57633,
+      "NameRu": "Эдвин ван Клиф",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 41.5,
+      "AvgPlacement": 5.18,
+      "TribeWeights": {
+        "Пират": 0.34,
+        "Элементаль": 0.33,
+        "Мурлок": 0.33
+      }
+    }
+  },
+  "trinkets": {
+    "BG36_MagicItem_308": {
+      "CardId": "BG36_MagicItem_308",
+      "DbfId": 133380,
+      "NameRu": "Наклейка со следопытом",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 65.5,
+      "AvgPlacement": 3.55
+    },
+    "BG30_MagicItem_988": {
+      "CardId": "BG30_MagicItem_988",
+      "DbfId": 112013,
+      "NameRu": "Наклейка с Великим Вепрем",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 65.3,
+      "AvgPlacement": 3.56
+    },
+    "BG30_MagicItem_988t": {
+      "CardId": "BG30_MagicItem_988t",
+      "DbfId": 115225,
+      "NameRu": "Наклейка с Великим Вепрем",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 70,
+      "WinRate": 65.6,
+      "AvgPlacement": 3.54
+    },
+    "BG30_MagicItem_426t": {
+      "CardId": "BG30_MagicItem_426t",
+      "DbfId": 115250,
+      "NameRu": "Разноцветный компас",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 65.0,
+      "AvgPlacement": 3.58
+    },
+    "BG36_MagicItem_208t": {
+      "CardId": "BG36_MagicItem_208t",
+      "DbfId": 133396,
+      "NameRu": "Набор парящих свечей",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.9,
+      "AvgPlacement": 3.59
+    },
+    "BG30_MagicItem_442t": {
+      "CardId": "BG30_MagicItem_442t",
+      "DbfId": 113097,
+      "NameRu": "Наклейка с големом крови",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 68,
+      "WinRate": 64.9,
+      "AvgPlacement": 3.59
+    },
+    "BG36_MagicItem_307": {
+      "CardId": "BG36_MagicItem_307",
+      "DbfId": 133379,
+      "NameRu": "Жезл ворожбы",
+      "TribeRu": "Свинобраз / Нага",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 65.1,
+      "AvgPlacement": 3.57
+    },
+    "BG32_MagicItem_807": {
+      "CardId": "BG32_MagicItem_807",
+      "DbfId": 120145,
+      "NameRu": "Наклейка со Смотрителем",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 65.1,
+      "AvgPlacement": 3.57
+    },
+    "BG35_MagicItem_741": {
+      "CardId": "BG35_MagicItem_741",
+      "DbfId": 131139,
+      "NameRu": "Портрет битбоксера",
+      "TribeRu": "Механизм",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 64.9,
+      "AvgPlacement": 3.59
+    },
+    "BG30_MagicItem_410": {
+      "CardId": "BG30_MagicItem_410",
+      "DbfId": 111512,
+      "NameRu": "Писчие перья",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 68,
+      "WinRate": 65.2,
+      "AvgPlacement": 3.57
+    },
+    "BG35_MagicItem_930": {
+      "CardId": "BG35_MagicItem_930",
+      "DbfId": 131002,
+      "NameRu": "Боевой свисток",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 64.9,
+      "AvgPlacement": 3.59
+    },
+    "BG30_MagicItem_902": {
+      "CardId": "BG30_MagicItem_902",
+      "DbfId": 111401,
+      "NameRu": "Светлый молот",
+      "TribeRu": "Дракон",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.8,
+      "AvgPlacement": 3.59
+    },
+    "BG36_MagicItem_840": {
+      "CardId": "BG36_MagicItem_840",
+      "DbfId": 133068,
+      "NameRu": "Секретная схема",
+      "TribeRu": "Механизм",
+      "Tier": "S",
+      "PickRate": 65,
+      "WinRate": 65.0,
+      "AvgPlacement": 3.58
+    },
+    "BG35_MagicItem_154": {
+      "CardId": "BG35_MagicItem_154",
+      "DbfId": 131282,
+      "NameRu": "Наклейка с ур'зулом",
+      "TribeRu": "Демон",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 65.0,
+      "AvgPlacement": 3.58
+    },
+    "BG30_MagicItem_426": {
+      "CardId": "BG30_MagicItem_426",
+      "DbfId": 112002,
+      "NameRu": "Разноцветный компас",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 64.4,
+      "AvgPlacement": 3.62
+    },
+    "BG35_MagicItem_851": {
+      "CardId": "BG35_MagicItem_851",
+      "DbfId": 130889,
+      "NameRu": "Водяное колесо",
+      "TribeRu": "Элементаль",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 64.8,
+      "AvgPlacement": 3.59
+    },
+    "BG30_MagicItem_410t2": {
+      "CardId": "BG30_MagicItem_410t2",
+      "DbfId": 115253,
+      "NameRu": "Писчие перья",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 65,
+      "WinRate": 64.7,
+      "AvgPlacement": 3.6
+    },
+    "BG35_MagicItem_812": {
+      "CardId": "BG35_MagicItem_812",
+      "DbfId": 130830,
+      "NameRu": "Оскверненный том",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 67,
+      "WinRate": 64.3,
+      "AvgPlacement": 3.63
+    },
+    "BG36_MagicItem_303": {
+      "CardId": "BG36_MagicItem_303",
+      "DbfId": 133346,
+      "NameRu": "Бокал свежего взгляда",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.4,
+      "AvgPlacement": 3.62
+    },
+    "BG35_MagicItem_701": {
+      "CardId": "BG35_MagicItem_701",
+      "DbfId": 130896,
+      "NameRu": "Амулет-клык",
+      "TribeRu": "Зверь",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.2,
+      "AvgPlacement": 3.63
+    },
+    "BG35_MagicItem_816": {
+      "CardId": "BG35_MagicItem_816",
+      "DbfId": 130834,
+      "NameRu": "Сфера неизвестности",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 65,
+      "WinRate": 64.5,
+      "AvgPlacement": 3.61
+    },
+    "BG32_MagicItem_276": {
+      "CardId": "BG32_MagicItem_276",
+      "DbfId": 121121,
+      "NameRu": "Загадочное надгробие",
+      "TribeRu": "Нежить",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.6,
+      "AvgPlacement": 3.61
+    },
+    "BG30_MagicItem_411": {
+      "CardId": "BG30_MagicItem_411",
+      "DbfId": 111514,
+      "NameRu": "Свинтус-копилка",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.1,
+      "AvgPlacement": 3.64
+    },
+    "BG32_MagicItem_361": {
+      "CardId": "BG32_MagicItem_361",
+      "DbfId": 111399,
+      "NameRu": "Переносная фабрика",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 66,
+      "WinRate": 64.4,
+      "AvgPlacement": 3.62
+    },
+    "BG30_MagicItem_430": {
+      "CardId": "BG30_MagicItem_430",
+      "DbfId": 112079,
+      "NameRu": "Шкатулка тяжелой музыки",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 65,
+      "WinRate": 64.2,
+      "AvgPlacement": 3.63
+    },
+    "BG30_MagicItem_442": {
+      "CardId": "BG30_MagicItem_442",
+      "DbfId": 113096,
+      "NameRu": "Наклейка с големом крови",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 63,
+      "WinRate": 64.4,
+      "AvgPlacement": 3.62
+    },
+    "BG36_MagicItem_831": {
+      "CardId": "BG36_MagicItem_831",
+      "DbfId": 133067,
+      "NameRu": "Скверностальной тесак",
+      "TribeRu": "Демон / Свинобраз",
+      "Tier": "S",
+      "PickRate": 63,
+      "WinRate": 64.2,
+      "AvgPlacement": 3.63
+    },
+    "BG30_MagicItem_406": {
+      "CardId": "BG30_MagicItem_406",
+      "DbfId": 111502,
+      "NameRu": "Серп мясника",
+      "TribeRu": "Нежить",
+      "Tier": "S",
+      "PickRate": 62,
+      "WinRate": 64.3,
+      "AvgPlacement": 3.63
+    },
+    "BG35_MagicItem_712": {
+      "CardId": "BG35_MagicItem_712",
+      "DbfId": 130891,
+      "NameRu": "Портрет корсара",
+      "TribeRu": "Пират",
+      "Tier": "S",
+      "PickRate": 64,
+      "WinRate": 64.1,
+      "AvgPlacement": 3.64
+    },
+    "BG30_MagicItem_962": {
+      "CardId": "BG30_MagicItem_962",
+      "DbfId": 111417,
+      "NameRu": "Сертификат об обучении",
+      "TribeRu": "Дракон",
+      "Tier": "S",
+      "PickRate": 63,
+      "WinRate": 64.1,
+      "AvgPlacement": 3.64
+    },
+    "BG32_MagicItem_862t": {
+      "CardId": "BG32_MagicItem_862t",
+      "DbfId": 120936,
+      "NameRu": "BG32_MagicItem_862t",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 63,
+      "WinRate": 64.0,
+      "AvgPlacement": 3.65
+    },
+    "BG36_MagicItem_215": {
+      "CardId": "BG36_MagicItem_215",
+      "DbfId": 133403,
+      "NameRu": "Око дракона",
+      "TribeRu": "Дракон",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 63.9,
+      "AvgPlacement": 3.65
+    },
+    "BG28_698": {
+      "CardId": "BG28_698",
+      "DbfId": 110642,
+      "NameRu": "Конфискация самоцветов",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 62,
+      "WinRate": 63.5,
+      "AvgPlacement": 3.68
+    },
+    "BG34_272": {
+      "CardId": "BG34_272",
+      "DbfId": 130527,
+      "NameRu": "Ожившие приборы",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 62,
+      "WinRate": 63.8,
+      "AvgPlacement": 3.66
+    },
+    "BG30_MagicItem_993": {
+      "CardId": "BG30_MagicItem_993",
+      "DbfId": 113103,
+      "NameRu": "Удочка Пэгла",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 64.0,
+      "AvgPlacement": 3.65
+    },
+    "BG35_MagicItem_302": {
+      "CardId": "BG35_MagicItem_302",
+      "DbfId": 130880,
+      "NameRu": "Наклейка с Штормоверть",
+      "TribeRu": "Механизм",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 63.8,
+      "AvgPlacement": 3.66
+    },
+    "BG30_MagicItem_777": {
+      "CardId": "BG30_MagicItem_777",
+      "DbfId": 117895,
+      "NameRu": "BG30_MagicItem_777",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 63.5,
+      "AvgPlacement": 3.68
+    },
+    "BG32_MagicItem_950": {
+      "CardId": "BG32_MagicItem_950",
+      "DbfId": 120804,
+      "NameRu": "BG32_MagicItem_950",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 63.6,
+      "AvgPlacement": 3.68
+    },
+    "BG35_MagicItem_300": {
+      "CardId": "BG35_MagicItem_300",
+      "DbfId": 130875,
+      "NameRu": "BG35_MagicItem_300",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 63.2,
+      "AvgPlacement": 3.7
+    },
+    "BG30_MagicItem_709": {
+      "CardId": "BG30_MagicItem_709",
+      "DbfId": 117894,
+      "NameRu": "BG30_MagicItem_709",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 60,
+      "WinRate": 63.2,
+      "AvgPlacement": 3.7
+    },
+    "BG36_MagicItem_303t": {
+      "CardId": "BG36_MagicItem_303t",
+      "DbfId": 133348,
+      "NameRu": "Бокал свежего взгляда",
+      "TribeRu": "Свинобраз",
+      "Tier": "S",
+      "PickRate": 62,
+      "WinRate": 63.4,
+      "AvgPlacement": 3.69
+    },
+    "BG30_MagicItem_544": {
+      "CardId": "BG30_MagicItem_544",
+      "DbfId": 112392,
+      "NameRu": "Наклейка с Номи",
+      "TribeRu": "Элементаль",
+      "Tier": "S",
+      "PickRate": 58,
+      "WinRate": 63.4,
+      "AvgPlacement": 3.69
+    },
+    "BG27_Reward_802": {
+      "CardId": "BG27_Reward_802",
+      "DbfId": 104673,
+      "NameRu": "Гилнеасский рог",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 63.2,
+      "AvgPlacement": 3.7
+    },
+    "BG35_MagicItem_925": {
+      "CardId": "BG35_MagicItem_925",
+      "DbfId": 130981,
+      "NameRu": "BG35_MagicItem_925",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 63.0,
+      "AvgPlacement": 3.72
+    },
+    "BG36_MagicItem_217": {
+      "CardId": "BG36_MagicItem_217",
+      "DbfId": 133405,
+      "NameRu": "Похоронный венок",
+      "TribeRu": "Нежить",
+      "Tier": "S",
+      "PickRate": 58,
+      "WinRate": 63.4,
+      "AvgPlacement": 3.69
+    },
+    "BG30_MagicItem_914t": {
+      "CardId": "BG30_MagicItem_914t",
+      "DbfId": 115237,
+      "NameRu": "Мурлочий словарь",
+      "TribeRu": "Мурлок",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 63.0,
+      "AvgPlacement": 3.72
+    },
+    "BG30_MagicItem_416": {
+      "CardId": "BG30_MagicItem_416",
+      "DbfId": 111556,
+      "NameRu": "Знак Древних богов",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 61,
+      "WinRate": 62.8,
+      "AvgPlacement": 3.73
+    },
+    "BG30_MagicItem_544t": {
+      "CardId": "BG30_MagicItem_544t",
+      "DbfId": 115235,
+      "NameRu": "Наклейка с Номи",
+      "TribeRu": "Элементаль",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 63.0,
+      "AvgPlacement": 3.72
+    },
+    "100601-eyes-of-the-earth-mother": {
+      "CardId": "100601-eyes-of-the-earth-mother",
+      "DbfId": 100601,
+      "NameRu": "Очи Матери-Земли",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 57,
+      "WinRate": 63.3,
+      "AvgPlacement": 3.7
+    },
+    "BG33_815": {
+      "CardId": "BG33_815",
+      "DbfId": 122186,
+      "NameRu": "Богатое вознаграждение",
+      "TribeRu": "Пират",
+      "Tier": "S",
+      "PickRate": 57,
+      "WinRate": 62.9,
+      "AvgPlacement": 3.72
+    },
+    "BG24_Reward_107": {
+      "CardId": "BG24_Reward_107",
+      "DbfId": 89449,
+      "NameRu": "Злопастности",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 56,
+      "WinRate": 62.9,
+      "AvgPlacement": 3.72
+    },
+    "BG32_MagicItem_920": {
+      "CardId": "BG32_MagicItem_920",
+      "DbfId": 120606,
+      "NameRu": "Портрет тавматурга",
+      "TribeRu": "Нага",
+      "Tier": "S",
+      "PickRate": 56,
+      "WinRate": 62.9,
+      "AvgPlacement": 3.72
+    },
+    "BG30_MagicItem_803": {
+      "CardId": "BG30_MagicItem_803",
+      "DbfId": 110956,
+      "NameRu": "BG30_MagicItem_803",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 56,
+      "WinRate": 62.9,
+      "AvgPlacement": 3.72
+    },
+    "BG30_MagicItem_438t": {
+      "CardId": "BG30_MagicItem_438t",
+      "DbfId": 113302,
+      "NameRu": "BG30_MagicItem_438t",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 56,
+      "WinRate": 63.0,
+      "AvgPlacement": 3.72
+    },
+    "BG34_990": {
+      "CardId": "BG34_990",
+      "DbfId": 127506,
+      "NameRu": "Волна золота",
+      "TribeRu": "Пират",
+      "Tier": "S",
+      "PickRate": 60,
+      "WinRate": 62.7,
+      "AvgPlacement": 3.74
+    },
+    "BG30_MagicItem_804": {
+      "CardId": "BG30_MagicItem_804",
+      "DbfId": 110957,
+      "NameRu": "Древняя косточка",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 62.9,
+      "AvgPlacement": 3.72
+    },
+    "BG30_MagicItem_973": {
+      "CardId": "BG30_MagicItem_973",
+      "DbfId": 111962,
+      "NameRu": "Приманка для существ",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 62.6,
+      "AvgPlacement": 3.74
+    },
+    "BG30_MagicItem_437": {
+      "CardId": "BG30_MagicItem_437",
+      "DbfId": 112080,
+      "NameRu": "Посох Плети",
+      "TribeRu": "Нежить",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 62.3,
+      "AvgPlacement": 3.76
+    },
+    "BG36_MagicItem_412t3": {
+      "CardId": "BG36_MagicItem_412t3",
+      "DbfId": 134464,
+      "NameRu": "BG36_MagicItem_412t3",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 62.2,
+      "AvgPlacement": 3.77
+    },
+    "BG35_MagicItem_432": {
+      "CardId": "BG35_MagicItem_432",
+      "DbfId": 130906,
+      "NameRu": "BG35_MagicItem_432",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 59,
+      "WinRate": 62.3,
+      "AvgPlacement": 3.76
+    },
+    "BG30_MagicItem_986": {
+      "CardId": "BG30_MagicItem_986",
+      "DbfId": 112009,
+      "NameRu": "BG30_MagicItem_986",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 58,
+      "WinRate": 62.7,
+      "AvgPlacement": 3.74
+    },
+    "BG36_884": {
+      "CardId": "BG36_884",
+      "DbfId": 133371,
+      "NameRu": "Оружейная кузница",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 57,
+      "WinRate": 62.1,
+      "AvgPlacement": 3.78
+    },
+    "BG32_MagicItem_891": {
+      "CardId": "BG32_MagicItem_891",
+      "DbfId": 121137,
+      "NameRu": "BG32_MagicItem_891",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 57,
+      "WinRate": 62.3,
+      "AvgPlacement": 3.76
+    },
+    "BG32_MagicItem_231t": {
+      "CardId": "BG32_MagicItem_231t",
+      "DbfId": 121035,
+      "NameRu": "BG32_MagicItem_231t",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 57,
+      "WinRate": 62.3,
+      "AvgPlacement": 3.76
+    },
+    "BG30_MagicItem_416t": {
+      "CardId": "BG30_MagicItem_416t",
+      "DbfId": 112813,
+      "NameRu": "Знак Древних богов",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 57,
+      "WinRate": 62.1,
+      "AvgPlacement": 3.78
+    },
+    "BG30_MagicItem_310": {
+      "CardId": "BG30_MagicItem_310",
+      "DbfId": 112102,
+      "NameRu": "Портрет Ривендера",
+      "TribeRu": "Зверь",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 62.4,
+      "AvgPlacement": 3.76
+    },
+    "BG36_MagicItem_372": {
+      "CardId": "BG36_MagicItem_372",
+      "DbfId": 133712,
+      "NameRu": "BG36_MagicItem_372",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 61.9,
+      "AvgPlacement": 3.79
+    },
+    "BG32_MagicItem_279": {
+      "CardId": "BG32_MagicItem_279",
+      "DbfId": 121126,
+      "NameRu": "BG32_MagicItem_279",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 61.7,
+      "AvgPlacement": 3.8
+    },
+    "BG35_MagicItem_838": {
+      "CardId": "BG35_MagicItem_838",
+      "DbfId": 131314,
+      "NameRu": "BG35_MagicItem_838",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 61.8,
+      "AvgPlacement": 3.8
+    },
+    "BG30_MagicItem_543": {
+      "CardId": "BG30_MagicItem_543",
+      "DbfId": 112385,
+      "NameRu": "BG30_MagicItem_543",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 62.0,
+      "AvgPlacement": 3.78
+    },
+    "BG32_MagicItem_954": {
+      "CardId": "BG32_MagicItem_954",
+      "DbfId": 120868,
+      "NameRu": "BG32_MagicItem_954",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 61.9,
+      "AvgPlacement": 3.79
+    },
+    "BG32_MagicItem_907": {
+      "CardId": "BG32_MagicItem_907",
+      "DbfId": 121113,
+      "NameRu": "BG32_MagicItem_907",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 54,
+      "WinRate": 61.5,
+      "AvgPlacement": 3.82
+    },
+    "BG35_MagicItem_742": {
+      "CardId": "BG35_MagicItem_742",
+      "DbfId": 131140,
+      "NameRu": "Портрет созвучатора",
+      "TribeRu": "Механизм",
+      "Tier": "S",
+      "PickRate": 56,
+      "WinRate": 61.8,
+      "AvgPlacement": 3.8
+    },
+    "BG33_Reward_011": {
+      "CardId": "BG33_Reward_011",
+      "DbfId": 122825,
+      "NameRu": "Реликвия чарожабров",
+      "TribeRu": "Мурлок",
+      "Tier": "S",
+      "PickRate": 53,
+      "WinRate": 61.5,
+      "AvgPlacement": 3.82
+    },
+    "BG36_MagicItem_609": {
+      "CardId": "BG36_MagicItem_609",
+      "DbfId": 134642,
+      "NameRu": "BG36_MagicItem_609",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 53,
+      "WinRate": 61.6,
+      "AvgPlacement": 3.81
+    },
+    "BG32_MagicItem_363": {
+      "CardId": "BG32_MagicItem_363",
+      "DbfId": 120870,
+      "NameRu": "Чешуя волшебного дракона",
+      "TribeRu": "Дракон",
+      "Tier": "S",
+      "PickRate": 52,
+      "WinRate": 61.5,
+      "AvgPlacement": 3.82
+    },
+    "BG32_MagicItem_364": {
+      "CardId": "BG32_MagicItem_364",
+      "DbfId": 120875,
+      "NameRu": "Портрет поэта",
+      "TribeRu": "Дракон",
+      "Tier": "S",
+      "PickRate": 51,
+      "WinRate": 61.8,
+      "AvgPlacement": 3.8
+    },
+    "BG36_MagicItem_208": {
+      "CardId": "BG36_MagicItem_208",
+      "DbfId": 133395,
+      "NameRu": "Набор парящих свечей",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 55,
+      "WinRate": 61.5,
+      "AvgPlacement": 3.82
+    },
+    "BG36_MagicItem_362": {
+      "CardId": "BG36_MagicItem_362",
+      "DbfId": 133721,
+      "NameRu": "Портрет байкера",
+      "TribeRu": "Нага",
+      "Tier": "S",
+      "PickRate": 51,
+      "WinRate": 61.6,
+      "AvgPlacement": 3.81
+    },
+    "BG30_MagicItem_542": {
+      "CardId": "BG30_MagicItem_542",
+      "DbfId": 112383,
+      "NameRu": "BG30_MagicItem_542",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 51,
+      "WinRate": 61.7,
+      "AvgPlacement": 3.8
+    },
+    "BG35_MagicItem_852": {
+      "CardId": "BG35_MagicItem_852",
+      "DbfId": 130976,
+      "NameRu": "BG35_MagicItem_852",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 51,
+      "WinRate": 61.7,
+      "AvgPlacement": 3.8
+    },
+    "BG35_MagicItem_152": {
+      "CardId": "BG35_MagicItem_152",
+      "DbfId": 131280,
+      "NameRu": "Демонический гобелен",
+      "TribeRu": "Демон",
+      "Tier": "S",
+      "PickRate": 51,
+      "WinRate": 61.3,
+      "AvgPlacement": 3.83
+    },
+    "BG30_MagicItem_701": {
+      "CardId": "BG30_MagicItem_701",
+      "DbfId": 117795,
+      "NameRu": "Око Саргераса",
+      "TribeRu": "Демон",
+      "Tier": "S",
+      "PickRate": 51,
+      "WinRate": 61.1,
+      "AvgPlacement": 3.85
+    },
+    "BG35_MagicItem_435": {
+      "CardId": "BG35_MagicItem_435",
+      "DbfId": 131275,
+      "NameRu": "BG35_MagicItem_435",
+      "TribeRu": "Без типа",
+      "Tier": "S",
+      "PickRate": 54,
+      "WinRate": 61.1,
+      "AvgPlacement": 3.85
+    },
+    "BG32_MagicItem_890": {
+      "CardId": "BG32_MagicItem_890",
+      "DbfId": 121115,
+      "NameRu": "BG32_MagicItem_890",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 53,
+      "WinRate": 60.8,
+      "AvgPlacement": 3.87
+    },
+    "BG35_MagicItem_714": {
+      "CardId": "BG35_MagicItem_714",
+      "DbfId": 131001,
+      "NameRu": "BG35_MagicItem_714",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 53,
+      "WinRate": 60.7,
+      "AvgPlacement": 3.87
+    },
+    "BG32_MagicItem_831": {
+      "CardId": "BG32_MagicItem_831",
+      "DbfId": 120800,
+      "NameRu": "Портрет продажементаля",
+      "TribeRu": "Элементаль",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 61.2,
+      "AvgPlacement": 3.84
+    },
+    "BG30_804": {
+      "CardId": "BG30_804",
+      "DbfId": 113901,
+      "NameRu": "Мощь эволюции",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 52,
+      "WinRate": 61.2,
+      "AvgPlacement": 3.84
+    },
+    "BG24_Reward_350": {
+      "CardId": "BG24_Reward_350",
+      "DbfId": 95867,
+      "NameRu": "Краденые лампы",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 52,
+      "WinRate": 61.0,
+      "AvgPlacement": 3.85
+    },
+    "BG35_MagicItem_920": {
+      "CardId": "BG35_MagicItem_920",
+      "DbfId": 130898,
+      "NameRu": "Корона из пузырька",
+      "TribeRu": "Нага",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.8,
+      "AvgPlacement": 3.87
+    },
+    "BG32_MagicItem_953": {
+      "CardId": "BG32_MagicItem_953",
+      "DbfId": 120867,
+      "NameRu": "BG32_MagicItem_953",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 61.0,
+      "AvgPlacement": 3.85
+    },
+    "BG32_MagicItem_280": {
+      "CardId": "BG32_MagicItem_280",
+      "DbfId": 121127,
+      "NameRu": "BG32_MagicItem_280",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.7,
+      "AvgPlacement": 3.87
+    },
+    "BG30_MagicItem_822t2": {
+      "CardId": "BG30_MagicItem_822t2",
+      "DbfId": 115247,
+      "NameRu": "BG30_MagicItem_822t2",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.8,
+      "AvgPlacement": 3.87
+    },
+    "BG36_MagicItem_300": {
+      "CardId": "BG36_MagicItem_300",
+      "DbfId": 133340,
+      "NameRu": "Морозный цветок",
+      "TribeRu": "Элементаль",
+      "Tier": "A",
+      "PickRate": 52,
+      "WinRate": 60.7,
+      "AvgPlacement": 3.87
+    },
+    "BG35_912": {
+      "CardId": "BG35_912",
+      "DbfId": 130312,
+      "NameRu": "Покровительство Эонар",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 60.9,
+      "AvgPlacement": 3.86
+    },
+    "BG24_Reward_111": {
+      "CardId": "BG24_Reward_111",
+      "DbfId": 89481,
+      "NameRu": "Злой двойник",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 60.5,
+      "AvgPlacement": 3.89
+    },
+    "BG30_MagicItem_920": {
+      "CardId": "BG30_MagicItem_920",
+      "DbfId": 111400,
+      "NameRu": "Суши Злобной Чешуи",
+      "TribeRu": "Нага",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 60.9,
+      "AvgPlacement": 3.86
+    },
+    "BG32_MagicItem_416": {
+      "CardId": "BG32_MagicItem_416",
+      "DbfId": 121037,
+      "NameRu": "Боевой барабан",
+      "TribeRu": "Дракон / Мурлок",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 60.3,
+      "AvgPlacement": 3.9
+    },
+    "BG24_Reward_130": {
+      "CardId": "BG24_Reward_130",
+      "DbfId": 90917,
+      "NameRu": "Устрашающая маска",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 49,
+      "WinRate": 60.6,
+      "AvgPlacement": 3.88
+    },
+    "BG30_MagicItem_403": {
+      "CardId": "BG30_MagicItem_403",
+      "DbfId": 111488,
+      "NameRu": "Стальгорнская наковальня",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 49,
+      "WinRate": 60.2,
+      "AvgPlacement": 3.91
+    },
+    "BG36_MagicItem_820": {
+      "CardId": "BG36_MagicItem_820",
+      "DbfId": 133064,
+      "NameRu": "Вертлявый портрет",
+      "TribeRu": "Мурлок",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.7,
+      "AvgPlacement": 3.87
+    },
+    "BG32_MagicItem_270t": {
+      "CardId": "BG32_MagicItem_270t",
+      "DbfId": 121041,
+      "NameRu": "Нечестивый фолиант",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 60.5,
+      "AvgPlacement": 3.89
+    },
+    "BG35_MagicItem_151": {
+      "CardId": "BG35_MagicItem_151",
+      "DbfId": 131278,
+      "NameRu": "BG35_MagicItem_151",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 60.4,
+      "AvgPlacement": 3.89
+    },
+    "BG32_MagicItem_888": {
+      "CardId": "BG32_MagicItem_888",
+      "DbfId": 120705,
+      "NameRu": "Возобновляемая наклейка",
+      "TribeRu": "Элементаль",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 60.2,
+      "AvgPlacement": 3.91
+    },
+    "BG36_MagicItem_371": {
+      "CardId": "BG36_MagicItem_371",
+      "DbfId": 133722,
+      "NameRu": "Медовое кольцо",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.2,
+      "AvgPlacement": 3.91
+    },
+    "BG32_MagicItem_934": {
+      "CardId": "BG32_MagicItem_934",
+      "DbfId": 120618,
+      "NameRu": "BG32_MagicItem_934",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.4,
+      "AvgPlacement": 3.89
+    },
+    "BG30_MagicItem_821t2": {
+      "CardId": "BG30_MagicItem_821t2",
+      "DbfId": 111046,
+      "NameRu": "Портрет рыбы",
+      "TribeRu": "Зверь / Нежить",
+      "Tier": "A",
+      "PickRate": 51,
+      "WinRate": 60.0,
+      "AvgPlacement": 3.92
+    },
+    "BG35_MagicItem_812t": {
+      "CardId": "BG35_MagicItem_812t",
+      "DbfId": 130856,
+      "NameRu": "Оскверненный том",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 60.5,
+      "AvgPlacement": 3.89
+    },
+    "BG28_169": {
+      "CardId": "BG28_169",
+      "DbfId": 109232,
+      "NameRu": "Азеритовое усиление",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 60.0,
+      "AvgPlacement": 3.92
+    },
+    "BG34_Trinket_2nd_Spell": {
+      "CardId": "BG34_Trinket_2nd_Spell",
+      "DbfId": 126230,
+      "NameRu": "BG34_Trinket_2nd_Spell",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 59.9,
+      "AvgPlacement": 3.93
+    },
+    "BG30_MagicItem_971": {
+      "CardId": "BG30_MagicItem_971",
+      "DbfId": 111921,
+      "NameRu": "BG30_MagicItem_971",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 49,
+      "WinRate": 60.0,
+      "AvgPlacement": 3.92
+    },
+    "BG35_MagicItem_303": {
+      "CardId": "BG35_MagicItem_303",
+      "DbfId": 130881,
+      "NameRu": "BG35_MagicItem_303",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 49,
+      "WinRate": 60.2,
+      "AvgPlacement": 3.91
+    },
+    "BG36_MagicItem_301": {
+      "CardId": "BG36_MagicItem_301",
+      "DbfId": 133341,
+      "NameRu": "Портрет с сейфом",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 60.4,
+      "AvgPlacement": 3.89
+    },
+    "BG36_MagicItem_220": {
+      "CardId": "BG36_MagicItem_220",
+      "DbfId": 133696,
+      "NameRu": "Сияющий кристалл",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 59.9,
+      "AvgPlacement": 3.93
+    },
+    "BG28_601": {
+      "CardId": "BG28_601",
+      "DbfId": 110400,
+      "NameRu": "Клонирующая раковина",
+      "TribeRu": "Мурлок",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 59.7,
+      "AvgPlacement": 3.94
+    },
+    "BG36_880": {
+      "CardId": "BG36_880",
+      "DbfId": 132903,
+      "NameRu": "Методичное сумасшествие",
+      "TribeRu": "Демон",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 60.3,
+      "AvgPlacement": 3.9
+    },
+    "BG36_MagicItem_852": {
+      "CardId": "BG36_MagicItem_852",
+      "DbfId": 134639,
+      "NameRu": "BG36_MagicItem_852",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 60.1,
+      "AvgPlacement": 3.91
+    },
+    "BG32_MagicItem_278": {
+      "CardId": "BG32_MagicItem_278",
+      "DbfId": 121125,
+      "NameRu": "Многоразовые батареи",
+      "TribeRu": "Механизм",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 60.1,
+      "AvgPlacement": 3.91
+    },
+    "BG36_MagicItem_213": {
+      "CardId": "BG36_MagicItem_213",
+      "DbfId": 133401,
+      "NameRu": "Наклейка с крикуном",
+      "TribeRu": "Зверь",
+      "Tier": "A",
+      "PickRate": 50,
+      "WinRate": 59.9,
+      "AvgPlacement": 3.93
+    },
+    "BG28_882": {
+      "CardId": "BG28_882",
+      "DbfId": 105265,
+      "NameRu": "Труп в розыске",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.8,
+      "AvgPlacement": 3.93
+    },
+    "BG32_337": {
+      "CardId": "BG32_337",
+      "DbfId": 120940,
+      "NameRu": "Морская похлебка",
+      "TribeRu": "Мурлок",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.6,
+      "AvgPlacement": 3.95
+    },
+    "BG28_Reward_515": {
+      "CardId": "BG28_Reward_515",
+      "DbfId": 110345,
+      "NameRu": "Тайник писца",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 59.5,
+      "AvgPlacement": 3.95
+    },
+    "BG32_MagicItem_361t": {
+      "CardId": "BG32_MagicItem_361t",
+      "DbfId": 120925,
+      "NameRu": "Переносная фабрика",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 59.7,
+      "AvgPlacement": 3.94
+    },
+    "BG35_MagicItem_820": {
+      "CardId": "BG35_MagicItem_820",
+      "DbfId": 130838,
+      "NameRu": "Защитная заплатка",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 59.5,
+      "AvgPlacement": 3.95
+    },
+    "BG30_Trinket_2nd": {
+      "CardId": "BG30_Trinket_2nd",
+      "DbfId": 116614,
+      "NameRu": "BG30_Trinket_2nd",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 59.8,
+      "AvgPlacement": 3.93
+    },
+    "BG36_MagicItem_412t2": {
+      "CardId": "BG36_MagicItem_412t2",
+      "DbfId": 134463,
+      "NameRu": "BG36_MagicItem_412t2",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 59.7,
+      "AvgPlacement": 3.94
+    },
+    "BG32_MagicItem_284": {
+      "CardId": "BG32_MagicItem_284",
+      "DbfId": 121132,
+      "NameRu": "Наклейка с Аггемом",
+      "TribeRu": "Свинобраз",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.8,
+      "AvgPlacement": 3.93
+    },
+    "BG28_Reward_504": {
+      "CardId": "BG28_Reward_504",
+      "DbfId": 110303,
+      "NameRu": "Цикл энергии",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.3,
+      "AvgPlacement": 3.97
+    },
+    "BG32_MagicItem_367": {
+      "CardId": "BG32_MagicItem_367",
+      "DbfId": 120873,
+      "NameRu": "Устрашающая наклейка",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.6,
+      "AvgPlacement": 3.95
+    },
+    "BG32_MagicItem_205": {
+      "CardId": "BG32_MagicItem_205",
+      "DbfId": 121558,
+      "NameRu": "Портрет заклинателя из Утробы",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.9,
+      "AvgPlacement": 3.93
+    },
+    "BG35_MagicItem_870": {
+      "CardId": "BG35_MagicItem_870",
+      "DbfId": 130876,
+      "NameRu": "BG35_MagicItem_870",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.3,
+      "AvgPlacement": 3.97
+    },
+    "BG30_MagicItem_930": {
+      "CardId": "BG30_MagicItem_930",
+      "DbfId": 117800,
+      "NameRu": "BG30_MagicItem_930",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 59.7,
+      "AvgPlacement": 3.94
+    },
+    "BG32_MagicItem_301": {
+      "CardId": "BG32_MagicItem_301",
+      "DbfId": 120942,
+      "NameRu": "Портрет басожабра",
+      "TribeRu": "Мурлок",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.7,
+      "AvgPlacement": 3.94
+    },
+    "BG34_444": {
+      "CardId": "BG34_444",
+      "DbfId": 126909,
+      "NameRu": "Восточные ветра",
+      "TribeRu": "Элементаль",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 59.5,
+      "AvgPlacement": 3.95
+    },
+    "BG36_MagicItem_216": {
+      "CardId": "BG36_MagicItem_216",
+      "DbfId": 133404,
+      "NameRu": "Портрет вечности",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 48,
+      "WinRate": 59.5,
+      "AvgPlacement": 3.95
+    },
+    "BG33_813": {
+      "CardId": "BG33_813",
+      "DbfId": 122184,
+      "NameRu": "Эгоистичное вознаграждение",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.3,
+      "AvgPlacement": 3.97
+    },
+    "BG30_MagicItem_545": {
+      "CardId": "BG30_MagicItem_545",
+      "DbfId": 112397,
+      "NameRu": "Магнит на холодильник",
+      "TribeRu": "Механизм",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.5,
+      "AvgPlacement": 3.95
+    },
+    "BG32_MagicItem_801t": {
+      "CardId": "BG32_MagicItem_801t",
+      "DbfId": 120160,
+      "NameRu": "Сердце леса",
+      "TribeRu": "Пират / Нага",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.1,
+      "AvgPlacement": 3.98
+    },
+    "BGDUO_MagicItem_007": {
+      "CardId": "BGDUO_MagicItem_007",
+      "DbfId": 117938,
+      "NameRu": "Портрет орк-естранта",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.3,
+      "AvgPlacement": 3.97
+    },
+    "BG32_MagicItem_232": {
+      "CardId": "BG32_MagicItem_232",
+      "DbfId": 120939,
+      "NameRu": "Акулья пушка",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.1,
+      "AvgPlacement": 3.98
+    },
+    "BG30_MagicItem_981": {
+      "CardId": "BG30_MagicItem_981",
+      "DbfId": 112850,
+      "NameRu": "Око Даларана",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 59.1,
+      "AvgPlacement": 3.98
+    },
+    "BG35_MagicItem_752": {
+      "CardId": "BG35_MagicItem_752",
+      "DbfId": 131305,
+      "NameRu": "Наклейка с Юным Мрачноглазом",
+      "TribeRu": "Мурлок",
+      "Tier": "A",
+      "PickRate": 47,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99
+    },
+    "BG35_MagicItem_816t": {
+      "CardId": "BG35_MagicItem_816t",
+      "DbfId": 131328,
+      "NameRu": "Сфера неизвестности",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99
+    },
+    "BG30_MagicItem_879t": {
+      "CardId": "BG30_MagicItem_879t",
+      "DbfId": 115236,
+      "NameRu": "Круг даларанского сыра",
+      "TribeRu": "Демон",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 59.0,
+      "AvgPlacement": 3.99
+    },
+    "BG30_MagicItem_420t": {
+      "CardId": "BG30_MagicItem_420t",
+      "DbfId": 115230,
+      "NameRu": "Книга Медива",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 59.2,
+      "AvgPlacement": 3.97
+    },
+    "BG30_MagicItem_439": {
+      "CardId": "BG30_MagicItem_439",
+      "DbfId": 112990,
+      "NameRu": "Модная глазная повязка",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99
+    },
+    "BG30_MagicItem_707": {
+      "CardId": "BG30_MagicItem_707",
+      "DbfId": 117860,
+      "NameRu": "Наклейка с Билетикусом",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99
+    },
+    "BG32_MagicItem_803": {
+      "CardId": "BG32_MagicItem_803",
+      "DbfId": 120152,
+      "NameRu": "BG32_MagicItem_803",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 59.3,
+      "AvgPlacement": 3.97
+    },
+    "BG30_MagicItem_702": {
+      "CardId": "BG30_MagicItem_702",
+      "DbfId": 117796,
+      "NameRu": "BG30_MagicItem_702",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99
+    },
+    "BG35_MagicItem_838t": {
+      "CardId": "BG35_MagicItem_838t",
+      "DbfId": 131315,
+      "NameRu": "BG35_MagicItem_838t",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 59.2,
+      "AvgPlacement": 3.97
+    },
+    "BG33_Reward_020": {
+      "CardId": "BG33_Reward_020",
+      "DbfId": 121335,
+      "NameRu": "Вечное заклятие",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.9,
+      "AvgPlacement": 3.99
+    },
+    "BG30_MagicItem_547": {
+      "CardId": "BG30_MagicItem_547",
+      "DbfId": 112399,
+      "NameRu": "Уютный гроб",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 58.8,
+      "AvgPlacement": 4.0
+    },
+    "BG35_MagicItem_732": {
+      "CardId": "BG35_MagicItem_732",
+      "DbfId": 131132,
+      "NameRu": "Разлагатель душ",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 58.7,
+      "AvgPlacement": 4.01
+    },
+    "BG35_MagicItem_156": {
+      "CardId": "BG35_MagicItem_156",
+      "DbfId": 131284,
+      "NameRu": "Пламенный портрет",
+      "TribeRu": "Демон / Элементаль",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 58.6,
+      "AvgPlacement": 4.02
+    },
+    "BG34_330": {
+      "CardId": "BG34_330",
+      "DbfId": 127288,
+      "NameRu": "Межвременной поиск",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 58.8,
+      "AvgPlacement": 4.0
+    },
+    "BG24_Reward_719": {
+      "CardId": "BG24_Reward_719",
+      "DbfId": 97756,
+      "NameRu": "Золотой молот",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 58.7,
+      "AvgPlacement": 4.01
+    },
+    "BG30_Trinket_1st": {
+      "CardId": "BG30_Trinket_1st",
+      "DbfId": 116510,
+      "NameRu": "BG30_Trinket_1st",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 58.6,
+      "AvgPlacement": 4.02
+    },
+    "BG35_MagicItem_849": {
+      "CardId": "BG35_MagicItem_849",
+      "DbfId": 130999,
+      "NameRu": "BG35_MagicItem_849",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 58.5,
+      "AvgPlacement": 4.02
+    },
+    "BG30_MagicItem_910": {
+      "CardId": "BG30_MagicItem_910",
+      "DbfId": 111529,
+      "NameRu": "BG30_MagicItem_910",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 46,
+      "WinRate": 58.8,
+      "AvgPlacement": 4.0
+    },
+    "BG35_MagicItem_850t": {
+      "CardId": "BG35_MagicItem_850t",
+      "DbfId": 131329,
+      "NameRu": "Карманный смерч",
+      "TribeRu": "Элементаль",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.7,
+      "AvgPlacement": 4.01
+    },
+    "BG28_805": {
+      "CardId": "BG28_805",
+      "DbfId": 104029,
+      "NameRu": "Нефтяной фонтан",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 58.3,
+      "AvgPlacement": 4.04
+    },
+    "BG35_MagicItem_151t": {
+      "CardId": "BG35_MagicItem_151t",
+      "DbfId": 131277,
+      "NameRu": "BG35_MagicItem_151t",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 58.3,
+      "AvgPlacement": 4.04
+    },
+    "BG35_MagicItem_733t": {
+      "CardId": "BG35_MagicItem_733t",
+      "DbfId": 131134,
+      "NameRu": "Наклейка с Тюремщиком",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 45,
+      "WinRate": 58.4,
+      "AvgPlacement": 4.03
+    },
+    "BG35_MagicItem_743": {
+      "CardId": "BG35_MagicItem_743",
+      "DbfId": 131141,
+      "NameRu": "Электрический магнит",
+      "TribeRu": "Механизм",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 58.8,
+      "AvgPlacement": 4.0
+    },
+    "BG36_MagicItem_801": {
+      "CardId": "BG36_MagicItem_801",
+      "DbfId": 133061,
+      "NameRu": "Поглощающий коготь",
+      "TribeRu": "Демон",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 58.5,
+      "AvgPlacement": 4.02
+    },
+    "BG28_Reward_508": {
+      "CardId": "BG28_Reward_508",
+      "DbfId": 110308,
+      "NameRu": "Дар золотого кобольда",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.7,
+      "AvgPlacement": 4.01
+    },
+    "BG33_Reward_014": {
+      "CardId": "BG33_Reward_014",
+      "DbfId": 122013,
+      "NameRu": "Чудная лавка",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.2,
+      "AvgPlacement": 4.04
+    },
+    "BG30_MagicItem_987": {
+      "CardId": "BG30_MagicItem_987",
+      "DbfId": 112011,
+      "NameRu": "BG30_MagicItem_987",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05
+    },
+    "BG32_MagicItem_864": {
+      "CardId": "BG32_MagicItem_864",
+      "DbfId": 121500,
+      "NameRu": "BG32_MagicItem_864",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.5,
+      "AvgPlacement": 4.02
+    },
+    "BG35_MagicItem_755t": {
+      "CardId": "BG35_MagicItem_755t",
+      "DbfId": 131310,
+      "NameRu": "Мозаика Стылой Межи",
+      "TribeRu": "Дракон / Мурлок",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.4,
+      "AvgPlacement": 4.03
+    },
+    "BG36_MagicItem_370": {
+      "CardId": "BG36_MagicItem_370",
+      "DbfId": 133713,
+      "NameRu": "Малдраксийский кинжал",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 44,
+      "WinRate": 58.0,
+      "AvgPlacement": 4.06
+    },
+    "BG31_890": {
+      "CardId": "BG31_890",
+      "DbfId": 115910,
+      "NameRu": "Безграничные возможности",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 58.3,
+      "AvgPlacement": 4.04
+    },
+    "BG33_Reward_013": {
+      "CardId": "BG33_Reward_013",
+      "DbfId": 121943,
+      "NameRu": "Золотой горн",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 58.2,
+      "AvgPlacement": 4.04
+    },
+    "BG30_MagicItem_876": {
+      "CardId": "BG30_MagicItem_876",
+      "DbfId": 111207,
+      "NameRu": "Портрет манипулятора",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 58.4,
+      "AvgPlacement": 4.03
+    },
+    "BG35_MagicItem_740": {
+      "CardId": "BG35_MagicItem_740",
+      "DbfId": 131138,
+      "NameRu": "Портрет небесного голема",
+      "TribeRu": "Механизм",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 57.8,
+      "AvgPlacement": 4.07
+    },
+    "BG35_MagicItem_838te_lock": {
+      "CardId": "BG35_MagicItem_838te_lock",
+      "DbfId": 132948,
+      "NameRu": "BG35_MagicItem_838te_lock",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05
+    },
+    "BG30_MagicItem_825": {
+      "CardId": "BG30_MagicItem_825",
+      "DbfId": 111255,
+      "NameRu": "BG30_MagicItem_825",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 57.9,
+      "AvgPlacement": 4.06
+    },
+    "BGDUO_MagicItem_002t2": {
+      "CardId": "BGDUO_MagicItem_002t2",
+      "DbfId": 117992,
+      "NameRu": "Наклейка с Чо'Галлом",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 57.8,
+      "AvgPlacement": 4.07
+    },
+    "BG30_MagicItem_414t": {
+      "CardId": "BG30_MagicItem_414t",
+      "DbfId": 115221,
+      "NameRu": "BG30_MagicItem_414t",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05
+    },
+    "BG36_MagicItem_201": {
+      "CardId": "BG36_MagicItem_201",
+      "DbfId": 133388,
+      "NameRu": "Портрет лев-рыбы",
+      "TribeRu": "Зверь",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 58.0,
+      "AvgPlacement": 4.06
+    },
+    "BG28_886": {
+      "CardId": "BG28_886",
+      "DbfId": 105276,
+      "NameRu": "Посох изобилия",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.7,
+      "AvgPlacement": 4.08
+    },
+    "BG24_Reward_135": {
+      "CardId": "BG24_Reward_135",
+      "DbfId": 92563,
+      "NameRu": "Йогг-гощение",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.8,
+      "AvgPlacement": 4.07
+    },
+    "BG30_MagicItem_989t": {
+      "CardId": "BG30_MagicItem_989t",
+      "DbfId": 117157,
+      "NameRu": "Урна ручной работы",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05
+    },
+    "BG36_MagicItem_361": {
+      "CardId": "BG36_MagicItem_361",
+      "DbfId": 133720,
+      "NameRu": "Наклейка с мирмидоном",
+      "TribeRu": "Нага",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.6,
+      "AvgPlacement": 4.08
+    },
+    "BG30_MagicItem_541": {
+      "CardId": "BG30_MagicItem_541",
+      "DbfId": 112382,
+      "NameRu": "Подвеска Пустоты",
+      "TribeRu": "Демон",
+      "Tier": "A",
+      "PickRate": 39,
+      "WinRate": 57.6,
+      "AvgPlacement": 4.08
+    },
+    "BG32_MagicItem_804": {
+      "CardId": "BG32_MagicItem_804",
+      "DbfId": 120151,
+      "NameRu": "BG32_MagicItem_804",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 39,
+      "WinRate": 57.7,
+      "AvgPlacement": 4.08
+    },
+    "BG30_MagicItem_944": {
+      "CardId": "BG30_MagicItem_944",
+      "DbfId": 117858,
+      "NameRu": "BG30_MagicItem_944",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 58.1,
+      "AvgPlacement": 4.05
+    },
+    "BG30_MagicItem_992": {
+      "CardId": "BG30_MagicItem_992",
+      "DbfId": 112055,
+      "NameRu": "BG30_MagicItem_992",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 57.6,
+      "AvgPlacement": 4.08
+    },
+    "BG36_MagicItem_409": {
+      "CardId": "BG36_MagicItem_409",
+      "DbfId": 134437,
+      "NameRu": "BG36_MagicItem_409",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 43,
+      "WinRate": 57.5,
+      "AvgPlacement": 4.09
+    },
+    "BG36_MagicItem_302t": {
+      "CardId": "BG36_MagicItem_302t",
+      "DbfId": 133343,
+      "NameRu": "Золотой молоток",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 39,
+      "WinRate": 57.9,
+      "AvgPlacement": 4.06
+    },
+    "BG35_MagicItem_890": {
+      "CardId": "BG35_MagicItem_890",
+      "DbfId": 130890,
+      "NameRu": "Затонувший якорь",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 39,
+      "WinRate": 57.6,
+      "AvgPlacement": 4.08
+    },
+    "BG35_MagicItem_305": {
+      "CardId": "BG35_MagicItem_305",
+      "DbfId": 131137,
+      "NameRu": "Портрет раковины",
+      "TribeRu": "Мурлок",
+      "Tier": "A",
+      "PickRate": 39,
+      "WinRate": 57.8,
+      "AvgPlacement": 4.07
+    },
+    "BG33_814": {
+      "CardId": "BG33_814",
+      "DbfId": 122185,
+      "NameRu": "Дружеское вознаграждение",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 57.8,
+      "AvgPlacement": 4.07
+    },
+    "BG24_Reward_718": {
+      "CardId": "BG24_Reward_718",
+      "DbfId": 97966,
+      "NameRu": "Мешок похитителя",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 57.8,
+      "AvgPlacement": 4.07
+    },
+    "BGDUO_MagicItem_010t": {
+      "CardId": "BGDUO_MagicItem_010t",
+      "DbfId": 117942,
+      "NameRu": "Усиленное зеркало",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 42,
+      "WinRate": 57.3,
+      "AvgPlacement": 4.1
+    },
+    "BG32_MagicItem_306": {
+      "CardId": "BG32_MagicItem_306",
+      "DbfId": 120926,
+      "NameRu": "Наклейка с крикуном",
+      "TribeRu": "Зверь",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 57.7,
+      "AvgPlacement": 4.08
+    },
+    "BG35_MagicItem_842": {
+      "CardId": "BG35_MagicItem_842",
+      "DbfId": 130887,
+      "NameRu": "BG35_MagicItem_842",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 57.7,
+      "AvgPlacement": 4.08
+    },
+    "BG32_MagicItem_204": {
+      "CardId": "BG32_MagicItem_204",
+      "DbfId": 121507,
+      "NameRu": "BG32_MagicItem_204",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 41,
+      "WinRate": 57.5,
+      "AvgPlacement": 4.09
+    },
+    "BG36_MagicItem_302": {
+      "CardId": "BG36_MagicItem_302",
+      "DbfId": 133342,
+      "NameRu": "Золотой молоток",
+      "TribeRu": "Пират",
+      "Tier": "A",
+      "PickRate": 39,
+      "WinRate": 57.5,
+      "AvgPlacement": 4.09
+    },
+    "BG31_886": {
+      "CardId": "BG31_886",
+      "DbfId": 117584,
+      "NameRu": "Сокровище леса",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.3,
+      "AvgPlacement": 4.1
+    },
+    "BG28_966": {
+      "CardId": "BG28_966",
+      "DbfId": 105903,
+      "NameRu": "Лови яблочко",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.3,
+      "AvgPlacement": 4.1
+    },
+    "BG34_888": {
+      "CardId": "BG34_888",
+      "DbfId": 126957,
+      "NameRu": "Восстание из гробницы",
+      "TribeRu": "Нежить",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.5,
+      "AvgPlacement": 4.09
+    },
+    "BG30_MagicItem_847": {
+      "CardId": "BG30_MagicItem_847",
+      "DbfId": 111448,
+      "NameRu": "Гоблинский кошель",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.4,
+      "AvgPlacement": 4.1
+    },
+    "BG36_MagicItem_414": {
+      "CardId": "BG36_MagicItem_414",
+      "DbfId": 134444,
+      "NameRu": "BG36_MagicItem_414",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.1,
+      "AvgPlacement": 4.12
+    },
+    "BG36_MagicItem_403t": {
+      "CardId": "BG36_MagicItem_403t",
+      "DbfId": 134320,
+      "NameRu": "BG36_MagicItem_403t",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 56.9,
+      "AvgPlacement": 4.13
+    },
+    "BG32_MagicItem_415": {
+      "CardId": "BG32_MagicItem_415",
+      "DbfId": 120874,
+      "NameRu": "BG32_MagicItem_415",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 40,
+      "WinRate": 57.1,
+      "AvgPlacement": 4.12
+    },
+    "BG32_MagicItem_170": {
+      "CardId": "BG32_MagicItem_170",
+      "DbfId": 120864,
+      "NameRu": "Зачарованный ключ",
+      "TribeRu": "Механизм",
+      "Tier": "A",
+      "PickRate": 38,
+      "WinRate": 57.1,
+      "AvgPlacement": 4.12
+    },
+    "BG30_MagicItem_714t": {
+      "CardId": "BG30_MagicItem_714t",
+      "DbfId": 117945,
+      "NameRu": "BG30_MagicItem_714t",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 38,
+      "WinRate": 57.1,
+      "AvgPlacement": 4.12
+    },
+    "BG30_MagicItem_709t": {
+      "CardId": "BG30_MagicItem_709t",
+      "DbfId": 121689,
+      "NameRu": "BG30_MagicItem_709t",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 38,
+      "WinRate": 57.0,
+      "AvgPlacement": 4.12
+    },
+    "BGDUO_MagicItem_009": {
+      "CardId": "BGDUO_MagicItem_009",
+      "DbfId": 117940,
+      "NameRu": "BGDUO_MagicItem_009",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 38,
+      "WinRate": 56.7,
+      "AvgPlacement": 4.14
+    },
+    "BG30_MagicItem_427": {
+      "CardId": "BG30_MagicItem_427",
+      "DbfId": 112073,
+      "NameRu": "BG30_MagicItem_427",
+      "TribeRu": "Без типа",
+      "Tier": "A",
+      "PickRate": 38,
+      "WinRate": 57.0,
+      "AvgPlacement": 4.12
+    },
+    "BG30_MagicItem_433t": {
+      "CardId": "BG30_MagicItem_433t",
+      "DbfId": 115248,
+      "NameRu": "BG30_MagicItem_433t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 56.9,
+      "AvgPlacement": 4.13
+    },
+    "BG32_MagicItem_417": {
+      "CardId": "BG32_MagicItem_417",
+      "DbfId": 121061,
+      "NameRu": "BG32_MagicItem_417",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 57.0,
+      "AvgPlacement": 4.12
+    },
+    "BG36_MagicItem_206": {
+      "CardId": "BG36_MagicItem_206",
+      "DbfId": 133393,
+      "NameRu": "Жуткий камень",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 40,
+      "WinRate": 56.4,
+      "AvgPlacement": 4.16
+    },
+    "BG34_889": {
+      "CardId": "BG34_889",
+      "DbfId": 127503,
+      "NameRu": "Потомок Ноздорму",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.8,
+      "AvgPlacement": 4.14
+    },
+    "BG28_607": {
+      "CardId": "BG28_607",
+      "DbfId": 110407,
+      "NameRu": "Оскверненные пирожные",
+      "TribeRu": "Демон",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.7,
+      "AvgPlacement": 4.14
+    },
+    "BG28_520": {
+      "CardId": "BG28_520",
+      "DbfId": 105667,
+      "NameRu": "Хитрые карманы",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.9,
+      "AvgPlacement": 4.13
+    },
+    "BG32_MagicItem_922": {
+      "CardId": "BG32_MagicItem_922",
+      "DbfId": 120619,
+      "NameRu": "Чарующая свирель",
+      "TribeRu": "Нага",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.3,
+      "AvgPlacement": 4.17
+    },
+    "BG32_MagicItem_350": {
+      "CardId": "BG32_MagicItem_350",
+      "DbfId": 111387,
+      "NameRu": "Осколок золота",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 56.9,
+      "AvgPlacement": 4.13
+    },
+    "BG35_MagicItem_863": {
+      "CardId": "BG35_MagicItem_863",
+      "DbfId": 131000,
+      "NameRu": "BG35_MagicItem_863",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 56.8,
+      "AvgPlacement": 4.14
+    },
+    "BG30_MagicItem_547t": {
+      "CardId": "BG30_MagicItem_547t",
+      "DbfId": 115226,
+      "NameRu": "Уютный гроб",
+      "TribeRu": "Нежить",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 56.8,
+      "AvgPlacement": 4.14
+    },
+    "BG32_MagicItem_271": {
+      "CardId": "BG32_MagicItem_271",
+      "DbfId": 121120,
+      "NameRu": "Часы с узором",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 39,
+      "WinRate": 56.5,
+      "AvgPlacement": 4.16
+    },
+    "BG35_MagicItem_309": {
+      "CardId": "BG35_MagicItem_309",
+      "DbfId": 131296,
+      "NameRu": "BG35_MagicItem_309",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 39,
+      "WinRate": 56.6,
+      "AvgPlacement": 4.15
+    },
+    "BG36_MagicItem_205": {
+      "CardId": "BG36_MagicItem_205",
+      "DbfId": 133392,
+      "NameRu": "BG36_MagicItem_205",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 39,
+      "WinRate": 56.7,
+      "AvgPlacement": 4.14
+    },
+    "BG36_MagicItem_408": {
+      "CardId": "BG36_MagicItem_408",
+      "DbfId": 134436,
+      "NameRu": "BG36_MagicItem_408",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 39,
+      "WinRate": 56.5,
+      "AvgPlacement": 4.16
+    },
+    "BG30_MagicItem_900": {
+      "CardId": "BG30_MagicItem_900",
+      "DbfId": 110985,
+      "NameRu": "Драконий планер",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 39,
+      "WinRate": 56.2,
+      "AvgPlacement": 4.18
+    },
+    "BG30_MagicItem_914": {
+      "CardId": "BG30_MagicItem_914",
+      "DbfId": 110991,
+      "NameRu": "Мурлочий словарь",
+      "TribeRu": "Мурлок",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 56.3,
+      "AvgPlacement": 4.17
+    },
+    "BG33_Reward_012": {
+      "CardId": "BG33_Reward_012",
+      "DbfId": 121945,
+      "NameRu": "Невообразимые богатства",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 56.1,
+      "AvgPlacement": 4.19
+    },
+    "BG30_MagicItem_435": {
+      "CardId": "BG30_MagicItem_435",
+      "DbfId": 112082,
+      "NameRu": "Запас озолотителей",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 56.1,
+      "AvgPlacement": 4.19
+    },
+    "BG30_MagicItem_951": {
+      "CardId": "BG30_MagicItem_951",
+      "DbfId": 111499,
+      "NameRu": "Лавовая лампа",
+      "TribeRu": "Элементаль",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 56.4,
+      "AvgPlacement": 4.16
+    },
+    "BG34_Trinket_1st_Spell": {
+      "CardId": "BG34_Trinket_1st_Spell",
+      "DbfId": 126229,
+      "NameRu": "BG34_Trinket_1st_Spell",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 38,
+      "WinRate": 56.6,
+      "AvgPlacement": 4.15
+    },
+    "BG30_MagicItem_900t": {
+      "CardId": "BG30_MagicItem_900t",
+      "DbfId": 115223,
+      "NameRu": "Драконий планер",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 56.1,
+      "AvgPlacement": 4.19
+    },
+    "BG30_MagicItem_425": {
+      "CardId": "BG30_MagicItem_425",
+      "DbfId": 112001,
+      "NameRu": "Глобус Азерота",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 55.9,
+      "AvgPlacement": 4.2
+    },
+    "BG30_MagicItem_924t": {
+      "CardId": "BG30_MagicItem_924t",
+      "DbfId": 115245,
+      "NameRu": "Пойло из Пиратской Бухты",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.1,
+      "AvgPlacement": 4.19
+    },
+    "BG35_MagicItem_306": {
+      "CardId": "BG35_MagicItem_306",
+      "DbfId": 131135,
+      "NameRu": "Наклейка с Тюремщиком",
+      "TribeRu": "Нежить",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.3,
+      "AvgPlacement": 4.17
+    },
+    "BG30_MagicItem_931": {
+      "CardId": "BG30_MagicItem_931",
+      "DbfId": 111408,
+      "NameRu": "Кошка к удаче",
+      "TribeRu": "Зверь",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG36_MagicItem_373": {
+      "CardId": "BG36_MagicItem_373",
+      "DbfId": 133715,
+      "NameRu": "Многослойный щит",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.2,
+      "AvgPlacement": 4.18
+    },
+    "BG32_MagicItem_806": {
+      "CardId": "BG32_MagicItem_806",
+      "DbfId": 120799,
+      "NameRu": "BG32_MagicItem_806",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 56.0,
+      "AvgPlacement": 4.19
+    },
+    "BG35_MagicItem_850": {
+      "CardId": "BG35_MagicItem_850",
+      "DbfId": 130888,
+      "NameRu": "Карманный смерч",
+      "TribeRu": "Элементаль",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG35_MagicItem_821": {
+      "CardId": "BG35_MagicItem_821",
+      "DbfId": 130839,
+      "NameRu": "BG35_MagicItem_821",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 56.0,
+      "AvgPlacement": 4.19
+    },
+    "BG32_MagicItem_864t": {
+      "CardId": "BG32_MagicItem_864t",
+      "DbfId": 121501,
+      "NameRu": "BG32_MagicItem_864t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 56.3,
+      "AvgPlacement": 4.17
+    },
+    "BG32_MagicItem_700": {
+      "CardId": "BG32_MagicItem_700",
+      "DbfId": 120863,
+      "NameRu": "BG32_MagicItem_700",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG28_845": {
+      "CardId": "BG28_845",
+      "DbfId": 104472,
+      "NameRu": "Врожденный дар",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.6,
+      "AvgPlacement": 4.22
+    },
+    "BG32_MagicItem_904": {
+      "CardId": "BG32_MagicItem_904",
+      "DbfId": 120156,
+      "NameRu": "BG32_MagicItem_904",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 56.1,
+      "AvgPlacement": 4.19
+    },
+    "BG32_MagicItem_892t": {
+      "CardId": "BG32_MagicItem_892t",
+      "DbfId": 121139,
+      "NameRu": "Яркий пузырь",
+      "TribeRu": "Мурлок",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.9,
+      "AvgPlacement": 4.2
+    },
+    "BG32_MagicItem_820": {
+      "CardId": "BG32_MagicItem_820",
+      "DbfId": 120696,
+      "NameRu": "BG32_MagicItem_820",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.9,
+      "AvgPlacement": 4.2
+    },
+    "BG35_MagicItem_150": {
+      "CardId": "BG35_MagicItem_150",
+      "DbfId": 131276,
+      "NameRu": "Проклятый кристалл",
+      "TribeRu": "Демон",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.7,
+      "AvgPlacement": 4.21
+    },
+    "BG36_MagicItem_203": {
+      "CardId": "BG36_MagicItem_203",
+      "DbfId": 133390,
+      "NameRu": "Драконий череп",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.6,
+      "AvgPlacement": 4.22
+    },
+    "BG36_246": {
+      "CardId": "BG36_246",
+      "DbfId": 132995,
+      "NameRu": "Могучее дыхание дракона",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG28_606": {
+      "CardId": "BG28_606",
+      "DbfId": 110406,
+      "NameRu": "Сюрприз Злобной Чешуи",
+      "TribeRu": "Нага",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.5,
+      "AvgPlacement": 4.23
+    },
+    "BG35_MagicItem_754": {
+      "CardId": "BG35_MagicItem_754",
+      "DbfId": 131307,
+      "NameRu": "Наклейка с драмамурлоком",
+      "TribeRu": "Мурлок",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 56.0,
+      "AvgPlacement": 4.19
+    },
+    "BG30_MagicItem_423": {
+      "CardId": "BG30_MagicItem_423",
+      "DbfId": 111999,
+      "NameRu": "Кружка хозяина таверны",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.7,
+      "AvgPlacement": 4.21
+    },
+    "BG35_MagicItem_750": {
+      "CardId": "BG35_MagicItem_750",
+      "DbfId": 131303,
+      "NameRu": "Наклейка с чарожабром",
+      "TribeRu": "Мурлок",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.4,
+      "AvgPlacement": 4.23
+    },
+    "BG32_MagicItem_933": {
+      "CardId": "BG32_MagicItem_933",
+      "DbfId": 120613,
+      "NameRu": "BG32_MagicItem_933",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.9,
+      "AvgPlacement": 4.2
+    },
+    "BG35_MagicItem_922": {
+      "CardId": "BG35_MagicItem_922",
+      "DbfId": 130899,
+      "NameRu": "BG35_MagicItem_922",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG35_MagicItem_803": {
+      "CardId": "BG35_MagicItem_803",
+      "DbfId": 130097,
+      "NameRu": "BG35_MagicItem_803",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 37,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG31_244": {
+      "CardId": "BG31_244",
+      "DbfId": 119471,
+      "NameRu": "Портал в кристалле",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 55.4,
+      "AvgPlacement": 4.23
+    },
+    "BG32_MagicItem_366": {
+      "CardId": "BG32_MagicItem_366",
+      "DbfId": 120928,
+      "NameRu": "Путеводная свеча",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 55.8,
+      "AvgPlacement": 4.21
+    },
+    "BG35_MagicItem_821t": {
+      "CardId": "BG35_MagicItem_821t",
+      "DbfId": 131309,
+      "NameRu": "BG35_MagicItem_821t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 55.5,
+      "AvgPlacement": 4.23
+    },
+    "BG36_MagicItem_416": {
+      "CardId": "BG36_MagicItem_416",
+      "DbfId": 134757,
+      "NameRu": "BG36_MagicItem_416",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.6,
+      "AvgPlacement": 4.22
+    },
+    "BG36_MagicItem_412": {
+      "CardId": "BG36_MagicItem_412",
+      "DbfId": 134358,
+      "NameRu": "BG36_MagicItem_412",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.3,
+      "AvgPlacement": 4.24
+    },
+    "BG30_MagicItem_427t": {
+      "CardId": "BG30_MagicItem_427t",
+      "DbfId": 115231,
+      "NameRu": "BG30_MagicItem_427t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.4,
+      "AvgPlacement": 4.23
+    },
+    "BG30_MagicItem_879": {
+      "CardId": "BG30_MagicItem_879",
+      "DbfId": 111384,
+      "NameRu": "BG30_MagicItem_879",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.5,
+      "AvgPlacement": 4.23
+    },
+    "BG32_MagicItem_858": {
+      "CardId": "BG32_MagicItem_858",
+      "DbfId": 120139,
+      "NameRu": "Бинокль исследователя",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.4,
+      "AvgPlacement": 4.23
+    },
+    "BG32_MagicItem_901": {
+      "CardId": "BG32_MagicItem_901",
+      "DbfId": 120159,
+      "NameRu": "Позолоченный компас",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.7,
+      "AvgPlacement": 4.21
+    },
+    "BG36_MagicItem_214": {
+      "CardId": "BG36_MagicItem_214",
+      "DbfId": 133402,
+      "NameRu": "Клинок мятежника",
+      "TribeRu": "Дракон / Свинобраз",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.1,
+      "AvgPlacement": 4.25
+    },
+    "BG36_MagicItem_204": {
+      "CardId": "BG36_MagicItem_204",
+      "DbfId": 133391,
+      "NameRu": "Портрет чумного вурдалака",
+      "TribeRu": "Нежить",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.4,
+      "AvgPlacement": 4.23
+    },
+    "BG36_MagicItem_600": {
+      "CardId": "BG36_MagicItem_600",
+      "DbfId": 134453,
+      "NameRu": "BG36_MagicItem_600",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG30_MagicItem_921": {
+      "CardId": "BG30_MagicItem_921",
+      "DbfId": 117799,
+      "NameRu": "BG30_MagicItem_921",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 55.4,
+      "AvgPlacement": 4.23
+    },
+    "BG27_Reward_504": {
+      "CardId": "BG27_Reward_504",
+      "DbfId": 104724,
+      "NameRu": "Ускорение временной линии",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 32,
+      "WinRate": 55.5,
+      "AvgPlacement": 4.23
+    },
+    "BG27_Reward_803": {
+      "CardId": "BG27_Reward_803",
+      "DbfId": 104670,
+      "NameRu": "Неспокойные могилы",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 32,
+      "WinRate": 55.2,
+      "AvgPlacement": 4.25
+    },
+    "BG36_MagicItem_418": {
+      "CardId": "BG36_MagicItem_418",
+      "DbfId": 134759,
+      "NameRu": "BG36_MagicItem_418",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 32,
+      "WinRate": 55.5,
+      "AvgPlacement": 4.23
+    },
+    "BG30_MagicItem_700": {
+      "CardId": "BG30_MagicItem_700",
+      "DbfId": 117794,
+      "NameRu": "Филактерия смерти",
+      "TribeRu": "Зверь / Нежить",
+      "Tier": "B",
+      "PickRate": 36,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG30_MagicItem_431": {
+      "CardId": "BG30_MagicItem_431",
+      "DbfId": 112400,
+      "NameRu": "Портрет азерита",
+      "TribeRu": "Элементаль",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 55.3,
+      "AvgPlacement": 4.24
+    },
+    "BG28_507": {
+      "CardId": "BG28_507",
+      "DbfId": 103796,
+      "NameRu": "Сакральный дар",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 54.9,
+      "AvgPlacement": 4.27
+    },
+    "BG36_MagicItem_841": {
+      "CardId": "BG36_MagicItem_841",
+      "DbfId": 133069,
+      "NameRu": "BG36_MagicItem_841",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.3,
+      "AvgPlacement": 4.24
+    },
+    "BG30_MagicItem_432": {
+      "CardId": "BG30_MagicItem_432",
+      "DbfId": 112402,
+      "NameRu": "BG30_MagicItem_432",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 35,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG28_604": {
+      "CardId": "BG28_604",
+      "DbfId": 110412,
+      "NameRu": "Разделка туши",
+      "TribeRu": "Нежить",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG35_MagicItem_755": {
+      "CardId": "BG35_MagicItem_755",
+      "DbfId": 131308,
+      "NameRu": "Мозаика Стылой Межи",
+      "TribeRu": "Дракон / Мурлок",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 54.9,
+      "AvgPlacement": 4.27
+    },
+    "BG30_MagicItem_999": {
+      "CardId": "BG30_MagicItem_999",
+      "DbfId": 113102,
+      "NameRu": "Модная книга заклинаний",
+      "TribeRu": "Нага",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 54.8,
+      "AvgPlacement": 4.27
+    },
+    "BG32_MagicItem_957": {
+      "CardId": "BG32_MagicItem_957",
+      "DbfId": 121036,
+      "NameRu": "Портрет пройдохи",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 54.9,
+      "AvgPlacement": 4.27
+    },
+    "BG31_MagicItem_903": {
+      "CardId": "BG31_MagicItem_903",
+      "DbfId": 120155,
+      "NameRu": "Запас сфер мудрости",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.2,
+      "AvgPlacement": 4.25
+    },
+    "BG30_MagicItem_414": {
+      "CardId": "BG30_MagicItem_414",
+      "DbfId": 111533,
+      "NameRu": "BG30_MagicItem_414",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 54.7,
+      "AvgPlacement": 4.28
+    },
+    "BG36_MagicItem_417t": {
+      "CardId": "BG36_MagicItem_417t",
+      "DbfId": 134770,
+      "NameRu": "BG36_MagicItem_417t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 54.7,
+      "AvgPlacement": 4.28
+    },
+    "BG30_MagicItem_996": {
+      "CardId": "BG30_MagicItem_996",
+      "DbfId": 112988,
+      "NameRu": "Чаевые Боба",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.6,
+      "AvgPlacement": 4.29
+    },
+    "BG35_MagicItem_862": {
+      "CardId": "BG35_MagicItem_862",
+      "DbfId": 130874,
+      "NameRu": "Вспыхнувшие угли",
+      "TribeRu": "Элементаль",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG30_MagicItem_916": {
+      "CardId": "BG30_MagicItem_916",
+      "DbfId": 111253,
+      "NameRu": "BG30_MagicItem_916",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.5,
+      "AvgPlacement": 4.29
+    },
+    "BG35_MagicItem_155": {
+      "CardId": "BG35_MagicItem_155",
+      "DbfId": 131283,
+      "NameRu": "BG35_MagicItem_155",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 32,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG35_MagicItem_840t": {
+      "CardId": "BG35_MagicItem_840t",
+      "DbfId": 130977,
+      "NameRu": "Хроматический разлом",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 34,
+      "WinRate": 55.0,
+      "AvgPlacement": 4.26
+    },
+    "BG31_896": {
+      "CardId": "BG31_896",
+      "DbfId": 119718,
+      "NameRu": "Благословенный ритуал",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 54.4,
+      "AvgPlacement": 4.3
+    },
+    "BG30_MagicItem_998": {
+      "CardId": "BG30_MagicItem_998",
+      "DbfId": 113101,
+      "NameRu": "Боб-болванчик",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 54.5,
+      "AvgPlacement": 4.29
+    },
+    "BG32_MagicItem_802": {
+      "CardId": "BG32_MagicItem_802",
+      "DbfId": 120140,
+      "NameRu": "BG32_MagicItem_802",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 54.6,
+      "AvgPlacement": 4.29
+    },
+    "BG30_MagicItem_869": {
+      "CardId": "BG30_MagicItem_869",
+      "DbfId": 111404,
+      "NameRu": "BG30_MagicItem_869",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 54.6,
+      "AvgPlacement": 4.29
+    },
+    "BG30_MagicItem_419": {
+      "CardId": "BG30_MagicItem_419",
+      "DbfId": 111608,
+      "NameRu": "BG30_MagicItem_419",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 54.3,
+      "AvgPlacement": 4.31
+    },
+    "BG36_MagicItem_404": {
+      "CardId": "BG36_MagicItem_404",
+      "DbfId": 134317,
+      "NameRu": "BG36_MagicItem_404",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 54.5,
+      "AvgPlacement": 4.29
+    },
+    "BG34_689": {
+      "CardId": "BG34_689",
+      "DbfId": 126676,
+      "NameRu": "Кровавый обстрел",
+      "TribeRu": "Свинобраз",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.2,
+      "AvgPlacement": 4.31
+    },
+    "BG28_849": {
+      "CardId": "BG28_849",
+      "DbfId": 104494,
+      "NameRu": "Гордость заведения",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.6,
+      "AvgPlacement": 4.29
+    },
+    "BG27_Reward_811": {
+      "CardId": "BG27_Reward_811",
+      "DbfId": 104818,
+      "NameRu": "Окровавленный фолиант",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.3,
+      "AvgPlacement": 4.31
+    },
+    "BG30_MagicItem_434": {
+      "CardId": "BG30_MagicItem_434",
+      "DbfId": 112855,
+      "NameRu": "Макет собора",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.2,
+      "AvgPlacement": 4.31
+    },
+    "BG30_MagicItem_703t": {
+      "CardId": "BG30_MagicItem_703t",
+      "DbfId": 117803,
+      "NameRu": "Загадочный куб",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.3,
+      "AvgPlacement": 4.31
+    },
+    "BG30_MagicItem_433": {
+      "CardId": "BG30_MagicItem_433",
+      "DbfId": 112083,
+      "NameRu": "BG30_MagicItem_433",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.5,
+      "AvgPlacement": 4.29
+    },
+    "BG30_MagicItem_828": {
+      "CardId": "BG30_MagicItem_828",
+      "DbfId": 114212,
+      "NameRu": "BG30_MagicItem_828",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 54.7,
+      "AvgPlacement": 4.28
+    },
+    "BG30_MagicItem_402": {
+      "CardId": "BG30_MagicItem_402",
+      "DbfId": 111476,
+      "NameRu": "BG30_MagicItem_402",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 54.5,
+      "AvgPlacement": 4.29
+    },
+    "BG35_MagicItem_803t": {
+      "CardId": "BG35_MagicItem_803t",
+      "DbfId": 130098,
+      "NameRu": "BG35_MagicItem_803t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33
+    },
+    "BG32_MagicItem_801": {
+      "CardId": "BG32_MagicItem_801",
+      "DbfId": 120138,
+      "NameRu": "BG32_MagicItem_801",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33
+    },
+    "BG33_811": {
+      "CardId": "BG33_811",
+      "DbfId": 122182,
+      "NameRu": "Полезное вознаграждение",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33
+    },
+    "BG24_Reward_361": {
+      "CardId": "BG24_Reward_361",
+      "DbfId": 97442,
+      "NameRu": "Тайная сокровищница",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.3,
+      "AvgPlacement": 4.31
+    },
+    "BG30_MagicItem_821": {
+      "CardId": "BG30_MagicItem_821",
+      "DbfId": 110966,
+      "NameRu": "Портрет рыбы",
+      "TribeRu": "Зверь / Нежить",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.4,
+      "AvgPlacement": 4.3
+    },
+    "BG35_MagicItem_818": {
+      "CardId": "BG35_MagicItem_818",
+      "DbfId": 130836,
+      "NameRu": "Загадочная сфера",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.1,
+      "AvgPlacement": 4.32
+    },
+    "BG30_MagicItem_822": {
+      "CardId": "BG30_MagicItem_822",
+      "DbfId": 114208,
+      "NameRu": "BG30_MagicItem_822",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.4,
+      "AvgPlacement": 4.3
+    },
+    "BG32_MagicItem_304": {
+      "CardId": "BG32_MagicItem_304",
+      "DbfId": 111420,
+      "NameRu": "BG32_MagicItem_304",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 33,
+      "WinRate": 54.4,
+      "AvgPlacement": 4.3
+    },
+    "BG36_MagicItem_800": {
+      "CardId": "BG36_MagicItem_800",
+      "DbfId": 133060,
+      "NameRu": "Демонический кровопускатель",
+      "TribeRu": "Демон",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.9,
+      "AvgPlacement": 4.33
+    },
+    "100910-unmasked-identity": {
+      "CardId": "100910-unmasked-identity",
+      "DbfId": 100910,
+      "NameRu": "Сорванная маска",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 32,
+      "WinRate": 53.8,
+      "AvgPlacement": 4.34
+    },
+    "BG30_MagicItem_984t": {
+      "CardId": "BG30_MagicItem_984t",
+      "DbfId": 115258,
+      "NameRu": "BG30_MagicItem_984t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 32,
+      "WinRate": 54.2,
+      "AvgPlacement": 4.31
+    },
+    "BG31_889": {
+      "CardId": "BG31_889",
+      "DbfId": 119599,
+      "NameRu": "Делюсь – значит люблю!",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.8,
+      "AvgPlacement": 4.34
+    },
+    "BG33_Reward_010": {
+      "CardId": "BG33_Reward_010",
+      "DbfId": 122822,
+      "NameRu": "Милость Норганнона",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33
+    },
+    "BG35_MagicItem_733": {
+      "CardId": "BG35_MagicItem_733",
+      "DbfId": 131133,
+      "NameRu": "Наклейка с Тюремщиком",
+      "TribeRu": "Нежить",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 53.9,
+      "AvgPlacement": 4.33
+    },
+    "BG35_MagicItem_823t": {
+      "CardId": "BG35_MagicItem_823t",
+      "DbfId": 130868,
+      "NameRu": "Старый канделябр",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.1,
+      "AvgPlacement": 4.32
+    },
+    "BG32_MagicItem_809": {
+      "CardId": "BG32_MagicItem_809",
+      "DbfId": 120147,
+      "NameRu": "BG32_MagicItem_809",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33
+    },
+    "BG32_MagicItem_935": {
+      "CardId": "BG32_MagicItem_935",
+      "DbfId": 120616,
+      "NameRu": "BG32_MagicItem_935",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 53.7,
+      "AvgPlacement": 4.35
+    },
+    "BG36_MagicItem_423t": {
+      "CardId": "BG36_MagicItem_423t",
+      "DbfId": 134461,
+      "NameRu": "BG36_MagicItem_423t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 53.9,
+      "AvgPlacement": 4.33
+    },
+    "BG36_MagicItem_830": {
+      "CardId": "BG36_MagicItem_830",
+      "DbfId": 133066,
+      "NameRu": "Щит кровавой ярости",
+      "TribeRu": "Демон",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36
+    },
+    "BG32_MagicItem_926": {
+      "CardId": "BG32_MagicItem_926",
+      "DbfId": 121111,
+      "NameRu": "Портрет Моргла",
+      "TribeRu": "Мурлок",
+      "Tier": "B",
+      "PickRate": 30,
+      "WinRate": 53.6,
+      "AvgPlacement": 4.36
+    },
+    "BG28_897": {
+      "CardId": "BG28_897",
+      "DbfId": 105752,
+      "NameRu": "Банан в меню",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 53.9,
+      "AvgPlacement": 4.33
+    },
+    "BG35_MagicItem_815": {
+      "CardId": "BG35_MagicItem_815",
+      "DbfId": 130833,
+      "NameRu": "Цилиндр волшебника",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 54.0,
+      "AvgPlacement": 4.33
+    },
+    "BG32_MagicItem_365": {
+      "CardId": "BG32_MagicItem_365",
+      "DbfId": 120967,
+      "NameRu": "BG32_MagicItem_365",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36
+    },
+    "BG32_MagicItem_944": {
+      "CardId": "BG32_MagicItem_944",
+      "DbfId": 121499,
+      "NameRu": "BG32_MagicItem_944",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36
+    },
+    "BG36_MagicItem_363": {
+      "CardId": "BG36_MagicItem_363",
+      "DbfId": 133714,
+      "NameRu": "Портрет беглеца",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 53.4,
+      "AvgPlacement": 4.37
+    },
+    "BG28_GIL_836": {
+      "CardId": "BG28_GIL_836",
+      "DbfId": 105264,
+      "NameRu": "Охотник за головами",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 28,
+      "WinRate": 53.8,
+      "AvgPlacement": 4.34
+    },
+    "BG36_624": {
+      "CardId": "BG36_624",
+      "DbfId": 133711,
+      "NameRu": "Починка",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.9,
+      "AvgPlacement": 4.33
+    },
+    "BG32_MagicItem_951": {
+      "CardId": "BG32_MagicItem_951",
+      "DbfId": 120809,
+      "NameRu": "Золотая подвеска",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.6,
+      "AvgPlacement": 4.36
+    },
+    "BG36_MagicItem_403": {
+      "CardId": "BG36_MagicItem_403",
+      "DbfId": 134316,
+      "NameRu": "BG36_MagicItem_403",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36
+    },
+    "BG36_MagicItem_407": {
+      "CardId": "BG36_MagicItem_407",
+      "DbfId": 134435,
+      "NameRu": "BG36_MagicItem_407",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BG35_MagicItem_840": {
+      "CardId": "BG35_MagicItem_840",
+      "DbfId": 130886,
+      "NameRu": "Хроматический разлом",
+      "TribeRu": "Дракон",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.6,
+      "AvgPlacement": 4.36
+    },
+    "BG36_883": {
+      "CardId": "BG36_883",
+      "DbfId": 133369,
+      "NameRu": "Хлеб победителя",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.3,
+      "AvgPlacement": 4.38
+    },
+    "BG28_Reward_506": {
+      "CardId": "BG28_Reward_506",
+      "DbfId": 110305,
+      "NameRu": "Двуглавая награда",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.7,
+      "AvgPlacement": 4.35
+    },
+    "BG27_Reward_812": {
+      "CardId": "BG27_Reward_812",
+      "DbfId": 104821,
+      "NameRu": "Скипетр наставления",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BGDUO_MagicItem_006": {
+      "CardId": "BGDUO_MagicItem_006",
+      "DbfId": 117937,
+      "NameRu": "Волшебный указатель",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36
+    },
+    "BG36_MagicItem_305": {
+      "CardId": "BG36_MagicItem_305",
+      "DbfId": 133350,
+      "NameRu": "Руна трансмутации",
+      "TribeRu": "Нага",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.5,
+      "AvgPlacement": 4.36
+    },
+    "BG35_MagicItem_931": {
+      "CardId": "BG35_MagicItem_931",
+      "DbfId": 131003,
+      "NameRu": "Записыващая печатная машинка",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BG32_MagicItem_906": {
+      "CardId": "BG32_MagicItem_906",
+      "DbfId": 120157,
+      "NameRu": "BG32_MagicItem_906",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4
+    },
+    "BG32_MagicItem_823": {
+      "CardId": "BG32_MagicItem_823",
+      "DbfId": 121034,
+      "NameRu": "BG32_MagicItem_823",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4
+    },
+    "BG32_MagicItem_887": {
+      "CardId": "BG32_MagicItem_887",
+      "DbfId": 111252,
+      "NameRu": "BG32_MagicItem_887",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 31,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BG31_242": {
+      "CardId": "BG31_242",
+      "DbfId": 117671,
+      "NameRu": "Набор по акции",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 53.3,
+      "AvgPlacement": 4.38
+    },
+    "BG28_825": {
+      "CardId": "BG28_825",
+      "DbfId": 104445,
+      "NameRu": "Защитные обряды",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BG30_MagicItem_555": {
+      "CardId": "BG30_MagicItem_555",
+      "DbfId": 117905,
+      "NameRu": "Портрет с сюрпризом",
+      "TribeRu": "Элементаль",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG30_MagicItem_303": {
+      "CardId": "BG30_MagicItem_303",
+      "DbfId": 111403,
+      "NameRu": "BG30_MagicItem_303",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 52.8,
+      "AvgPlacement": 4.41
+    },
+    "BG30_MagicItem_420": {
+      "CardId": "BG30_MagicItem_420",
+      "DbfId": 111609,
+      "NameRu": "Книга Медива",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 28,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BG35_MagicItem_872t": {
+      "CardId": "BG35_MagicItem_872t",
+      "DbfId": 130909,
+      "NameRu": "Змеиный посох",
+      "TribeRu": "Зверь",
+      "Tier": "B",
+      "PickRate": 28,
+      "WinRate": 53.1,
+      "AvgPlacement": 4.39
+    },
+    "BG36_MagicItem_430": {
+      "CardId": "BG36_MagicItem_430",
+      "DbfId": 134443,
+      "NameRu": "BG36_MagicItem_430",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 28,
+      "WinRate": 53.1,
+      "AvgPlacement": 4.39
+    },
+    "BGDUO_MagicItem_002t": {
+      "CardId": "BGDUO_MagicItem_002t",
+      "DbfId": 117954,
+      "NameRu": "Наклейка с Чо'Галлом",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 28,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG28_518": {
+      "CardId": "BG28_518",
+      "DbfId": 105664,
+      "NameRu": "Выбор шеф-повара",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4
+    },
+    "BG31_892": {
+      "CardId": "BG31_892",
+      "DbfId": 116221,
+      "NameRu": "Дар Фэндрала",
+      "TribeRu": "Свинобраз",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4
+    },
+    "BG28_Reward_514": {
+      "CardId": "BG28_Reward_514",
+      "DbfId": 110343,
+      "NameRu": "Неукротимые чары",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 53.2,
+      "AvgPlacement": 4.38
+    },
+    "BG32_MagicItem_822": {
+      "CardId": "BG32_MagicItem_822",
+      "DbfId": 121033,
+      "NameRu": "Базарная наклейка",
+      "TribeRu": "Демон",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BGDUO_MagicItem_001": {
+      "CardId": "BGDUO_MagicItem_001",
+      "DbfId": 117932,
+      "NameRu": "Связующая нить",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG32_MagicItem_362t": {
+      "CardId": "BG32_MagicItem_362t",
+      "DbfId": 121684,
+      "NameRu": "Очаг хозяина таверны",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG30_MagicItem_710": {
+      "CardId": "BG30_MagicItem_710",
+      "DbfId": 117896,
+      "NameRu": "BG30_MagicItem_710",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 53.0,
+      "AvgPlacement": 4.4
+    },
+    "BG30_MagicItem_978": {
+      "CardId": "BG30_MagicItem_978",
+      "DbfId": 111976,
+      "NameRu": "BG30_MagicItem_978",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG30_MagicItem_970t": {
+      "CardId": "BG30_MagicItem_970t",
+      "DbfId": 115219,
+      "NameRu": "BG30_MagicItem_970t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.8,
+      "AvgPlacement": 4.41
+    },
+    "BG30_MagicItem_868": {
+      "CardId": "BG30_MagicItem_868",
+      "DbfId": 110975,
+      "NameRu": "Портрет дирижера",
+      "TribeRu": "Демон",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42
+    },
+    "100899-channel-the-devourer": {
+      "CardId": "100899-channel-the-devourer",
+      "DbfId": 100899,
+      "NameRu": "Поддержание Пожирателя",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 25,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42
+    },
+    "BG28_503": {
+      "CardId": "BG28_503",
+      "DbfId": 103791,
+      "NameRu": "Укрепление",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 25,
+      "WinRate": 52.6,
+      "AvgPlacement": 4.42
+    },
+    "BG30_MagicItem_429t": {
+      "CardId": "BG30_MagicItem_429t",
+      "DbfId": 112401,
+      "NameRu": "BG30_MagicItem_429t",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 25,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG36_MagicItem_406": {
+      "CardId": "BG36_MagicItem_406",
+      "DbfId": 134319,
+      "NameRu": "BG36_MagicItem_406",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 25,
+      "WinRate": 52.8,
+      "AvgPlacement": 4.41
+    },
+    "BG30_MagicItem_418": {
+      "CardId": "BG30_MagicItem_418",
+      "DbfId": 111607,
+      "NameRu": "Портрет Бронзоборода",
+      "TribeRu": "Дракон / Мурлок",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG30_MagicItem_886": {
+      "CardId": "BG30_MagicItem_886",
+      "DbfId": 110967,
+      "NameRu": "Усиленный щит",
+      "TribeRu": "Нежить",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 52.9,
+      "AvgPlacement": 4.4
+    },
+    "BG32_MagicItem_844": {
+      "CardId": "BG32_MagicItem_844",
+      "DbfId": 111109,
+      "NameRu": "BG32_MagicItem_844",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42
+    },
+    "BG30_MagicItem_918": {
+      "CardId": "BG30_MagicItem_918",
+      "DbfId": 117798,
+      "NameRu": "BG30_MagicItem_918",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42
+    },
+    "BG35_MagicItem_753": {
+      "CardId": "BG35_MagicItem_753",
+      "DbfId": 131306,
+      "NameRu": "Наклейка с Мурчалем",
+      "TribeRu": "Мурлок",
+      "Tier": "B",
+      "PickRate": 29,
+      "WinRate": 52.7,
+      "AvgPlacement": 4.42
+    },
+    "BG24_Reward_109": {
+      "CardId": "BG24_Reward_109",
+      "DbfId": 89473,
+      "NameRu": "Украденное золото",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.5,
+      "AvgPlacement": 4.43
+    },
+    "BG35_MagicItem_713": {
+      "CardId": "BG35_MagicItem_713",
+      "DbfId": 130894,
+      "NameRu": "Надежный лом",
+      "TribeRu": "Пират",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.6,
+      "AvgPlacement": 4.42
+    },
+    "BG30_MagicItem_970": {
+      "CardId": "BG30_MagicItem_970",
+      "DbfId": 111920,
+      "NameRu": "BG30_MagicItem_970",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.5,
+      "AvgPlacement": 4.43
+    },
+    "BG36_MagicItem_380": {
+      "CardId": "BG36_MagicItem_380",
+      "DbfId": 133719,
+      "NameRu": "BG36_MagicItem_380",
+      "TribeRu": "Без типа",
+      "Tier": "B",
+      "PickRate": 27,
+      "WinRate": 52.4,
+      "AvgPlacement": 4.44
+    },
+    "BG31_819": {
+      "CardId": "BG31_819",
+      "DbfId": 117670,
+      "NameRu": "Температурный сдвиг",
+      "TribeRu": "Элементаль",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.5,
+      "AvgPlacement": 4.43
+    },
+    "BG32_MagicItem_172": {
+      "CardId": "BG32_MagicItem_172",
+      "DbfId": 120866,
+      "NameRu": "Портрет чудовища Бума",
+      "TribeRu": "Механизм",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.5,
+      "AvgPlacement": 4.43
+    },
+    "BG35_MagicItem_434": {
+      "CardId": "BG35_MagicItem_434",
+      "DbfId": 130904,
+      "NameRu": "Шкатулка для драгоценностей",
+      "TribeRu": "Свинобраз",
+      "Tier": "B",
+      "PickRate": 26,
+      "WinRate": 52.6,
+      "AvgPlacement": 4.42
+    },
+    "BG32_MagicItem_282": {
+      "CardId": "BG32_MagicItem_282",
+      "DbfId": 121129,
+      "NameRu": "BG32_MagicItem_282",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 52.3,
+      "AvgPlacement": 4.44
+    },
+    "BG35_MagicItem_731": {
+      "CardId": "BG35_MagicItem_731",
+      "DbfId": 131131,
+      "NameRu": "BG35_MagicItem_731",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 51.7,
+      "AvgPlacement": 4.48
+    },
+    "BG32_815": {
+      "CardId": "BG32_815",
+      "DbfId": 120900,
+      "NameRu": "Смена прилива",
+      "TribeRu": "Нага",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 52.0,
+      "AvgPlacement": 4.46
+    },
+    "BG32_MagicItem_808t": {
+      "CardId": "BG32_MagicItem_808t",
+      "DbfId": 121038,
+      "NameRu": "Серьги крови",
+      "TribeRu": "Свинобраз",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.6,
+      "AvgPlacement": 4.49
+    },
+    "BG32_MagicItem_817": {
+      "CardId": "BG32_MagicItem_817",
+      "DbfId": 120154,
+      "NameRu": "Наклейка с Рендлом",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.7,
+      "AvgPlacement": 4.48
+    },
+    "BG32_MagicItem_400": {
+      "CardId": "BG32_MagicItem_400",
+      "DbfId": 111427,
+      "NameRu": "Алтарь эволюции",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.5,
+      "AvgPlacement": 4.5
+    },
+    "BG36_MagicItem_410": {
+      "CardId": "BG36_MagicItem_410",
+      "DbfId": 134438,
+      "NameRu": "BG36_MagicItem_410",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 51.7,
+      "AvgPlacement": 4.48
+    },
+    "BG35_MagicItem_848t": {
+      "CardId": "BG35_MagicItem_848t",
+      "DbfId": 130978,
+      "NameRu": "BG35_MagicItem_848t",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 51.5,
+      "AvgPlacement": 4.5
+    },
+    "BG36_MagicItem_202": {
+      "CardId": "BG36_MagicItem_202",
+      "DbfId": 133389,
+      "NameRu": "Тотем боевого клича",
+      "TribeRu": "Дракон / Мурлок",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 51.4,
+      "AvgPlacement": 4.5
+    },
+    "BG35_MagicItem_923": {
+      "CardId": "BG35_MagicItem_923",
+      "DbfId": 130865,
+      "NameRu": "Заколдованная лента",
+      "TribeRu": "Нага",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 51.6,
+      "AvgPlacement": 4.49
+    },
+    "BG35_MagicItem_924": {
+      "CardId": "BG35_MagicItem_924",
+      "DbfId": 130907,
+      "NameRu": "Портрет землекрушительницы",
+      "TribeRu": "Нага",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 51.5,
+      "AvgPlacement": 4.5
+    },
+    "BG30_MagicItem_441": {
+      "CardId": "BG30_MagicItem_441",
+      "DbfId": 113099,
+      "NameRu": "BG30_MagicItem_441",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 51.3,
+      "AvgPlacement": 4.51
+    },
+    "BG28_500": {
+      "CardId": "BG28_500",
+      "DbfId": 103785,
+      "NameRu": "Склад доспехов",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 26,
+      "WinRate": 51.7,
+      "AvgPlacement": 4.48
+    },
+    "BG32_MagicItem_808": {
+      "CardId": "BG32_MagicItem_808",
+      "DbfId": 120146,
+      "NameRu": "Серьги крови",
+      "TribeRu": "Свинобраз",
+      "Tier": "C",
+      "PickRate": 26,
+      "WinRate": 51.2,
+      "AvgPlacement": 4.52
+    },
+    "BG30_MagicItem_301": {
+      "CardId": "BG30_MagicItem_301",
+      "DbfId": 111388,
+      "NameRu": "Портрет вечности",
+      "TribeRu": "Нежить",
+      "Tier": "C",
+      "PickRate": 26,
+      "WinRate": 51.1,
+      "AvgPlacement": 4.53
+    },
+    "BG32_MagicItem_832": {
+      "CardId": "BG32_MagicItem_832",
+      "DbfId": 120801,
+      "NameRu": "BG32_MagicItem_832",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 26,
+      "WinRate": 51.2,
+      "AvgPlacement": 4.52
+    },
+    "BG30_MagicItem_995": {
+      "CardId": "BG30_MagicItem_995",
+      "DbfId": 112411,
+      "NameRu": "Бронзовые часы",
+      "TribeRu": "Дракон",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.7,
+      "AvgPlacement": 4.48
+    },
+    "BG28_571": {
+      "CardId": "BG28_571",
+      "DbfId": 104559,
+      "NameRu": "Торопливые раскопки",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 51.3,
+      "AvgPlacement": 4.51
+    },
+    "BG35_951": {
+      "CardId": "BG35_951",
+      "DbfId": 131152,
+      "NameRu": "Мощь Штормграда",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 25,
+      "WinRate": 51.1,
+      "AvgPlacement": 4.53
+    },
+    "BG28_884": {
+      "CardId": "BG28_884",
+      "DbfId": 105267,
+      "NameRu": "Самоуверенность",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.9,
+      "AvgPlacement": 4.54
+    },
+    "BG36_MagicItem_811": {
+      "CardId": "BG36_MagicItem_811",
+      "DbfId": 133063,
+      "NameRu": "Защитный панцирь",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.0,
+      "AvgPlacement": 4.53
+    },
+    "BG35_MagicItem_430": {
+      "CardId": "BG35_MagicItem_430",
+      "DbfId": 130900,
+      "NameRu": "BG35_MagicItem_430",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.2,
+      "AvgPlacement": 4.52
+    },
+    "BG35_MagicItem_431t": {
+      "CardId": "BG35_MagicItem_431t",
+      "DbfId": 130902,
+      "NameRu": "BG35_MagicItem_431t",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.8,
+      "AvgPlacement": 4.55
+    },
+    "BG32_MagicItem_281": {
+      "CardId": "BG32_MagicItem_281",
+      "DbfId": 121128,
+      "NameRu": "BG32_MagicItem_281",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 51.0,
+      "AvgPlacement": 4.53
+    },
+    "BG36_MagicItem_850": {
+      "CardId": "BG36_MagicItem_850",
+      "DbfId": 133070,
+      "NameRu": "Мешалка Пирожка",
+      "TribeRu": "Мурлок",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55
+    },
+    "BG33_101": {
+      "CardId": "BG33_101",
+      "DbfId": 122864,
+      "NameRu": "Новый росток",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 51.2,
+      "AvgPlacement": 4.52
+    },
+    "BG28_Reward_513": {
+      "CardId": "BG28_Reward_513",
+      "DbfId": 110325,
+      "NameRu": "Открытый кастинг",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 51.0,
+      "AvgPlacement": 4.53
+    },
+    "BG35_MagicItem_301": {
+      "CardId": "BG35_MagicItem_301",
+      "DbfId": 130879,
+      "NameRu": "Наклейка с металлоискателем",
+      "TribeRu": "Механизм",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 50.6,
+      "AvgPlacement": 4.56
+    },
+    "BG36_MagicItem_602": {
+      "CardId": "BG36_MagicItem_602",
+      "DbfId": 134322,
+      "NameRu": "BG36_MagicItem_602",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55
+    },
+    "BG35_MagicItem_702": {
+      "CardId": "BG35_MagicItem_702",
+      "DbfId": 130897,
+      "NameRu": "BG35_MagicItem_702",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 50.9,
+      "AvgPlacement": 4.54
+    },
+    "BG30_MagicItem_422t": {
+      "CardId": "BG30_MagicItem_422t",
+      "DbfId": 117416,
+      "NameRu": "Свиток истории",
+      "TribeRu": "Нага",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 50.5,
+      "AvgPlacement": 4.57
+    },
+    "BG30_MagicItem_917": {
+      "CardId": "BG30_MagicItem_917",
+      "DbfId": 111557,
+      "NameRu": "Ржавый трезубец",
+      "TribeRu": "Нага",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 50.9,
+      "AvgPlacement": 4.54
+    },
+    "BG30_MagicItem_891": {
+      "CardId": "BG30_MagicItem_891",
+      "DbfId": 112991,
+      "NameRu": "Купоны на путешествие",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 50.8,
+      "AvgPlacement": 4.55
+    },
+    "BG30_MagicItem_992t": {
+      "CardId": "BG30_MagicItem_992t",
+      "DbfId": 115218,
+      "NameRu": "BG30_MagicItem_992t",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 51.0,
+      "AvgPlacement": 4.53
+    },
+    "BG30_MagicItem_982": {
+      "CardId": "BG30_MagicItem_982",
+      "DbfId": 112004,
+      "NameRu": "BG30_MagicItem_982",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 50.3,
+      "AvgPlacement": 4.58
+    },
+    "BG28_827": {
+      "CardId": "BG28_827",
+      "DbfId": 104446,
+      "NameRu": "Пролистывание страниц",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.6,
+      "AvgPlacement": 4.56
+    },
+    "BG32_MagicItem_270": {
+      "CardId": "BG32_MagicItem_270",
+      "DbfId": 121039,
+      "NameRu": "BG32_MagicItem_270",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55
+    },
+    "BG30_MagicItem_442t_G": {
+      "CardId": "BG30_MagicItem_442t_G",
+      "DbfId": 113098,
+      "NameRu": "BG30_MagicItem_442t_G",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.8,
+      "AvgPlacement": 4.55
+    },
+    "BG35_MagicItem_817t": {
+      "CardId": "BG35_MagicItem_817t",
+      "DbfId": 130853,
+      "NameRu": "Футляр для линз",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.7,
+      "AvgPlacement": 4.55
+    },
+    "BG32_MagicItem_902": {
+      "CardId": "BG32_MagicItem_902",
+      "DbfId": 121068,
+      "NameRu": "BG32_MagicItem_902",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 24,
+      "WinRate": 50.5,
+      "AvgPlacement": 4.57
+    },
+    "BG28_168": {
+      "CardId": "BG28_168",
+      "DbfId": 109230,
+      "NameRu": "Блестящее кольцо",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 50.3,
+      "AvgPlacement": 4.58
+    },
+    "BGDUO_MagicItem_008": {
+      "CardId": "BGDUO_MagicItem_008",
+      "DbfId": 117939,
+      "NameRu": "Коробка с багажом",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 50.1,
+      "AvgPlacement": 4.59
+    },
+    "BG32_MagicItem_892": {
+      "CardId": "BG32_MagicItem_892",
+      "DbfId": 121138,
+      "NameRu": "Яркий пузырь",
+      "TribeRu": "Мурлок",
+      "Tier": "C",
+      "PickRate": 23,
+      "WinRate": 50.4,
+      "AvgPlacement": 4.57
+    },
+    "BG32_MagicItem_362": {
+      "CardId": "BG32_MagicItem_362",
+      "DbfId": 121498,
+      "NameRu": "BG32_MagicItem_362",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 50.0,
+      "AvgPlacement": 4.6
+    },
+    "BG32_MagicItem_932": {
+      "CardId": "BG32_MagicItem_932",
+      "DbfId": 120611,
+      "NameRu": "BG32_MagicItem_932",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 50.2,
+      "AvgPlacement": 4.59
+    },
+    "BG28_800": {
+      "CardId": "BG28_800",
+      "DbfId": 103779,
+      "NameRu": "Обдуманная инвестиция",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.9,
+      "AvgPlacement": 4.61
+    },
+    "BG30_MagicItem_713": {
+      "CardId": "BG30_MagicItem_713",
+      "DbfId": 117906,
+      "NameRu": "Кровоточащее сердце",
+      "TribeRu": "Нежить",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 50.1,
+      "AvgPlacement": 4.59
+    },
+    "BG32_MagicItem_893": {
+      "CardId": "BG32_MagicItem_893",
+      "DbfId": 121140,
+      "NameRu": "Ласты Синежабрых",
+      "TribeRu": "Мурлок",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 50.1,
+      "AvgPlacement": 4.59
+    },
+    "BG30_MagicItem_924": {
+      "CardId": "BG30_MagicItem_924",
+      "DbfId": 110993,
+      "NameRu": "Пойло из Пиратской Бухты",
+      "TribeRu": "Пират",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.9,
+      "AvgPlacement": 4.61
+    },
+    "BG36_MagicItem_411": {
+      "CardId": "BG36_MagicItem_411",
+      "DbfId": 134325,
+      "NameRu": "BG36_MagicItem_411",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.9,
+      "AvgPlacement": 4.61
+    },
+    "BG35_MagicItem_306t": {
+      "CardId": "BG35_MagicItem_306t",
+      "DbfId": 131136,
+      "NameRu": "Наклейка с Тюремщиком",
+      "TribeRu": "Нежить",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.7,
+      "AvgPlacement": 4.62
+    },
+    "BG30_MagicItem_711": {
+      "CardId": "BG30_MagicItem_711",
+      "DbfId": 117897,
+      "NameRu": "BG30_MagicItem_711",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61
+    },
+    "BG28_888": {
+      "CardId": "BG28_888",
+      "DbfId": 105271,
+      "NameRu": "Пропавший чайный сервиз",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 49.7,
+      "AvgPlacement": 4.62
+    },
+    "BG30_MagicItem_943": {
+      "CardId": "BG30_MagicItem_943",
+      "DbfId": 117856,
+      "NameRu": "Портрет впередсмотрящего",
+      "TribeRu": "Свинобраз",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 49.9,
+      "AvgPlacement": 4.61
+    },
+    "BG36_MagicItem_404t": {
+      "CardId": "BG36_MagicItem_404t",
+      "DbfId": 134323,
+      "NameRu": "BG36_MagicItem_404t",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 50.1,
+      "AvgPlacement": 4.59
+    },
+    "BG35_MagicItem_433": {
+      "CardId": "BG35_MagicItem_433",
+      "DbfId": 130905,
+      "NameRu": "BG35_MagicItem_433",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 49.6,
+      "AvgPlacement": 4.63
+    },
+    "BG28_573": {
+      "CardId": "BG28_573",
+      "DbfId": 104560,
+      "NameRu": "Перехват инициативы",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.9,
+      "AvgPlacement": 4.61
+    },
+    "BGDUO_MagicItem_004": {
+      "CardId": "BGDUO_MagicItem_004",
+      "DbfId": 117935,
+      "NameRu": "BGDUO_MagicItem_004",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61
+    },
+    "BG30_MagicItem_432t": {
+      "CardId": "BG30_MagicItem_432t",
+      "DbfId": 115240,
+      "NameRu": "BG30_MagicItem_432t",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.6,
+      "AvgPlacement": 4.63
+    },
+    "BG30_MagicItem_989": {
+      "CardId": "BG30_MagicItem_989",
+      "DbfId": 112014,
+      "NameRu": "BG30_MagicItem_989",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61
+    },
+    "BG35_MagicItem_921": {
+      "CardId": "BG35_MagicItem_921",
+      "DbfId": 130980,
+      "NameRu": "BG35_MagicItem_921",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.6,
+      "AvgPlacement": 4.63
+    },
+    "BG35_MagicItem_700": {
+      "CardId": "BG35_MagicItem_700",
+      "DbfId": 130895,
+      "NameRu": "Щетка из диких перьев",
+      "TribeRu": "Зверь",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61
+    },
+    "BG28_603": {
+      "CardId": "BG28_603",
+      "DbfId": 110401,
+      "NameRu": "Благословение жуков",
+      "TribeRu": "Зверь",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61
+    },
+    "100911-lost-staff-of-hamuul": {
+      "CardId": "100911-lost-staff-of-hamuul",
+      "DbfId": 100911,
+      "NameRu": "Потерянный посох Хамуула",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 49.8,
+      "AvgPlacement": 4.61
+    },
+    "BG24_Reward_363": {
+      "CardId": "BG24_Reward_363",
+      "DbfId": 97485,
+      "NameRu": "Сверхъестественные улики",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 49.5,
+      "AvgPlacement": 4.63
+    },
+    "BG30_MagicItem_706": {
+      "CardId": "BG30_MagicItem_706",
+      "DbfId": 117857,
+      "NameRu": "Отражающая подвеска",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 22,
+      "WinRate": 49.1,
+      "AvgPlacement": 4.66
+    },
+    "BG28_512": {
+      "CardId": "BG28_512",
+      "DbfId": 104502,
+      "NameRu": "Зачарованное лассо",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.6,
+      "AvgPlacement": 4.63
+    },
+    "BG35_MagicItem_711": {
+      "CardId": "BG35_MagicItem_711",
+      "DbfId": 130893,
+      "NameRu": "Защитное кольцо",
+      "TribeRu": "Пират",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 49.1,
+      "AvgPlacement": 4.66
+    },
+    "BG32_MagicItem_830": {
+      "CardId": "BG32_MagicItem_830",
+      "DbfId": 121062,
+      "NameRu": "BG32_MagicItem_830",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 49.6,
+      "AvgPlacement": 4.63
+    },
+    "BG32_MagicItem_832t": {
+      "CardId": "BG32_MagicItem_832t",
+      "DbfId": 120927,
+      "NameRu": "BG32_MagicItem_832t",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 49.4,
+      "AvgPlacement": 4.64
+    },
+    "BG30_MagicItem_942": {
+      "CardId": "BG30_MagicItem_942",
+      "DbfId": 117855,
+      "NameRu": "Наклейка с Меха-Джараксусом",
+      "TribeRu": "Демон / Механизм",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 49.1,
+      "AvgPlacement": 4.66
+    },
+    "BG28_521": {
+      "CardId": "BG28_521",
+      "DbfId": 105669,
+      "NameRu": "Планарный телескоп",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.2,
+      "AvgPlacement": 4.65
+    },
+    "BG27_Reward_806": {
+      "CardId": "BG27_Reward_806",
+      "DbfId": 104677,
+      "NameRu": "Медальон двойника",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.2,
+      "AvgPlacement": 4.65
+    },
+    "BG30_MagicItem_888": {
+      "CardId": "BG30_MagicItem_888",
+      "DbfId": 112895,
+      "NameRu": "Лавка с сувенирами",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.4,
+      "AvgPlacement": 4.64
+    },
+    "BG36_MagicItem_424": {
+      "CardId": "BG36_MagicItem_424",
+      "DbfId": 134640,
+      "NameRu": "BG36_MagicItem_424",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 49.3,
+      "AvgPlacement": 4.65
+    },
+    "BG28_504": {
+      "CardId": "BG28_504",
+      "DbfId": 103793,
+      "NameRu": "Вербовка новобранца",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 48.7,
+      "AvgPlacement": 4.69
+    },
+    "BG36_MagicItem_309": {
+      "CardId": "BG36_MagicItem_309",
+      "DbfId": 133381,
+      "NameRu": "Восковое копье",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 48.7,
+      "AvgPlacement": 4.69
+    },
+    "BG36_MagicItem_400": {
+      "CardId": "BG36_MagicItem_400",
+      "DbfId": 134315,
+      "NameRu": "BG36_MagicItem_400",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 48.8,
+      "AvgPlacement": 4.68
+    },
+    "BG32_MagicItem_274": {
+      "CardId": "BG32_MagicItem_274",
+      "DbfId": 121044,
+      "NameRu": "BG32_MagicItem_274",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 48.8,
+      "AvgPlacement": 4.68
+    },
+    "BG31_881": {
+      "CardId": "BG31_881",
+      "DbfId": 117573,
+      "NameRu": "Управление временем",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 21,
+      "WinRate": 48.6,
+      "AvgPlacement": 4.7
+    },
+    "BGDUO_MagicItem_010": {
+      "CardId": "BGDUO_MagicItem_010",
+      "DbfId": 117941,
+      "NameRu": "Усиленное зеркало",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 48.5,
+      "AvgPlacement": 4.7
+    },
+    "BG35_MagicItem_801": {
+      "CardId": "BG35_MagicItem_801",
+      "DbfId": 130028,
+      "NameRu": "Наклейка со старшим поваром",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 48.9,
+      "AvgPlacement": 4.67
+    },
+    "BG32_MagicItem_419": {
+      "CardId": "BG32_MagicItem_419",
+      "DbfId": 121040,
+      "NameRu": "BG32_MagicItem_419",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 20,
+      "WinRate": 48.5,
+      "AvgPlacement": 4.7
+    },
+    "BG33_812": {
+      "CardId": "BG33_812",
+      "DbfId": 122183,
+      "NameRu": "Враждебное вознаграждение",
+      "TribeRu": "Пират",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 48.4,
+      "AvgPlacement": 4.71
+    },
+    "BG28_838": {
+      "CardId": "BG28_838",
+      "DbfId": 104601,
+      "NameRu": "Идеальное зрение",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 48.9,
+      "AvgPlacement": 4.67
+    },
+    "BG30_MagicItem_703": {
+      "CardId": "BG30_MagicItem_703",
+      "DbfId": 117801,
+      "NameRu": "Загадочный куб",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 48.7,
+      "AvgPlacement": 4.69
+    },
+    "BG30_MagicItem_880": {
+      "CardId": "BG30_MagicItem_880",
+      "DbfId": 111211,
+      "NameRu": "BG30_MagicItem_880",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 48.5,
+      "AvgPlacement": 4.7
+    },
+    "BGDUO_MagicItem_002": {
+      "CardId": "BGDUO_MagicItem_002",
+      "DbfId": 117933,
+      "NameRu": "Наклейка с Чо'Галлом",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 48.2,
+      "AvgPlacement": 4.72
+    },
+    "BG32_MagicItem_171": {
+      "CardId": "BG32_MagicItem_171",
+      "DbfId": 120865,
+      "NameRu": "BG32_MagicItem_171",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 48.5,
+      "AvgPlacement": 4.7
+    },
+    "BG36_MagicItem_610": {
+      "CardId": "BG36_MagicItem_610",
+      "DbfId": 134748,
+      "NameRu": "BG36_MagicItem_610",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 48.8,
+      "AvgPlacement": 4.68
+    },
+    "BG32_MagicItem_960": {
+      "CardId": "BG32_MagicItem_960",
+      "DbfId": 120924,
+      "NameRu": "BG32_MagicItem_960",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 48.6,
+      "AvgPlacement": 4.7
+    },
+    "BG32_MagicItem_862": {
+      "CardId": "BG32_MagicItem_862",
+      "DbfId": 120930,
+      "NameRu": "BG32_MagicItem_862",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 48.3,
+      "AvgPlacement": 4.72
+    },
+    "BGDUO_MagicItem_003": {
+      "CardId": "BGDUO_MagicItem_003",
+      "DbfId": 117934,
+      "NameRu": "Сфера призыва",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 48.3,
+      "AvgPlacement": 4.72
+    },
+    "BG24_Reward_129": {
+      "CardId": "BG24_Reward_129",
+      "DbfId": 90916,
+      "NameRu": "Тайный камень грехов",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 15,
+      "WinRate": 48.3,
+      "AvgPlacement": 4.72
+    },
+    "BG24_Reward_134": {
+      "CardId": "BG24_Reward_134",
+      "DbfId": 92551,
+      "NameRu": "Неожиданные друзья",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 15,
+      "WinRate": 48.2,
+      "AvgPlacement": 4.72
+    },
+    "BG30_MagicItem_952": {
+      "CardId": "BG30_MagicItem_952",
+      "DbfId": 111500,
+      "NameRu": "Студик в банке",
+      "TribeRu": "Элементаль",
+      "Tier": "C",
+      "PickRate": 15,
+      "WinRate": 48.5,
+      "AvgPlacement": 4.7
+    },
+    "BG30_MagicItem_925": {
+      "CardId": "BG30_MagicItem_925",
+      "DbfId": 115464,
+      "NameRu": "BG30_MagicItem_925",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 15,
+      "WinRate": 48.3,
+      "AvgPlacement": 4.72
+    },
+    "BG30_MagicItem_984": {
+      "CardId": "BG30_MagicItem_984",
+      "DbfId": 112005,
+      "NameRu": "BG30_MagicItem_984",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 15,
+      "WinRate": 48.3,
+      "AvgPlacement": 4.72
+    },
+    "BG36_MagicItem_606": {
+      "CardId": "BG36_MagicItem_606",
+      "DbfId": 134321,
+      "NameRu": "BG36_MagicItem_606",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 15,
+      "WinRate": 48.1,
+      "AvgPlacement": 4.73
+    },
+    "BGDUO_MagicItem_005": {
+      "CardId": "BGDUO_MagicItem_005",
+      "DbfId": 117936,
+      "NameRu": "Наклейка с бутылкой",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 48.3,
+      "AvgPlacement": 4.72
+    },
+    "BG30_MagicItem_546": {
+      "CardId": "BG30_MagicItem_546",
+      "DbfId": 112398,
+      "NameRu": "Банка с самоцветами",
+      "TribeRu": "Свинобраз",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 48.0,
+      "AvgPlacement": 4.74
+    },
+    "BG32_MagicItem_179": {
+      "CardId": "BG32_MagicItem_179",
+      "DbfId": 121156,
+      "NameRu": "BG32_MagicItem_179",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 47.8,
+      "AvgPlacement": 4.75
+    },
+    "BG30_MagicItem_923": {
+      "CardId": "BG30_MagicItem_923",
+      "DbfId": 111406,
+      "NameRu": "BG30_MagicItem_923",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 47.8,
+      "AvgPlacement": 4.75
+    },
+    "BG32_MagicItem_230": {
+      "CardId": "BG32_MagicItem_230",
+      "DbfId": 120937,
+      "NameRu": "BG32_MagicItem_230",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 19,
+      "WinRate": 47.7,
+      "AvgPlacement": 4.76
+    },
+    "BG28_Reward_501": {
+      "CardId": "BG28_Reward_501",
+      "DbfId": 110299,
+      "NameRu": "Темпоральные манипуляции",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 18,
+      "WinRate": 47.8,
+      "AvgPlacement": 4.75
+    },
+    "BG32_MagicItem_931": {
+      "CardId": "BG32_MagicItem_931",
+      "DbfId": 120617,
+      "NameRu": "Азшарская статуэтка",
+      "TribeRu": "Нага",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 47.7,
+      "AvgPlacement": 4.76
+    },
+    "BG35_MagicItem_817": {
+      "CardId": "BG35_MagicItem_817",
+      "DbfId": 130835,
+      "NameRu": "Футляр для линз",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 47.8,
+      "AvgPlacement": 4.75
+    },
+    "BG35_MagicItem_872": {
+      "CardId": "BG35_MagicItem_872",
+      "DbfId": 130908,
+      "NameRu": "Змеиный посох",
+      "TribeRu": "Зверь",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 47.4,
+      "AvgPlacement": 4.78
+    },
+    "BG32_MagicItem_300": {
+      "CardId": "BG32_MagicItem_300",
+      "DbfId": 120827,
+      "NameRu": "Наклейка с Мерзоцидом",
+      "TribeRu": "Нежить",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 47.6,
+      "AvgPlacement": 4.76
+    },
+    "BG30_MagicItem_801": {
+      "CardId": "BG30_MagicItem_801",
+      "DbfId": 110928,
+      "NameRu": "Наклейка с камнем грехов",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 48.0,
+      "AvgPlacement": 4.74
+    },
+    "BG30_MagicItem_994": {
+      "CardId": "BG30_MagicItem_994",
+      "DbfId": 113104,
+      "NameRu": "Сладкое Йогг-гощение",
+      "TribeRu": "Без типа",
+      "Tier": "C",
+      "PickRate": 17,
+      "WinRate": 47.7,
+      "AvgPlacement": 4.76
+    },
+    "BG32_MagicItem_205t": {
+      "CardId": "BG32_MagicItem_205t",
+      "DbfId": 121944,
+      "NameRu": "Портрет заклинателя из Утробы",
+      "TribeRu": "Нежить",
+      "Tier": "D",
+      "PickRate": 15,
+      "WinRate": 47.3,
+      "AvgPlacement": 4.78
+    },
+    "BG36_MagicItem_611": {
+      "CardId": "BG36_MagicItem_611",
+      "DbfId": 134641,
+      "NameRu": "BG36_MagicItem_611",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 15,
+      "WinRate": 47.2,
+      "AvgPlacement": 4.79
+    },
+    "BG36_MagicItem_200": {
+      "CardId": "BG36_MagicItem_200",
+      "DbfId": 133387,
+      "NameRu": "Пастуший рожок",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 47.1,
+      "AvgPlacement": 4.8
+    },
+    "BG35_922": {
+      "CardId": "BG35_922",
+      "DbfId": 130713,
+      "NameRu": "Приказ королевы",
+      "TribeRu": "Нага",
+      "Tier": "D",
+      "PickRate": 16,
+      "WinRate": 46.9,
+      "AvgPlacement": 4.81
+    },
+    "BG24_Reward_313": {
+      "CardId": "BG24_Reward_313",
+      "DbfId": 92554,
+      "NameRu": "Чудесная сфера мудрости",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 16,
+      "WinRate": 46.9,
+      "AvgPlacement": 4.81
+    },
+    "BG35_MagicItem_823": {
+      "CardId": "BG35_MagicItem_823",
+      "DbfId": 130841,
+      "NameRu": "Старый канделябр",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 46.8,
+      "AvgPlacement": 4.82
+    },
+    "BG35_MagicItem_931t": {
+      "CardId": "BG35_MagicItem_931t",
+      "DbfId": 131325,
+      "NameRu": "Записыващая печатная машинка",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 46.7,
+      "AvgPlacement": 4.82
+    },
+    "BG31_880": {
+      "CardId": "BG31_880",
+      "DbfId": 117567,
+      "NameRu": "Флаг Альянса",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 46.5,
+      "AvgPlacement": 4.84
+    },
+    "BG32_MagicItem_360": {
+      "CardId": "BG32_MagicItem_360",
+      "DbfId": 120137,
+      "NameRu": "Пагубные благовония",
+      "TribeRu": "Нежить",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 46.5,
+      "AvgPlacement": 4.84
+    },
+    "BG35_MagicItem_710": {
+      "CardId": "BG35_MagicItem_710",
+      "DbfId": 130892,
+      "NameRu": "Миниатюрный корабль",
+      "TribeRu": "Пират",
+      "Tier": "D",
+      "PickRate": 15,
+      "WinRate": 46.4,
+      "AvgPlacement": 4.84
+    },
+    "BG36_MagicItem_423": {
+      "CardId": "BG36_MagicItem_423",
+      "DbfId": 134439,
+      "NameRu": "BG36_MagicItem_423",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 15,
+      "WinRate": 46.3,
+      "AvgPlacement": 4.85
+    },
+    "BG30_MagicItem_991": {
+      "CardId": "BG30_MagicItem_991",
+      "DbfId": 112054,
+      "NameRu": "BG30_MagicItem_991",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 46.2,
+      "AvgPlacement": 4.86
+    },
+    "BG36_MagicItem_450": {
+      "CardId": "BG36_MagicItem_450",
+      "DbfId": 134637,
+      "NameRu": "BG36_MagicItem_450",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 46.2,
+      "AvgPlacement": 4.86
+    },
+    "BG31_243": {
+      "CardId": "BG31_243",
+      "DbfId": 119470,
+      "NameRu": "Портал в фонтане",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 46.0,
+      "AvgPlacement": 4.87
+    },
+    "BG30_MagicItem_705": {
+      "CardId": "BG30_MagicItem_705",
+      "DbfId": 117854,
+      "NameRu": "Масленка Барменатора",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 15,
+      "WinRate": 45.9,
+      "AvgPlacement": 4.88
+    },
+    "BG30_MagicItem_919": {
+      "CardId": "BG30_MagicItem_919",
+      "DbfId": 117797,
+      "NameRu": "Открытка из Назжатара",
+      "TribeRu": "Нага",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 45.8,
+      "AvgPlacement": 4.89
+    },
+    "BG32_MagicItem_428": {
+      "CardId": "BG32_MagicItem_428",
+      "DbfId": 112075,
+      "NameRu": "Потрепанная карта сокровищ",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 45.8,
+      "AvgPlacement": 4.89
+    },
+    "BG32_MagicItem_894": {
+      "CardId": "BG32_MagicItem_894",
+      "DbfId": 121141,
+      "NameRu": "BG32_MagicItem_894",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 12,
+      "WinRate": 45.7,
+      "AvgPlacement": 4.89
+    },
+    "BG36_MagicItem_402": {
+      "CardId": "BG36_MagicItem_402",
+      "DbfId": 134638,
+      "NameRu": "BG36_MagicItem_402",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.6,
+      "AvgPlacement": 4.9
+    },
+    "BG32_MagicItem_824": {
+      "CardId": "BG32_MagicItem_824",
+      "DbfId": 121059,
+      "NameRu": "BG32_MagicItem_824",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 45.5,
+      "AvgPlacement": 4.91
+    },
+    "BG35_MagicItem_310": {
+      "CardId": "BG35_MagicItem_310",
+      "DbfId": 131252,
+      "NameRu": "BG35_MagicItem_310",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.5,
+      "AvgPlacement": 4.91
+    },
+    "BG36_MagicItem_211": {
+      "CardId": "BG36_MagicItem_211",
+      "DbfId": 133399,
+      "NameRu": "Милый медальон",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 12,
+      "WinRate": 45.8,
+      "AvgPlacement": 4.89
+    },
+    "BG36_MagicItem_412t": {
+      "CardId": "BG36_MagicItem_412t",
+      "DbfId": 134359,
+      "NameRu": "BG36_MagicItem_412t",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.7,
+      "AvgPlacement": 4.89
+    },
+    "BG32_MagicItem_231": {
+      "CardId": "BG32_MagicItem_231",
+      "DbfId": 120938,
+      "NameRu": "BG32_MagicItem_231",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 45.6,
+      "AvgPlacement": 4.9
+    },
+    "BG32_MagicItem_111": {
+      "CardId": "BG32_MagicItem_111",
+      "DbfId": 121690,
+      "NameRu": "BG32_MagicItem_111",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.6,
+      "AvgPlacement": 4.9
+    },
+    "BG30_MagicItem_548": {
+      "CardId": "BG30_MagicItem_548",
+      "DbfId": 112464,
+      "NameRu": "BG30_MagicItem_548",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.5,
+      "AvgPlacement": 4.91
+    },
+    "BG33_Reward_015": {
+      "CardId": "BG33_Reward_015",
+      "DbfId": 122014,
+      "NameRu": "Огромный склад",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 12,
+      "WinRate": 45.3,
+      "AvgPlacement": 4.92
+    },
+    "BG32_MagicItem_930": {
+      "CardId": "BG32_MagicItem_930",
+      "DbfId": 120610,
+      "NameRu": "Ветхий свиток",
+      "TribeRu": "Нага",
+      "Tier": "D",
+      "PickRate": 14,
+      "WinRate": 45.2,
+      "AvgPlacement": 4.93
+    },
+    "BG30_MagicItem_979": {
+      "CardId": "BG30_MagicItem_979",
+      "DbfId": 111977,
+      "NameRu": "BG30_MagicItem_979",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.2,
+      "AvgPlacement": 4.93
+    },
+    "BG30_MagicItem_407": {
+      "CardId": "BG30_MagicItem_407",
+      "DbfId": 111505,
+      "NameRu": "BG30_MagicItem_407",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 45.1,
+      "AvgPlacement": 4.93
+    },
+    "BG32_MagicItem_860t": {
+      "CardId": "BG32_MagicItem_860t",
+      "DbfId": 121182,
+      "NameRu": "Жучиное кольцо",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 12,
+      "WinRate": 45.0,
+      "AvgPlacement": 4.94
+    },
+    "BG30_MagicItem_422": {
+      "CardId": "BG30_MagicItem_422",
+      "DbfId": 111664,
+      "NameRu": "Свиток истории",
+      "TribeRu": "Нага",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 44.8,
+      "AvgPlacement": 4.95
+    },
+    "BG32_MagicItem_821": {
+      "CardId": "BG32_MagicItem_821",
+      "DbfId": 120698,
+      "NameRu": "Наклейка с бесом-паломником",
+      "TribeRu": "Демон",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 44.7,
+      "AvgPlacement": 4.96
+    },
+    "BG35_MagicItem_834": {
+      "CardId": "BG35_MagicItem_834",
+      "DbfId": 131312,
+      "NameRu": "BG35_MagicItem_834",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 44.6,
+      "AvgPlacement": 4.97
+    },
+    "BG30_MagicItem_440": {
+      "CardId": "BG30_MagicItem_440",
+      "DbfId": 113095,
+      "NameRu": "BG30_MagicItem_440",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 11,
+      "WinRate": 44.5,
+      "AvgPlacement": 4.97
+    },
+    "BG35_MagicItem_814": {
+      "CardId": "BG35_MagicItem_814",
+      "DbfId": 130832,
+      "NameRu": "Набитый кошелек",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 11,
+      "WinRate": 44.3,
+      "AvgPlacement": 4.99
+    },
+    "BG30_MagicItem_714": {
+      "CardId": "BG30_MagicItem_714",
+      "DbfId": 117944,
+      "NameRu": "BG30_MagicItem_714",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 12,
+      "WinRate": 44.3,
+      "AvgPlacement": 4.99
+    },
+    "BG30_MagicItem_429": {
+      "CardId": "BG30_MagicItem_429",
+      "DbfId": 112078,
+      "NameRu": "BG30_MagicItem_429",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 44.2,
+      "AvgPlacement": 4.99
+    },
+    "BG30_MagicItem_843t": {
+      "CardId": "BG30_MagicItem_843t",
+      "DbfId": 115251,
+      "NameRu": "BG30_MagicItem_843t",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 13,
+      "WinRate": 44.1,
+      "AvgPlacement": 5.0
+    },
+    "BG30_MagicItem_972": {
+      "CardId": "BG30_MagicItem_972",
+      "DbfId": 111922,
+      "NameRu": "BG30_MagicItem_972",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 12,
+      "WinRate": 44.0,
+      "AvgPlacement": 5.01
+    },
+    "BG28_810": {
+      "CardId": "BG28_810",
+      "DbfId": 104436,
+      "NameRu": "Монетка таверны",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 11,
+      "WinRate": 44.4,
+      "AvgPlacement": 4.98
+    },
+    "BG28_Reward_500": {
+      "CardId": "BG28_Reward_500",
+      "DbfId": 110298,
+      "NameRu": "По ту сторону миража",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 44.3,
+      "AvgPlacement": 4.99
+    },
+    "BG24_Reward_306": {
+      "CardId": "BG24_Reward_306",
+      "DbfId": 89650,
+      "NameRu": "Двойная бухгалтерия",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 44.2,
+      "AvgPlacement": 4.99
+    },
+    "BG28_830": {
+      "CardId": "BG28_830",
+      "DbfId": 104448,
+      "NameRu": "Золотое прикосновение",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 44.0,
+      "AvgPlacement": 5.01
+    },
+    "BG24_Reward_138": {
+      "CardId": "BG24_Reward_138",
+      "DbfId": 93074,
+      "NameRu": "Призрак жертвы",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 44.0,
+      "AvgPlacement": 5.01
+    },
+    "BG32_MagicItem_925": {
+      "CardId": "BG32_MagicItem_925",
+      "DbfId": 121109,
+      "NameRu": "Портрет мурлока-хакера",
+      "TribeRu": "Мурлок",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 43.8,
+      "AvgPlacement": 5.02
+    },
+    "BG30_MagicItem_864": {
+      "CardId": "BG30_MagicItem_864",
+      "DbfId": 110972,
+      "NameRu": "BG30_MagicItem_864",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 11,
+      "WinRate": 43.7,
+      "AvgPlacement": 5.03
+    },
+    "BG28_Reward_510": {
+      "CardId": "BG28_Reward_510",
+      "DbfId": 110310,
+      "NameRu": "Тайный злоумышленник",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 43.5,
+      "AvgPlacement": 5.04
+    },
+    "BG28_Reward_509": {
+      "CardId": "BG28_Reward_509",
+      "DbfId": 110309,
+      "NameRu": "Плавильная камера",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 43.5,
+      "AvgPlacement": 5.04
+    },
+    "BG30_MagicItem_841": {
+      "CardId": "BG30_MagicItem_841",
+      "DbfId": 111092,
+      "NameRu": "Сияющая рукавица",
+      "TribeRu": "Демон",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 43.4,
+      "AvgPlacement": 5.05
+    },
+    "BG32_MagicItem_286": {
+      "CardId": "BG32_MagicItem_286",
+      "DbfId": 121134,
+      "NameRu": "BG32_MagicItem_286",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 43.3,
+      "AvgPlacement": 5.06
+    },
+    "BG36_MagicItem_417": {
+      "CardId": "BG36_MagicItem_417",
+      "DbfId": 134758,
+      "NameRu": "BG36_MagicItem_417",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 43.2,
+      "AvgPlacement": 5.06
+    },
+    "BG30_MagicItem_880t": {
+      "CardId": "BG30_MagicItem_880t",
+      "DbfId": 111250,
+      "NameRu": "BG30_MagicItem_880t",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 43.2,
+      "AvgPlacement": 5.06
+    },
+    "BG35_MagicItem_300t": {
+      "CardId": "BG35_MagicItem_300t",
+      "DbfId": 130878,
+      "NameRu": "BG35_MagicItem_300t",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 43.1,
+      "AvgPlacement": 5.07
+    },
+    "BG32_MagicItem_802t": {
+      "CardId": "BG32_MagicItem_802t",
+      "DbfId": 120161,
+      "NameRu": "BG32_MagicItem_802t",
+      "TribeRu": "Без типа",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 42.9,
+      "AvgPlacement": 5.08
+    },
+    "BG32_MagicItem_860": {
+      "CardId": "BG32_MagicItem_860",
+      "DbfId": 120760,
+      "NameRu": "Жучиное кольцо",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 11,
+      "WinRate": 43.1,
+      "AvgPlacement": 5.07
+    },
+    "BG35_MagicItem_871": {
+      "CardId": "BG35_MagicItem_871",
+      "DbfId": 130877,
+      "NameRu": "Наклейка с мамашей-медведицей",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 43.1,
+      "AvgPlacement": 5.07
+    },
+    "BG36_MagicItem_810": {
+      "CardId": "BG36_MagicItem_810",
+      "DbfId": 133062,
+      "NameRu": "Индукционный гироклинок",
+      "TribeRu": "Механизм",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 42.8,
+      "AvgPlacement": 5.09
+    },
+    "BG36_MagicItem_810t": {
+      "CardId": "BG36_MagicItem_810t",
+      "DbfId": 133694,
+      "NameRu": "Индукционный гироклинок",
+      "TribeRu": "Механизм",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 42.6,
+      "AvgPlacement": 5.1
+    },
+    "BG35_MagicItem_861": {
+      "CardId": "BG35_MagicItem_861",
+      "DbfId": 130873,
+      "NameRu": "Портрет метателя",
+      "TribeRu": "Элементаль",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 42.8,
+      "AvgPlacement": 5.09
+    },
+    "BG32_MagicItem_200": {
+      "CardId": "BG32_MagicItem_200",
+      "DbfId": 120932,
+      "NameRu": "Универсальный корм",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 11,
+      "WinRate": 42.7,
+      "AvgPlacement": 5.1
+    },
+    "BG36_MagicItem_812": {
+      "CardId": "BG36_MagicItem_812",
+      "DbfId": 133695,
+      "NameRu": "Аварийный техноклинок",
+      "TribeRu": "Механизм",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 42.4,
+      "AvgPlacement": 5.12
+    },
+    "BG36_MagicItem_212": {
+      "CardId": "BG36_MagicItem_212",
+      "DbfId": 133400,
+      "NameRu": "Цеп с головой волка",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 42.5,
+      "AvgPlacement": 5.11
+    },
+    "BG32_MagicItem_998": {
+      "CardId": "BG32_MagicItem_998",
+      "DbfId": 121114,
+      "NameRu": "Портрет исполина",
+      "TribeRu": "Элементаль",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 42.2,
+      "AvgPlacement": 5.13
+    },
+    "BG30_MagicItem_540": {
+      "CardId": "BG30_MagicItem_540",
+      "DbfId": 112381,
+      "NameRu": "Наклейка с буяном",
+      "TribeRu": "Зверь",
+      "Tier": "D",
+      "PickRate": 10,
+      "WinRate": 42.2,
+      "AvgPlacement": 5.13
+    },
+    "BG32_MagicItem_283": {
+      "CardId": "BG32_MagicItem_283",
+      "DbfId": 121130,
+      "NameRu": "Портрет царицы",
+      "TribeRu": "Механизм",
+      "Tier": "D",
+      "PickRate": 8,
+      "WinRate": 42.2,
+      "AvgPlacement": 5.13
+    },
+    "BG36_MagicItem_390": {
+      "CardId": "BG36_MagicItem_390",
+      "DbfId": 134199,
+      "NameRu": "Портрет метателя",
+      "TribeRu": "Элементаль",
+      "Tier": "D",
+      "PickRate": 9,
+      "WinRate": 42.1,
+      "AvgPlacement": 5.14
+    }
+  }
+}

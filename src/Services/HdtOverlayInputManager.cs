@@ -20,7 +20,6 @@ namespace HSCompsPlugin.Services
         private static FieldInfo _hoverableElementsField;
         private static MethodInfo _setClickthroughMethod;
         private static bool _initialized = false;
-        private static bool? _lastClickthroughState = null;
 
         private static void EnsureInitialized()
         {

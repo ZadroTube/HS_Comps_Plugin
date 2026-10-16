@@ -28,6 +28,7 @@ namespace HSCompsPlugin.UI
         {
             var settings = PluginSettings.Instance;
             ChkShowInBattlegrounds.IsChecked = settings.ShowMiniOverlay;
+            if (ChkShowSelectionStatsOverlay != null) ChkShowSelectionStatsOverlay.IsChecked = settings.ShowSelectionStatsOverlay;
             ChkShowInMainMenu.IsChecked = settings.ShowInMainMenu;
             ChkDontHideMiniOverlayOnDetails.IsChecked = settings.DontHideMiniOverlayOnDetails;
             ChkAutoHideDetailsInCombat.IsChecked = settings.AutoHideDetailsInCombat;
@@ -105,6 +106,7 @@ namespace HSCompsPlugin.UI
 
                 if (result.Success)
                 {
+                    MetaStatsService.Instance.ReloadDatabase();
                     TxtUpdateStatus.Foreground = new SolidColorBrush(Color.FromRgb(174, 234, 125));
                     TxtUpdateStatus.Text = $"✅ {result.Message}";
                     RefreshDatabaseInfo();
@@ -149,6 +151,7 @@ namespace HSCompsPlugin.UI
         {
             var settings = PluginSettings.Instance;
             settings.ShowMiniOverlay = ChkShowInBattlegrounds.IsChecked == true;
+            if (ChkShowSelectionStatsOverlay != null) settings.ShowSelectionStatsOverlay = ChkShowSelectionStatsOverlay.IsChecked == true;
             settings.ShowInMainMenu = ChkShowInMainMenu.IsChecked == true;
             settings.DontHideMiniOverlayOnDetails = ChkDontHideMiniOverlayOnDetails.IsChecked == true;
             settings.AutoHideDetailsInCombat = ChkAutoHideDetailsInCombat.IsChecked == true;
@@ -231,12 +234,12 @@ namespace HSCompsPlugin.UI
             try
             {
                 var ver = Assembly.GetExecutingAssembly().GetName().Version;
-                string verStr = ver != null ? $"v{ver.Major}.{ver.Minor}.{ver.Build}" : "v3.0.0";
+                string verStr = ver != null ? $"v{ver.Major}.{ver.Minor}.{ver.Build}" : "v3.2.0";
                 TxtPluginVersionSummary.Text = $"Текущая версия плагина: {verStr} (ZadroTube)";
             }
             catch
             {
-                TxtPluginVersionSummary.Text = "Текущая версия плагина: v3.0.0 (ZadroTube)";
+                TxtPluginVersionSummary.Text = "Текущая версия плагина: v3.2.0 (ZadroTube)";
             }
         }
 
@@ -246,7 +249,6 @@ namespace HSCompsPlugin.UI
             {
                 string updaterExePath = null;
 
-                // 1. Проверяем папку плагина в AppData
                 string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 string pluginDirUpdater = Path.Combine(appData, "HearthstoneDeckTracker", "Plugins", "HSCompsPlugin", "HSCompsUpdater.exe");
                 if (File.Exists(pluginDirUpdater))
@@ -254,7 +256,6 @@ namespace HSCompsPlugin.UI
                     updaterExePath = pluginDirUpdater;
                 }
 
-                // 2. Проверяем базовую директорию сборки
                 if (updaterExePath == null)
                 {
                     string baseDirUpdater = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HSCompsUpdater.exe");
@@ -264,7 +265,6 @@ namespace HSCompsPlugin.UI
                     }
                 }
 
-                // 3. Проверяем локальный билд репозитория
                 if (updaterExePath == null)
                 {
                     string repoUpdater = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "updater", "bin", "Release", "HSCompsUpdater.exe");

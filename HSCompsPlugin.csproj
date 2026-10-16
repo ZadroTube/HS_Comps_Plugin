@@ -10,9 +10,9 @@
     <OutputType>Library</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Version>3.1.2</Version>
-    <AssemblyVersion>3.1.2.0</AssemblyVersion>
-    <FileVersion>3.1.2.0</FileVersion>
+    <Version>3.2.2</Version>
+    <AssemblyVersion>3.2.2.0</AssemblyVersion>
+    <FileVersion>3.2.2.0</FileVersion>
     <Authors>ZadroTube</Authors>
     <Company>ZadroTube</Company>
     <Product>HS Comps Plugin for Battlegrounds</Product>
@@ -54,6 +54,9 @@
     <None Update="comps_vector_db.json" Condition="Exists('comps_vector_db.json')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="meta_stats_db.json" Condition="Exists('meta_stats_db.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="supplementary_cards.json" Condition="Exists('supplementary_cards.json')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -74,6 +77,7 @@
     <Copy SourceFiles="$(TargetDir)Newtonsoft.Json.dll" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(TargetDir)Newtonsoft.Json.dll')" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)bg_cards_official.json" DestinationFolder="$(PluginDeployDir)" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)comps_vector_db.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)comps_vector_db.json')" ContinueOnError="true" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)meta_stats_db.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)meta_stats_db.json')" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)supplementary_cards.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)supplementary_cards.json')" ContinueOnError="true" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)missing_meta_cards.json" DestinationFolder="$(PluginDeployDir)" Condition="Exists('$(MSBuildThisFileDirectory)missing_meta_cards.json')" ContinueOnError="true" />
     
