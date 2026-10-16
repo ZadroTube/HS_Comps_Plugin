@@ -10,9 +10,9 @@
     <OutputType>Library</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Version>3.2.2</Version>
-    <AssemblyVersion>3.2.2.0</AssemblyVersion>
-    <FileVersion>3.2.2.0</FileVersion>
+    <Version>3.2.3</Version>
+    <AssemblyVersion>3.2.3.0</AssemblyVersion>
+    <FileVersion>3.2.3.0</FileVersion>
     <Authors>ZadroTube</Authors>
     <Company>ZadroTube</Company>
     <Product>HS Comps Plugin for Battlegrounds</Product>
@@ -41,6 +41,9 @@
   <ItemGroup>
     <Compile Remove="updater\**" />
     <None Include="updater\**" />
+    <Compile Remove="HSCompsPlugin(from HDT Plugin folder)\**" />
+    <None Remove="HSCompsPlugin(from HDT Plugin folder)\**" />
+    <Resource Remove="HSCompsPlugin(from HDT Plugin folder)\**" />
   </ItemGroup>
 
   <ItemGroup>

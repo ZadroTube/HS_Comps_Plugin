@@ -35,13 +35,6 @@ namespace HSCompsPlugin.Services
 
         private static List<string> _cachedLobbyTribes = null;
         private static int _lastSeenTurn = 0;
-        private static bool _heroSelectionDismissed = false;
-        private static int _dismissedTrinketMaxId = 0;
-        private static int _activeTrinketBatchMinId = 0;
-        private static int _activeTrinketBatchMaxId = 0;
-        private static int _activeTrinketBatchTurn = -1;
-        private static int _activeTrinketBatchInitialCount = 0;
-        private static bool _hmConfirmedCurrentBatchVisible = false;
 
         // Кэшированные дескрипторы рефлексии для нулевых накладных расходов в рантайме
         private static bool _reflectionInitialized = false;
@@ -63,13 +56,6 @@ namespace HSCompsPlugin.Services
             _hasValidRecruitSnapshot = false;
             _cachedLobbyTribes = null;
             _lastSeenTurn = 0;
-            _heroSelectionDismissed = false;
-            _dismissedTrinketMaxId = 0;
-            _activeTrinketBatchMinId = 0;
-            _activeTrinketBatchMaxId = 0;
-            _activeTrinketBatchTurn = -1;
-            _activeTrinketBatchInitialCount = 0;
-            _hmConfirmedCurrentBatchVisible = false;
         }
 
         public static bool IsValidHeroCardId(string heroCardId)
@@ -805,26 +791,11 @@ namespace HSCompsPlugin.Services
                     return true;
             }
             var off = CardDatabaseService.Instance.GetCard(dbfId, cardId);
-            if (off != null && (off.CardTypeId == 40 || off.CardTypeId == 42 || off.CardTypeId == 44 ||
+            // Строго CardTypeId == 44 (Тринкеты Полей сражений), без CardTypeId == 42 (Заклинания таверны)
+            if (off != null && (off.CardTypeId == 44 ||
                 string.Equals(off.CardType, "BattlegroundTrinket", StringComparison.OrdinalIgnoreCase)))
                 return true;
             return false;
-        }
-
-        private static object InvokeGetCardChoicesMethod(System.Reflection.MethodInfo method, object instance)
-        {
-            if (method == null) return null;
-            var prms = method.GetParameters();
-            if (prms.Length == 0)
-                return method.Invoke(instance, null);
-            object[] args = new object[prms.Length];
-            for (int i = 0; i < prms.Length; i++)
-            {
-                args[i] = prms[i].HasDefaultValue
-                    ? prms[i].DefaultValue
-                    : (prms[i].ParameterType.IsValueType ? Activator.CreateInstance(prms[i].ParameterType) : null);
-            }
-            return method.Invoke(instance, args);
         }
 
         private static (bool hmApiAvailable, bool isVisible, List<string> cardIds) TryGetHearthMirrorCardChoices()
@@ -839,20 +810,14 @@ namespace HSCompsPlugin.Services
                         if (string.Equals(asm.GetName().Name, "HearthMirror", StringComparison.OrdinalIgnoreCase))
                         {
                             var refType = asm.GetType("HearthMirror.Reflection");
-                            if (refType != null)
-                            {
-                                _hmStaticGetCardChoicesMethod = refType.GetMethod("GetCardChoices", System.Type.EmptyTypes)
-                                    ?? refType.GetMethods().FirstOrDefault(m => m.Name == "GetCardChoices");
-                            }
+                            _hmStaticGetCardChoicesMethod = refType?.GetMethod("GetCardChoices", System.Type.EmptyTypes);
                             break;
                         }
                     }
                     var clientObj = _hmClientProp?.GetValue(null);
                     if (clientObj != null)
                     {
-                        var cType = clientObj.GetType();
-                        _hmClientGetCardChoicesMethod = cType.GetMethod("GetCardChoices", System.Type.EmptyTypes)
-                            ?? cType.GetMethods().FirstOrDefault(m => m.Name == "GetCardChoices");
+                        _hmClientGetCardChoicesMethod = clientObj.GetType().GetMethod("GetCardChoices", System.Type.EmptyTypes);
                     }
                     if (_hmStaticGetCardChoicesMethod != null || _hmClientGetCardChoicesMethod != null)
                     {
@@ -870,11 +835,11 @@ namespace HSCompsPlugin.Services
                 object choicesObj = null;
                 if (_hmStaticGetCardChoicesMethod != null)
                 {
-                    choicesObj = InvokeGetCardChoicesMethod(_hmStaticGetCardChoicesMethod, null);
+                    choicesObj = _hmStaticGetCardChoicesMethod.Invoke(null, null);
                 }
                 if (choicesObj == null && _hmClientGetCardChoicesMethod != null && clientInstance != null)
                 {
-                    choicesObj = InvokeGetCardChoicesMethod(_hmClientGetCardChoicesMethod, clientInstance);
+                    choicesObj = _hmClientGetCardChoicesMethod.Invoke(clientInstance, null);
                 }
 
                 if (choicesObj == null)
@@ -922,112 +887,68 @@ namespace HSCompsPlugin.Services
             var result = new SelectionOverlayState { Mode = SelectionOverlayMode.None };
             try
             {
-                // Жесткая блокировка вне активного боя Полей сражений (исключает показ в главном меню и лобби)
                 if (!IsInBattlegrounds || Core.Game == null || Core.Game.IsInMenu ||
-                    Core.Game.CurrentMode != Hearthstone_Deck_Tracker.Enums.Hearthstone.Mode.GAMEPLAY)
+                    Core.Game.CurrentMode != Hearthstone_Deck_Tracker.Enums.Hearthstone.Mode.GAMEPLAY ||
+                    Core.Game.IsBattlegroundsCombatPhase)
                 {
                     return result;
                 }
 
                 int turn = Math.Max(0, Core.Game.GetTurnNumber());
-                if (turn <= 1 && _lastSeenTurn > 1)
-                {
-                    Reset();
-                }
-                if (turn > 0)
-                {
-                    _lastSeenTurn = turn;
-                }
-
-                // В фазе боя окно выбора всегда закрыто; любой активный пакет тринкетов с вербовки помечается завершенным
-                if (Core.Game.IsBattlegroundsCombatPhase)
-                {
-                    if (_activeTrinketBatchMaxId > 0)
-                    {
-                        _dismissedTrinketMaxId = Math.Max(_dismissedTrinketMaxId, _activeTrinketBatchMaxId);
-                        _activeTrinketBatchMinId = 0;
-                        _activeTrinketBatchMaxId = 0;
-                        _activeTrinketBatchInitialCount = 0;
-                        _hmConfirmedCurrentBatchVisible = false;
-                    }
-                    return result;
-                }
-
-                // При переходе на следующий ход автоматически закрываем пакет тринкетов прошлого хода
-                if (_activeTrinketBatchTurn > 0 && turn != _activeTrinketBatchTurn && _activeTrinketBatchMaxId > 0)
-                {
-                    _dismissedTrinketMaxId = Math.Max(_dismissedTrinketMaxId, _activeTrinketBatchMaxId);
-                    _activeTrinketBatchMinId = 0;
-                    _activeTrinketBatchMaxId = 0;
-                    _activeTrinketBatchTurn = -1;
-                    _activeTrinketBatchInitialCount = 0;
-                    _hmConfirmedCurrentBatchVisible = false;
-                }
-
                 var player = Core.Game.Player;
                 var playerEntity = Core.Game.PlayerEntity;
-                if (player == null || Core.Game.Entities == null)
-                    return result;
+                var playHero = player?.Hero;
 
-                var playHero = player.Hero;
                 bool mulliganDone = playerEntity != null && playerEntity.GetTag(GameTag.MULLIGAN_STATE) == (int)Mulligan.DONE;
                 bool hasChosenRealHeroInPlay = playHero != null &&
                                                playHero.IsInPlay &&
                                                IsHeroCardId(playHero.CardId, playHero.Card?.DbfId ?? 0);
-                if (mulliganDone || hasChosenRealHeroInPlay || turn >= 2)
+                bool heroSelectionAlreadyCompleted = mulliganDone || hasChosenRealHeroInPlay || turn >= 2;
+
+                // 1. Приоритет: прямое чтение активного окна выбора из памяти игры через HearthMirror
+                var (hmApiAvailable, hmVisible, hmCards) = TryGetHearthMirrorCardChoices();
+                if (hmApiAvailable && hmVisible && hmCards != null && hmCards.Count >= 2)
                 {
-                    _heroSelectionDismissed = true;
+                    var heroItems = new List<OfferedSelectionItem>();
+                    var trinketItems = new List<OfferedSelectionItem>();
+                    int pos = 0;
+
+                    foreach (var cid in hmCards)
+                    {
+                        var (off, _) = CardDatabaseService.Instance.ResolveCard(cid, null);
+                        int dbf = off?.Id ?? 0;
+                        if (IsHeroCardId(cid, dbf) || MetaStatsService.Instance.IsHero(cid, dbf))
+                        {
+                            heroItems.Add(new OfferedSelectionItem { CardId = cid, DbfId = dbf, ZonePosition = pos++ });
+                        }
+                        else if (IsTrinketCardId(cid, dbf) || MetaStatsService.Instance.IsTrinket(cid, dbf))
+                        {
+                            trinketItems.Add(new OfferedSelectionItem { CardId = cid, DbfId = dbf, ZonePosition = pos++ });
+                        }
+                    }
+
+                    if (heroItems.Count >= 2 && !heroSelectionAlreadyCompleted)
+                    {
+                        result.Mode = SelectionOverlayMode.HeroSelection;
+                        result.Items = heroItems.Take(4).ToList();
+                        return result;
+                    }
+
+                    if (trinketItems.Count >= 2)
+                    {
+                        result.Mode = SelectionOverlayMode.TrinketSelection;
+                        result.Items = trinketItems.Take(4).ToList();
+                        return result;
+                    }
                 }
 
-                var (_, hmVisible, hmCards) = TryGetHearthMirrorCardChoices();
-                if (_hmConfirmedCurrentBatchVisible && !hmVisible)
-                {
-                    // Если HearthMirror подтверждал открытие текущего окна выбора и теперь сообщил о его закрытии — мгновенно скрываем
-                    if (turn <= 1)
-                    {
-                        _heroSelectionDismissed = true;
-                    }
-                    if (_activeTrinketBatchMaxId > 0)
-                    {
-                        _dismissedTrinketMaxId = Math.Max(_dismissedTrinketMaxId, _activeTrinketBatchMaxId);
-                        _activeTrinketBatchMinId = 0;
-                        _activeTrinketBatchMaxId = 0;
-                        _activeTrinketBatchInitialCount = 0;
-                    }
-                    _hmConfirmedCurrentBatchVisible = false;
-                    return result;
-                }
+                // 2. Путь через дерево сущностей HDT (работает и как основной, и если HearthMirror не вернул карточки для окна тринкетов)
+                if (player == null || Core.Game.Entities == null) return result;
 
-                // 1. Выбор Героя на муллигане (Ход 0..1 до завершения муллигана)
-                if (!_heroSelectionDismissed && turn <= 1)
+                if (!heroSelectionAlreadyCompleted)
                 {
                     var offeredHeroes = new List<OfferedSelectionItem>();
                     var seenHeroIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-                    if (hmVisible && hmCards != null && hmCards.Count >= 2)
-                    {
-                        int pos = 0;
-                        foreach (var cid in hmCards)
-                        {
-                            var (off, _) = CardDatabaseService.Instance.ResolveCard(cid, null);
-                            int dbf = off?.Id ?? 0;
-                            if (IsHeroCardId(cid, dbf) || MetaStatsService.Instance.IsHero(cid, dbf))
-                            {
-                                string norm = MetaStatsService.NormalizeHeroCardId(cid);
-                                if (seenHeroIds.Add(norm))
-                                {
-                                    offeredHeroes.Add(new OfferedSelectionItem { CardId = cid, DbfId = dbf, ZonePosition = pos++ });
-                                }
-                            }
-                        }
-                        if (offeredHeroes.Count >= 2)
-                        {
-                            _hmConfirmedCurrentBatchVisible = true;
-                            result.Mode = SelectionOverlayMode.HeroSelection;
-                            result.Items = offeredHeroes.Take(4).ToList();
-                            return result;
-                        }
-                    }
 
                     foreach (var e in Core.Game.Entities.Values
                         .Where(x => x != null && x.IsControlledBy(player.Id) && (x.IsInSetAside || x.IsInHand) && !x.IsInPlay)
@@ -1058,100 +979,59 @@ namespace HSCompsPlugin.Services
                     }
                 }
 
-                // 2. Выбор Тринкетов (Малый тринкет на 6 ходу / Марин на 5 ходу, Большой тринкет на 9 ходу)
                 if (turn >= 5)
                 {
                     var allCandidateTrinkets = Core.Game.Entities.Values
-                        .Where(x => x != null &&
-                                    x.IsControlledBy(player.Id) &&
-                                    x.Id > _dismissedTrinketMaxId &&
-                                    (x.IsInSetAside || x.IsInHand) &&
-                                    !x.IsInPlay &&
-                                    x.GetTag(GameTag.CARDTYPE) != (int)CardType.ENCHANTMENT &&
-                                    x.GetTag(GameTag.ZONE_POSITION) >= 1 &&
-                                    x.GetTag(GameTag.ZONE_POSITION) <= 4 &&
-                                    !string.IsNullOrEmpty(x.CardId) &&
-                                    (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)))
+                        .Where(x => x != null && x.IsControlledBy(player.Id) && (x.IsInSetAside || x.IsInHand) && !x.IsInPlay)
+                        .Where(x => x.GetTag(GameTag.ZONE_POSITION) >= 1 && x.GetTag(GameTag.ZONE_POSITION) <= 4)
+                        .Where(x => !string.IsNullOrEmpty(x.CardId) && (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)))
                         .ToList();
 
                     if (allCandidateTrinkets.Count >= 2)
                     {
-                        // Изолируем строго последний пакет выбора (отсекая невыбранные тринкеты 6 хода в SETASIDE при наступлении 9 хода!)
-                        int maxCandId = allCandidateTrinkets.Max(x => x.Id);
-                        var currentBatch = allCandidateTrinkets
-                            .Where(x => x.Id >= maxCandId - 12)
+                        // Изолируем строго последний пакет из 4 предложенных тринкетов (в пределах 15 Entity.Id от максимального),
+                        // чтобы 3 невыбранных тринкета с 6 хода в SETASIDE никогда не блокировали появление 4 больших тринкетов на 9 ходу!
+                        int maxOfferedEntityId = allCandidateTrinkets.Max(x => x.Id);
+                        var candidateTrinketEntities = allCandidateTrinkets
+                            .Where(x => x.Id >= maxOfferedEntityId - 15)
                             .OrderBy(x => x.GetTag(GameTag.ZONE_POSITION))
                             .ThenBy(x => x.Id)
                             .ToList();
 
-                        if (currentBatch.Count >= 2)
+                        if (candidateTrinketEntities.Count >= 2)
                         {
-                            int batchMinId = currentBatch.Min(x => x.Id);
-                            int batchMaxId = currentBatch.Max(x => x.Id);
-
-                            if (batchMaxId > _activeTrinketBatchMaxId)
-                            {
-                                _activeTrinketBatchMinId = batchMinId;
-                                _activeTrinketBatchMaxId = batchMaxId;
-                                _activeTrinketBatchTurn = turn;
-                                _activeTrinketBatchInitialCount = currentBatch.Count;
-                                _hmConfirmedCurrentBatchVisible = false;
-                            }
-                            else
-                            {
-                                if (batchMinId < _activeTrinketBatchMinId && _activeTrinketBatchMinId > 0)
-                                    _activeTrinketBatchMinId = batchMinId;
-                                if (currentBatch.Count > _activeTrinketBatchInitialCount)
-                                    _activeTrinketBatchInitialCount = currentBatch.Count;
-                            }
-
-                            // Проверяем, был ли уже выбран тринкет из этого пакета (перешел в PLAY / GRAVEYARD / REMOVEDFROMGAME или количество карт в SETASIDE уменьшилось)
-                            bool anyResolvedFromBatch = Core.Game.Entities.Values.Any(x =>
+                            int minOfferedEntityId = candidateTrinketEntities.Min(x => x.Id);
+                            bool alreadyPickedFromBatch = Core.Game.Entities.Values.Any(x =>
                                 x != null &&
                                 x.IsControlledBy(player.Id) &&
-                                x.Id >= _activeTrinketBatchMinId &&
-                                (x.IsInPlay || x.IsInGraveyard || x.IsInSecret || x.GetTag(GameTag.ZONE) == (int)Zone.REMOVEDFROMGAME) &&
-                                x.GetTag(GameTag.CARDTYPE) != (int)CardType.ENCHANTMENT &&
+                                x.IsInPlay &&
+                                x.Id >= minOfferedEntityId &&
                                 !string.IsNullOrEmpty(x.CardId) &&
                                 (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)));
 
-                            bool batchCountDropped = _activeTrinketBatchInitialCount >= 3 && currentBatch.Count < _activeTrinketBatchInitialCount;
-
-                            if (anyResolvedFromBatch || batchCountDropped)
+                            if (!alreadyPickedFromBatch)
                             {
-                                _dismissedTrinketMaxId = Math.Max(_dismissedTrinketMaxId, _activeTrinketBatchMaxId);
-                                _activeTrinketBatchMinId = 0;
-                                _activeTrinketBatchMaxId = 0;
-                                _activeTrinketBatchInitialCount = 0;
-                                _hmConfirmedCurrentBatchVisible = false;
-                                return result;
-                            }
-
-                            if (hmVisible && hmCards != null && hmCards.Count >= 2)
-                            {
-                                _hmConfirmedCurrentBatchVisible = true;
-                            }
-
-                            var offeredTrinkets = new List<OfferedSelectionItem>();
-                            var seenTrinkets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                            foreach (var e in currentBatch)
-                            {
-                                if (seenTrinkets.Add(e.CardId))
+                                var offeredTrinkets = new List<OfferedSelectionItem>();
+                                var seenTrinkets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                                foreach (var e in candidateTrinketEntities)
                                 {
-                                    offeredTrinkets.Add(new OfferedSelectionItem
+                                    if (seenTrinkets.Add(e.CardId))
                                     {
-                                        CardId = e.CardId,
-                                        DbfId = e.Card?.DbfId ?? 0,
-                                        ZonePosition = e.GetTag(GameTag.ZONE_POSITION)
-                                    });
+                                        offeredTrinkets.Add(new OfferedSelectionItem
+                                        {
+                                            CardId = e.CardId,
+                                            DbfId = e.Card?.DbfId ?? 0,
+                                            ZonePosition = e.GetTag(GameTag.ZONE_POSITION)
+                                        });
+                                    }
                                 }
-                            }
 
-                            if (offeredTrinkets.Count >= 2 && offeredTrinkets.Count <= 4)
-                            {
-                                result.Mode = SelectionOverlayMode.TrinketSelection;
-                                result.Items = offeredTrinkets;
-                                return result;
+                                if (offeredTrinkets.Count >= 2 && offeredTrinkets.Count <= 4)
+                                {
+                                    result.Mode = SelectionOverlayMode.TrinketSelection;
+                                    result.Items = offeredTrinkets;
+                                    return result;
+                                }
                             }
                         }
                     }

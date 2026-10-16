@@ -219,6 +219,9 @@ namespace HSCompsPlugin.Services
                                 {
                                     if (kvp.Value == null) continue;
                                     string key = !string.IsNullOrEmpty(kvp.Value.CardId) ? kvp.Value.CardId : kvp.Key;
+                                    if (key.IndexOf("MagicItem", StringComparison.OrdinalIgnoreCase) < 0 &&
+                                        key.IndexOf("Trinket", StringComparison.OrdinalIgnoreCase) < 0)
+                                        continue;
                                     tByCard[key] = kvp.Value;
                                     if (kvp.Value.DbfId > 0) tByDbf[kvp.Value.DbfId] = kvp.Value;
                                 }
