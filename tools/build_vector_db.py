@@ -651,7 +651,7 @@ def build_meta_stats_db(boards):
             cid = dbf_to_cardid.get(dbf, c.get("slug", "TRINKET_" + str(dbf)))
             all_trinket_keys[cid] = (cid, dbf, c.get("nameRu") or c.get("nameEn") or cid, c.get("tribeRu") or "Без типа", c.get("manaCost") or 3)
     for cid in trinket_boards.keys():
-        if ("MagicItem" not in cid and "Trinket" not in cid) or re.search(r"(?:e\d*|te_lock)$", cid, re.IGNORECASE):
+        if "MagicItem" not in cid or re.search(r"(?:e\d*|te_lock)$", cid, re.IGNORECASE):
             continue
         if cid not in all_trinket_keys:
             dbf = id_map.get(cid, 0)
@@ -663,7 +663,7 @@ def build_meta_stats_db(boards):
             tribe_ru = (c.get("tribeRu") if c else None) or (base_c.get("tribeRu") if base_c else None) or "Без типа"
             all_trinket_keys[cid] = (cid, dbf, name_ru, tribe_ru, 3)
     for cid, dbf in id_map.items():
-        if ("MagicItem" in cid or "Trinket" in cid) and not re.search(r"e\d*$", cid, re.IGNORECASE):
+        if "MagicItem" in cid and not re.search(r"e\d*$", cid, re.IGNORECASE):
             if cid not in all_trinket_keys:
                 c = off_by_id.get(dbf)
                 base_cid = re.sub(r"(?:t\d*|_G)$", "", cid)

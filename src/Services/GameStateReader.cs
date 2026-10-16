@@ -746,7 +746,20 @@ namespace HSCompsPlugin.Services
   
         private static System.Reflection.MethodInfo _hmStaticGetCardChoicesMethod;
         private static System.Reflection.MethodInfo _hmClientGetCardChoicesMethod;
+        private static System.Reflection.MethodInfo _hmStaticGetSpecialShopChoicesMethod;
+        private static System.Reflection.MethodInfo _hmClientGetSpecialShopChoicesMethod;
         private static bool _hmChoicesInitialized = false;
+
+        private static object GetMemberValue(object obj, string name)
+        {
+            if (obj == null) return null;
+            var type = obj.GetType();
+            var field = type.GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field != null) return field.GetValue(obj);
+            var prop = type.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (prop != null) return prop.GetValue(obj);
+            return null;
+        }
 
         public static bool IsHeroCardId(string cardId, int dbfId = 0)
         {
@@ -781,20 +794,34 @@ namespace HSCompsPlugin.Services
                     clean.IndexOf("_Buddy", StringComparison.OrdinalIgnoreCase) >= 0)
                     return false;
 
+                // СТРОЖАЙШЕ исключаем технические плейсхолдеры слотов тринкетов и заклинания
+                // (BG30_Trinket_1st, BG30_Trinket_2nd, BG34_Trinket_1st_Spell, BG34_Trinket_2nd_Spell и т.п.)
+                if (clean.IndexOf("Trinket_1st", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    clean.IndexOf("Trinket_2nd", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    clean.IndexOf("_Spell", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return false;
+
                 // Отсекаем только чары (e, e1, e2...), но НЕ отсекаем суффикс t/t2/t3,
                 // так как Большие тринкеты 9 хода в Hearthstone имеют ID вида BG30_MagicItem_XXXt!
                 if (EnchantmentSuffixRegex.IsMatch(clean))
                     return false;
 
-                if (clean.IndexOf("MagicItem", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                    clean.IndexOf("Trinket", StringComparison.OrdinalIgnoreCase) >= 0)
+                // Все реальные тринкеты Battlegrounds содержат MagicItem (BG30_MagicItem_..., BG31_MagicItem_..., BGDUO_MagicItem_...)
+                if (clean.IndexOf("MagicItem", StringComparison.OrdinalIgnoreCase) >= 0)
                     return true;
             }
             var off = CardDatabaseService.Instance.GetCard(dbfId, cardId);
             // Строго CardTypeId == 44 (Тринкеты Полей сражений), без CardTypeId == 42 (Заклинания таверны)
             if (off != null && (off.CardTypeId == 44 ||
-                string.Equals(off.CardType, "BattlegroundTrinket", StringComparison.OrdinalIgnoreCase)))
+                string.Equals(off.CardType, "BattlegroundTrinket", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(off.CardType, "Trinket", StringComparison.OrdinalIgnoreCase)))
+            {
+                if (!string.IsNullOrEmpty(off.NameEn) &&
+                    (off.NameEn.IndexOf("Trinket Slot", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                     (off.NameEn.IndexOf("Lesser Trinket", StringComparison.OrdinalIgnoreCase) >= 0 && off.Id <= 0)))
+                    return false;
                 return true;
+            }
             return false;
         }
 
@@ -810,28 +837,40 @@ namespace HSCompsPlugin.Services
                         if (string.Equals(asm.GetName().Name, "HearthMirror", StringComparison.OrdinalIgnoreCase))
                         {
                             var refType = asm.GetType("HearthMirror.Reflection");
-                            _hmStaticGetCardChoicesMethod = refType?.GetMethod("GetCardChoices", System.Type.EmptyTypes);
+                            if (refType != null)
+                            {
+                                _hmStaticGetCardChoicesMethod = refType.GetMethod("GetCardChoices", System.Type.EmptyTypes);
+                                _hmStaticGetSpecialShopChoicesMethod = refType.GetMethod("GetSpecialShopChoices", System.Type.EmptyTypes);
+                            }
                             break;
                         }
                     }
                     var clientObj = _hmClientProp?.GetValue(null);
                     if (clientObj != null)
                     {
-                        _hmClientGetCardChoicesMethod = clientObj.GetType().GetMethod("GetCardChoices", System.Type.EmptyTypes);
+                        var cType = clientObj.GetType();
+                        _hmClientGetCardChoicesMethod = cType.GetMethod("GetCardChoices", System.Type.EmptyTypes);
+                        _hmClientGetSpecialShopChoicesMethod = cType.GetMethod("GetSpecialShopChoices", System.Type.EmptyTypes);
                     }
-                    if (_hmStaticGetCardChoicesMethod != null || _hmClientGetCardChoicesMethod != null)
+                    if (_hmStaticGetCardChoicesMethod != null || _hmClientGetCardChoicesMethod != null ||
+                        _hmStaticGetSpecialShopChoicesMethod != null || _hmClientGetSpecialShopChoicesMethod != null)
                     {
                         _hmChoicesInitialized = true;
                     }
                 }
 
                 object clientInstance = _hmClientProp?.GetValue(null);
-                bool apiAvailable = _hmStaticGetCardChoicesMethod != null || (_hmClientGetCardChoicesMethod != null && clientInstance != null);
+                bool apiAvailable = _hmStaticGetCardChoicesMethod != null ||
+                                    (_hmClientGetCardChoicesMethod != null && clientInstance != null) ||
+                                    _hmStaticGetSpecialShopChoicesMethod != null ||
+                                    (_hmClientGetSpecialShopChoicesMethod != null && clientInstance != null);
+
                 if (!apiAvailable)
                 {
                     return (false, false, null);
                 }
 
+                // 1. Проверяем стандартный GetCardChoices() (Герои, Дискаверы, Тринкеты)
                 object choicesObj = null;
                 if (_hmStaticGetCardChoicesMethod != null)
                 {
@@ -842,36 +881,83 @@ namespace HSCompsPlugin.Services
                     choicesObj = _hmClientGetCardChoicesMethod.Invoke(clientInstance, null);
                 }
 
-                if (choicesObj == null)
+                if (choicesObj != null)
                 {
-                    return (true, false, null);
-                }
-
-                var type = choicesObj.GetType();
-                var isVisibleProp = type.GetProperty("IsVisible");
-                bool isVisible = true;
-                if (isVisibleProp != null && isVisibleProp.GetValue(choicesObj) is bool bVis)
-                {
-                    isVisible = bVis;
-                }
-
-                if (!isVisible)
-                {
-                    return (true, false, null);
-                }
-
-                var cardsProp = type.GetProperty("Cards");
-                if (cardsProp?.GetValue(choicesObj) is System.Collections.IEnumerable cardsEnum)
-                {
-                    var list = new List<string>();
-                    foreach (var item in cardsEnum)
+                    var isVisibleVal = GetMemberValue(choicesObj, "IsVisible");
+                    bool isVisible = true;
+                    if (isVisibleVal is bool bVis)
                     {
-                        if (item is string s && !string.IsNullOrWhiteSpace(s))
+                        isVisible = bVis;
+                    }
+
+                    if (isVisible)
+                    {
+                        var cardsVal = GetMemberValue(choicesObj, "Cards");
+                        if (cardsVal is System.Collections.IEnumerable cardsEnum)
                         {
-                            list.Add(s.Trim());
+                            var list = new List<string>();
+                            foreach (var item in cardsEnum)
+                            {
+                                if (item is string s && !string.IsNullOrWhiteSpace(s))
+                                {
+                                    list.Add(s.Trim());
+                                }
+                            }
+                            if (list.Count > 0)
+                            {
+                                return (true, true, list);
+                            }
                         }
                     }
-                    return (true, list.Count > 0, list);
+                }
+
+                // 2. Проверяем GetSpecialShopChoices() (Магазин/Выбор тринкетов в некоторых версиях клиента)
+                object specialObj = null;
+                if (_hmStaticGetSpecialShopChoicesMethod != null)
+                {
+                    specialObj = _hmStaticGetSpecialShopChoicesMethod.Invoke(null, null);
+                }
+                if (specialObj == null && _hmClientGetSpecialShopChoicesMethod != null && clientInstance != null)
+                {
+                    specialObj = _hmClientGetSpecialShopChoicesMethod.Invoke(clientInstance, null);
+                }
+
+                if (specialObj != null)
+                {
+                    var isActiveVal = GetMemberValue(specialObj, "IsActive") ?? GetMemberValue(specialObj, "IsVisible");
+                    bool isActive = true;
+                    if (isActiveVal is bool bAct)
+                    {
+                        isActive = bAct;
+                    }
+
+                    if (isActive)
+                    {
+                        var boardCardsVal = GetMemberValue(specialObj, "BoardCards") ?? GetMemberValue(specialObj, "Cards");
+                        if (boardCardsVal is System.Collections.IEnumerable boardCardsEnum)
+                        {
+                            var list = new List<string>();
+                            foreach (var item in boardCardsEnum)
+                            {
+                                if (item is string s && !string.IsNullOrWhiteSpace(s))
+                                {
+                                    list.Add(s.Trim());
+                                }
+                                else if (item != null)
+                                {
+                                    var cid = GetMemberValue(item, "CardId") as string;
+                                    if (!string.IsNullOrWhiteSpace(cid))
+                                    {
+                                        list.Add(cid.Trim());
+                                    }
+                                }
+                            }
+                            if (list.Count > 0)
+                            {
+                                return (true, true, list);
+                            }
+                        }
+                    }
                 }
 
                 return (true, false, null);
@@ -936,9 +1022,23 @@ namespace HSCompsPlugin.Services
 
                     if (trinketItems.Count >= 2)
                     {
-                        result.Mode = SelectionOverlayMode.TrinketSelection;
-                        result.Items = trinketItems.Take(4).ToList();
-                        return result;
+                        int pickedCount = Core.Game.Entities != null && player != null
+                            ? Core.Game.Entities.Values.Count(x =>
+                                x != null &&
+                                x.IsControlledBy(player.Id) &&
+                                x.IsInPlay &&
+                                x.GetTag(GameTag.CARDTYPE) != (int)CardType.ENCHANTMENT &&
+                                !string.IsNullOrEmpty(x.CardId) &&
+                                (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)))
+                            : 0;
+
+                        bool eligible = (turn < 9 && pickedCount == 0) || (turn >= 9 && pickedCount <= 1);
+                        if (eligible)
+                        {
+                            result.Mode = SelectionOverlayMode.TrinketSelection;
+                            result.Items = trinketItems.Take(4).ToList();
+                            return result;
+                        }
                     }
                 }
 
@@ -981,56 +1081,74 @@ namespace HSCompsPlugin.Services
 
                 if (turn >= 5)
                 {
-                    var allCandidateTrinkets = Core.Game.Entities.Values
-                        .Where(x => x != null && x.IsControlledBy(player.Id) && (x.IsInSetAside || x.IsInHand) && !x.IsInPlay)
-                        .Where(x => x.GetTag(GameTag.ZONE_POSITION) >= 1 && x.GetTag(GameTag.ZONE_POSITION) <= 4)
-                        .Where(x => !string.IsNullOrEmpty(x.CardId) && (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)))
-                        .ToList();
+                    // Сколько РЕАЛЬНЫХ тринкетов уже выбрано игроком и находится в игре на столе/герое?
+                    int pickedTrinketsCount = Core.Game.Entities.Values.Count(x =>
+                        x != null &&
+                        x.IsControlledBy(player.Id) &&
+                        x.IsInPlay &&
+                        x.GetTag(GameTag.CARDTYPE) != (int)CardType.ENCHANTMENT &&
+                        !string.IsNullOrEmpty(x.CardId) &&
+                        (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)));
 
-                    if (allCandidateTrinkets.Count >= 2)
+                    // До 9 хода должен быть 0 тринкетов (выбирается Малый на 6 ходу).
+                    // С 9 хода должен быть строго 1 тринкет (выбирается Большой на 9 ходу).
+                    // Если на 6 ходу уже выбран 1, или на 9 ходу уже выбрано 2 - окно выбора закрыто.
+                    bool trinketSelectionEligible = (turn < 9 && pickedTrinketsCount == 0) || (turn >= 9 && pickedTrinketsCount <= 1);
+
+                    if (trinketSelectionEligible)
                     {
-                        // Изолируем строго последний пакет из 4 предложенных тринкетов (в пределах 15 Entity.Id от максимального),
-                        // чтобы 3 невыбранных тринкета с 6 хода в SETASIDE никогда не блокировали появление 4 больших тринкетов на 9 ходу!
-                        int maxOfferedEntityId = allCandidateTrinkets.Max(x => x.Id);
-                        var candidateTrinketEntities = allCandidateTrinkets
-                            .Where(x => x.Id >= maxOfferedEntityId - 15)
-                            .OrderBy(x => x.GetTag(GameTag.ZONE_POSITION))
-                            .ThenBy(x => x.Id)
+                        var allCandidateTrinkets = Core.Game.Entities.Values
+                            .Where(x => x != null && x.IsControlledBy(player.Id) && (x.IsInSetAside || x.IsInHand) && !x.IsInPlay)
+                            .Where(x => !string.IsNullOrEmpty(x.CardId) && (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)))
                             .ToList();
 
-                        if (candidateTrinketEntities.Count >= 2)
+                        if (allCandidateTrinkets.Count >= 2)
                         {
-                            int minOfferedEntityId = candidateTrinketEntities.Min(x => x.Id);
-                            bool alreadyPickedFromBatch = Core.Game.Entities.Values.Any(x =>
-                                x != null &&
-                                x.IsControlledBy(player.Id) &&
-                                x.IsInPlay &&
-                                x.Id >= minOfferedEntityId &&
-                                !string.IsNullOrEmpty(x.CardId) &&
-                                (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)));
+                            // Изолируем строго последний пакет из предложенных тринкетов (в пределах 15 Entity.Id от максимального),
+                            // чтобы 3 невыбранных малых тринкета с 6 хода в SETASIDE никогда не мешали 4 большим тринкетам на 9 ходу!
+                            int maxOfferedEntityId = allCandidateTrinkets.Max(x => x.Id);
+                            var candidateTrinketEntities = allCandidateTrinkets
+                                .Where(x => x.Id >= maxOfferedEntityId - 15)
+                                .OrderBy(x => x.GetTag(GameTag.ZONE_POSITION) > 0 ? x.GetTag(GameTag.ZONE_POSITION) : 99)
+                                .ThenBy(x => x.Id)
+                                .ToList();
 
-                            if (!alreadyPickedFromBatch)
+                            if (candidateTrinketEntities.Count >= 2)
                             {
-                                var offeredTrinkets = new List<OfferedSelectionItem>();
-                                var seenTrinkets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                                foreach (var e in candidateTrinketEntities)
-                                {
-                                    if (seenTrinkets.Add(e.CardId))
-                                    {
-                                        offeredTrinkets.Add(new OfferedSelectionItem
-                                        {
-                                            CardId = e.CardId,
-                                            DbfId = e.Card?.DbfId ?? 0,
-                                            ZonePosition = e.GetTag(GameTag.ZONE_POSITION)
-                                        });
-                                    }
-                                }
+                                int minOfferedEntityId = candidateTrinketEntities.Min(x => x.Id);
+                                bool alreadyPickedFromBatch = Core.Game.Entities.Values.Any(x =>
+                                    x != null &&
+                                    x.IsControlledBy(player.Id) &&
+                                    x.IsInPlay &&
+                                    x.Id >= minOfferedEntityId &&
+                                    !string.IsNullOrEmpty(x.CardId) &&
+                                    (IsTrinketCardId(x.CardId, x.Card?.DbfId ?? 0) || MetaStatsService.Instance.IsTrinket(x.CardId, x.Card?.DbfId ?? 0)));
 
-                                if (offeredTrinkets.Count >= 2 && offeredTrinkets.Count <= 4)
+                                if (!alreadyPickedFromBatch)
                                 {
-                                    result.Mode = SelectionOverlayMode.TrinketSelection;
-                                    result.Items = offeredTrinkets;
-                                    return result;
+                                    var offeredTrinkets = new List<OfferedSelectionItem>();
+                                    var seenTrinkets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                                    int trinketPos = 0;
+                                    foreach (var e in candidateTrinketEntities)
+                                    {
+                                        if (seenTrinkets.Add(e.CardId))
+                                        {
+                                            int zp = e.GetTag(GameTag.ZONE_POSITION);
+                                            offeredTrinkets.Add(new OfferedSelectionItem
+                                            {
+                                                CardId = e.CardId,
+                                                DbfId = e.Card?.DbfId ?? 0,
+                                                ZonePosition = (zp >= 1 && zp <= 4) ? zp - 1 : trinketPos++
+                                            });
+                                        }
+                                    }
+
+                                    if (offeredTrinkets.Count >= 2 && offeredTrinkets.Count <= 4)
+                                    {
+                                        result.Mode = SelectionOverlayMode.TrinketSelection;
+                                        result.Items = offeredTrinkets;
+                                        return result;
+                                    }
                                 }
                             }
                         }

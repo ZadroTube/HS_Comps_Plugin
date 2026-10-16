@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 echo ============================================================================
-echo   HS Comps Plugin v3.2.3 — Сборка, база статов Героев/Тринкетов и деплой в HDT
+echo   HS Comps Plugin v3.2.4 — Сборка, база статов Героев/Тринкетов и деплой в HDT
 echo ============================================================================
 cd /d "%~dp0"
 
@@ -13,7 +13,7 @@ dotnet build HSCompsPlugin.csproj -c Release
 
 if %ERRORLEVEL% EQU 0 (
     echo.
-    echo [OK] Сборка v3.2.3 и деплой в %%APPDATA%%\HearthstoneDeckTracker\Plugins\HSCompsPlugin успешно завершены!
+    echo [OK] Сборка v3.2.4 и деплой в %%APPDATA%%\HearthstoneDeckTracker\Plugins\HSCompsPlugin успешно завершены!
 ) else (
     echo.
     echo [!] Ошибка сборки. Проверьте вывод выше.

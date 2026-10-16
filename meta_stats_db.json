@@ -2,7 +2,7 @@
   "version": 2,
   "source": "Firestone BGS Meta + Canonical Hero/Trinket Synergy",
   "heroesCount": 149,
-  "trinketsCount": 444,
+  "trinketsCount": 440,
   "heroes": {
     "BG32_HERO_002": {
       "CardId": "BG32_HERO_002",
@@ -2521,16 +2521,6 @@
       "WinRate": 60.3,
       "AvgPlacement": 3.9
     },
-    "BG34_Trinket_2nd_Spell": {
-      "CardId": "BG34_Trinket_2nd_Spell",
-      "DbfId": 126230,
-      "NameRu": "BG34_Trinket_2nd_Spell",
-      "TribeRu": "Без типа",
-      "Tier": "A",
-      "PickRate": 49,
-      "WinRate": 59.6,
-      "AvgPlacement": 3.95
-    },
     "BG30_MagicItem_971": {
       "CardId": "BG30_MagicItem_971",
       "DbfId": 111921,
@@ -2620,16 +2610,6 @@
       "PickRate": 46,
       "WinRate": 59.4,
       "AvgPlacement": 3.96
-    },
-    "BG30_Trinket_2nd": {
-      "CardId": "BG30_Trinket_2nd",
-      "DbfId": 116614,
-      "NameRu": "BG30_Trinket_2nd",
-      "TribeRu": "Без типа",
-      "Tier": "A",
-      "PickRate": 46,
-      "WinRate": 59.6,
-      "AvgPlacement": 3.95
     },
     "BG36_MagicItem_412t2": {
       "CardId": "BG36_MagicItem_412t2",
@@ -2880,16 +2860,6 @@
       "PickRate": 45,
       "WinRate": 58.3,
       "AvgPlacement": 4.04
-    },
-    "BG30_Trinket_1st": {
-      "CardId": "BG30_Trinket_1st",
-      "DbfId": 116510,
-      "NameRu": "BG30_Trinket_1st",
-      "TribeRu": "Без типа",
-      "Tier": "A",
-      "PickRate": 46,
-      "WinRate": 58.4,
-      "AvgPlacement": 4.03
     },
     "BG35_MagicItem_849": {
       "CardId": "BG35_MagicItem_849",
@@ -3460,16 +3430,6 @@
       "PickRate": 37,
       "WinRate": 56.3,
       "AvgPlacement": 4.17
-    },
-    "BG34_Trinket_1st_Spell": {
-      "CardId": "BG34_Trinket_1st_Spell",
-      "DbfId": 126229,
-      "NameRu": "BG34_Trinket_1st_Spell",
-      "TribeRu": "Без типа",
-      "Tier": "B",
-      "PickRate": 37,
-      "WinRate": 56.4,
-      "AvgPlacement": 4.16
     },
     "BG30_MagicItem_900t": {
       "CardId": "BG30_MagicItem_900t",

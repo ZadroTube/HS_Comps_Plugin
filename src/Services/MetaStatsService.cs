@@ -217,10 +217,12 @@ namespace HSCompsPlugin.Services
                             {
                                 foreach (var kvp in container.Trinkets)
                                 {
-                                    if (kvp.Value == null) continue;
-                                    string key = !string.IsNullOrEmpty(kvp.Value.CardId) ? kvp.Value.CardId : kvp.Key;
-                                    if (key.IndexOf("MagicItem", StringComparison.OrdinalIgnoreCase) < 0 &&
-                                        key.IndexOf("Trinket", StringComparison.OrdinalIgnoreCase) < 0)
+                                    if (kvp.Value == null || string.IsNullOrEmpty(kvp.Key)) continue;
+                                    string key = kvp.Key;
+                                    if (key.IndexOf("MagicItem", StringComparison.OrdinalIgnoreCase) < 0 ||
+                                        key.IndexOf("Trinket_1st", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                        key.IndexOf("Trinket_2nd", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                        key.IndexOf("_Spell", StringComparison.OrdinalIgnoreCase) >= 0)
                                         continue;
                                     tByCard[key] = kvp.Value;
                                     if (kvp.Value.DbfId > 0) tByDbf[kvp.Value.DbfId] = kvp.Value;
@@ -303,6 +305,14 @@ namespace HSCompsPlugin.Services
         public bool IsTrinket(string cardId, int dbfId = 0)
         {
             EnsureLoaded();
+            if (!string.IsNullOrEmpty(cardId))
+            {
+                string clean = cardId.Trim();
+                if (clean.IndexOf("Trinket_1st", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    clean.IndexOf("Trinket_2nd", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    clean.IndexOf("_Spell", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return false;
+            }
             if (dbfId > 0 && _trinketsByDbfId.ContainsKey(dbfId)) return true;
             if (!string.IsNullOrEmpty(cardId))
             {

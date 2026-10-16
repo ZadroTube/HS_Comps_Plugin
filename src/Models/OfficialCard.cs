@@ -96,7 +96,7 @@ namespace HSCompsPlugin.Models
         public bool IsMinion => string.Equals(CardType, "Minion", StringComparison.OrdinalIgnoreCase);
 
         [JsonIgnore]
-        public bool IsTrinket => string.Equals(CardType, "Trinket", StringComparison.OrdinalIgnoreCase);
+        public bool IsTrinket => CardTypeId == 44 || string.Equals(CardType, "Trinket", StringComparison.OrdinalIgnoreCase) || string.Equals(CardType, "BattlegroundTrinket", StringComparison.OrdinalIgnoreCase);
 
         [JsonIgnore]
         public bool IsHero => string.Equals(CardType, "Hero", StringComparison.OrdinalIgnoreCase);

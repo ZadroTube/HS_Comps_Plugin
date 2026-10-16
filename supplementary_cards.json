@@ -4436,20 +4436,6 @@
       "textEn": ""
     },
     {
-      "id": 126230,
-      "slug": "BG34_Trinket_2nd_Spell",
-      "nameRu": "BG34_Trinket_2nd_Spell",
-      "nameEn": "[A] 50%",
-      "tier": 1,
-      "cardTypeId": 44,
-      "cardType": "BattlegroundTrinket",
-      "tribeRu": "Все",
-      "tribeEn": "59.9%",
-      "manaCost": 2,
-      "textRu": "",
-      "textEn": ""
-    },
-    {
       "id": 111921,
       "slug": "BG30_MagicItem_971",
       "nameRu": "BG30_MagicItem_971",
@@ -4641,20 +4627,6 @@
       "cardType": "BattlegroundTrinket",
       "tribeRu": "Без типа",
       "tribeEn": "59.5%",
-      "manaCost": 2,
-      "textRu": "",
-      "textEn": ""
-    },
-    {
-      "id": 116614,
-      "slug": "BG30_Trinket_2nd",
-      "nameRu": "BG30_Trinket_2nd",
-      "nameEn": "[A] 46%",
-      "tier": 1,
-      "cardTypeId": 44,
-      "cardType": "BattlegroundTrinket",
-      "tribeRu": "Все",
-      "tribeEn": "59.8%",
       "manaCost": 2,
       "textRu": "",
       "textEn": ""
@@ -5957,20 +5929,6 @@
       "cardType": "BattlegroundTrinket",
       "tribeRu": "Элементаль",
       "tribeEn": "56.5%",
-      "manaCost": 3,
-      "textRu": "",
-      "textEn": ""
-    },
-    {
-      "id": 126229,
-      "slug": "BG34_Trinket_1st_Spell",
-      "nameRu": "BG34_Trinket_1st_Spell",
-      "nameEn": "[B] 38%",
-      "tier": 1,
-      "cardTypeId": 44,
-      "cardType": "BattlegroundTrinket",
-      "tribeRu": "Все",
-      "tribeEn": "56.7%",
       "manaCost": 3,
       "textRu": "",
       "textEn": ""
@@ -10435,26 +10393,6 @@
       "textEn": "Spellcraft: Give a Beast +2/+2 and Reborn.",
       "cropImage": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4d5b30819c4b717b9ee585f19e4b6ea6a5336d5a211abfda61d8dfae86db0d90.png",
       "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0d1142d781f981c259b26dacbc4cc530218c487ab6f0b5eaefbb7c673da11fb0.png",
-      "goldenUpgradeId": null
-    },
-    {
-      "id": 116510,
-      "slug": "BG30_Trinket_1st",
-      "nameRu": "BG30_Trinket_1st",
-      "nameEn": "BG30_Trinket_1st",
-      "tier": null,
-      "cardTypeId": 44,
-      "cardType": "BattlegroundTrinket",
-      "tribeRu": "Без типа",
-      "tribeEn": "Neutral",
-      "attack": null,
-      "health": null,
-      "armor": null,
-      "manaCost": 0,
-      "textRu": "",
-      "textEn": "",
-      "cropImage": null,
-      "imageRu": null,
       "goldenUpgradeId": null
     },
     {
